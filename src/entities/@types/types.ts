@@ -25,3 +25,11 @@ export type ContactParamsType = {
   created_at?: Date;
   updated_at?: Date;
 };
+
+export type PersonalDataParamsType = {
+  name: string;
+  cpf: string;
+  birth_date: Date;
+  created_at?: Date;
+  updated_at?: Date;
+};
