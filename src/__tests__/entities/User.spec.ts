@@ -1,15 +1,51 @@
-import { UserParamsType } from "@/entities/@types/types";
+import {
+  AdressParamsType,
+  ContactParamsType,
+  PersonalDataParamsType,
+  UserParamsType,
+} from "@/entities/@types/types";
+import Adress from "@/entities/Adress";
+import Contact from "@/entities/Contact";
+import PersonalData from "@/entities/PersonalData";
 import User from "@/entities/User";
 
 describe("User", () => {
+  const adressData: AdressParamsType = {
+    street: "Rua X",
+    number: "s/n",
+    city: "São Paulo",
+    state: "São Paulo",
+    country: "Brasil",
+    zip_code: "",
+  };
+  const contactData: ContactParamsType = {
+    email: "jonh_doe@example.com",
+    phone: ["(11) 9 1111-1111", "(22) 9 2222-2222"],
+  };
+  const personalDataInfo: PersonalDataParamsType = {
+    name: "John Doe",
+    cpf: "111.222.333-44",
+    birth_date: new Date(2001, 1, 11),
+  };
+
+  let adress: Adress;
+  let contact: Contact;
+  let personalData: PersonalData;
+
+  beforeEach(() => {
+    adress = new Adress(adressData);
+    contact = new Contact(contactData);
+    personalData = new PersonalData(personalDataInfo);
+  });
+
   describe("constructor", () => {
     it("should be a instance of User when object params is complete", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        personal_data: {},
-        contact: {},
-        adress: {},
+        personal_data: personalData,
+        contact: contact,
+        adress: adress,
       };
       const user = new User(params);
 
@@ -30,7 +66,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        adress: {},
+        adress: adress,
       };
       const user = new User(params);
 
@@ -41,7 +77,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        contact: {},
+        contact: contact,
       };
       const user = new User(params);
 
@@ -52,7 +88,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        personal_data: {},
+        personal_data: personalData,
       };
       const user = new User(params);
 
@@ -63,8 +99,8 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        contact: {},
-        adress: {},
+        contact: contact,
+        adress: adress,
       };
       const user = new User(params);
 
@@ -75,8 +111,8 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        personal_data: {},
-        contact: {},
+        personal_data: personalData,
+        contact: contact,
       };
       const user = new User(params);
 
@@ -87,8 +123,8 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        personal_data: {},
-        adress: {},
+        personal_data: personalData,
+        adress: adress,
       };
       const user = new User(params);
 
@@ -159,9 +195,9 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
-        adress: {},
-        contact: {},
-        personal_data: {},
+        adress: adress,
+        contact: contact,
+        personal_data: personalData,
         created_at: new Date(2020, 2, 22),
         updated_at: new Date(2022, 2, 22),
       };

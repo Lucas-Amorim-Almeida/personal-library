@@ -1,9 +1,13 @@
+import Adress from "../Adress";
+import Contact from "../Contact";
+import PersonalData from "../PersonalData";
+
 export type UserParamsType = {
   username: string;
   password: string;
-  personal_data?: object;
-  contact?: object;
-  adress?: object;
+  adress?: Adress;
+  contact?: Contact;
+  personal_data?: PersonalData;
   created_at?: Date;
   updated_at?: Date;
 };

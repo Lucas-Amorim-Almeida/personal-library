@@ -1,12 +1,15 @@
 import { UserParamsType } from "./@types/types";
+import Adress from "./Adress";
+import Contact from "./Contact";
+import PersonalData from "./PersonalData";
 
 export default class User {
   private id?: string;
   private username: string;
   private password: string;
-  private adress?: object;
-  private contact?: object;
-  private personal_data?: object;
+  private adress?: Adress;
+  private contact?: Contact;
+  private personal_data?: PersonalData;
   private created_at?: Date;
   private updated_at?: Date;
 
@@ -32,9 +35,9 @@ export default class User {
     id?: string;
     username: string;
     password: string;
-    adress?: object;
-    contact?: object;
-    personal_data?: object;
+    adress?: Adress;
+    contact?: Contact;
+    personal_data?: PersonalData;
     created_at?: Date;
     updated_at?: Date;
   } {
