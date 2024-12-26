@@ -18,3 +18,10 @@ export type AdressParamsType = {
   created_at?: Date;
   updated_at?: Date;
 };
+
+export type ContactParamsType = {
+  email: string;
+  phone: string[];
+  created_at?: Date;
+  updated_at?: Date;
+};
