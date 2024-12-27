@@ -1,9 +1,11 @@
 import AccessLevel from "../AccessLevel";
 import Adress from "../Adress";
+import Book from "../Book";
 import BookGenre from "../BookGenre";
 import Contact from "../Contact";
 import PersonalData from "../PersonalData";
 import ReadingStatus from "../ReadingStatus";
+import User from "../User";
 
 export type UserParamsType = {
   username: string;
@@ -53,4 +55,11 @@ export type BookParamsType = {
   volume?: number;
   genre: BookGenre[];
   status: ReadingStatus;
+};
+
+export type CollectionParamsType = {
+  title: string;
+  description: string;
+  collection: Book[];
+  owner: User;
 };
