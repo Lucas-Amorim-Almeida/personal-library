@@ -4,6 +4,7 @@ import {
   PersonalDataParamsType,
   UserParamsType,
 } from "@/entities/@types/types";
+import AccessLevel from "@/entities/AccessLevel";
 import Adress from "@/entities/Adress";
 import Contact from "@/entities/Contact";
 import PersonalData from "@/entities/PersonalData";
@@ -43,6 +44,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.ADMINISTRATOR,
         personal_data: personalData,
         contact: contact,
         adress: adress,
@@ -56,6 +58,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
       };
       const user = new User(params);
 
@@ -66,6 +69,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         adress: adress,
       };
       const user = new User(params);
@@ -77,6 +81,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         contact: contact,
       };
       const user = new User(params);
@@ -88,6 +93,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         personal_data: personalData,
       };
       const user = new User(params);
@@ -99,6 +105,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         contact: contact,
         adress: adress,
       };
@@ -111,6 +118,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         personal_data: personalData,
         contact: contact,
       };
@@ -123,6 +131,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         personal_data: personalData,
         adress: adress,
       };
@@ -135,6 +144,7 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         created_at: new Date(2020, 2, 20),
         updated_at: new Date(2022, 2, 22),
       };
@@ -148,6 +158,7 @@ describe("User", () => {
     const params: UserParamsType = {
       username: "jonh_doe",
       password: "1234",
+      access_level: AccessLevel.COMMON,
     };
     let user: User;
 
@@ -164,6 +175,7 @@ describe("User", () => {
     const params: UserParamsType = {
       username: "jonh_doe",
       password: "1234",
+      access_level: AccessLevel.COMMON,
     };
     let user: User;
 
@@ -184,17 +196,20 @@ describe("User", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
       };
       const user = new User(params);
       expect(user.get()).toEqual({
         username: params.username,
         password: expect.any(String),
+        access_level: AccessLevel.COMMON,
       });
     });
     it("Should be returns a object when params object is complete", () => {
       const params: UserParamsType = {
         username: "jonh_doe",
         password: "1234",
+        access_level: AccessLevel.COMMON,
         adress: adress,
         contact: contact,
         personal_data: personalData,
@@ -205,6 +220,7 @@ describe("User", () => {
       expect(user.get()).toEqual({
         username: params.username,
         password: expect.any(String),
+        access_level: AccessLevel.COMMON,
         adress: params.adress,
         contact: params.contact,
         personal_data: params.personal_data,
@@ -218,6 +234,7 @@ describe("User", () => {
     const params: UserParamsType = {
       username: "jonh_doe",
       password: "1234",
+      access_level: AccessLevel.COMMON,
     };
     let user: User;
 

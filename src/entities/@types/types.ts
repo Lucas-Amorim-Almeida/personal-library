@@ -1,3 +1,4 @@
+import AccessLevel from "../AccessLevel";
 import Adress from "../Adress";
 import Contact from "../Contact";
 import PersonalData from "../PersonalData";
@@ -5,6 +6,7 @@ import PersonalData from "../PersonalData";
 export type UserParamsType = {
   username: string;
   password: string;
+  access_level: AccessLevel;
   adress?: Adress;
   contact?: Contact;
   personal_data?: PersonalData;
