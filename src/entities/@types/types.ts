@@ -1,7 +1,9 @@
 import AccessLevel from "../AccessLevel";
 import Adress from "../Adress";
+import BookGenre from "../BookGenre";
 import Contact from "../Contact";
 import PersonalData from "../PersonalData";
+import ReadingStatus from "../ReadingStatus";
 
 export type UserParamsType = {
   username: string;
@@ -38,4 +40,17 @@ export type PersonalDataParamsType = {
   birth_date: Date;
   created_at?: Date;
   updated_at?: Date;
+};
+
+export type BookParamsType = {
+  title: string;
+  author: string[];
+  edition: string;
+  publication_year: number;
+  publisher: string;
+  publication_location: string;
+  isbn?: string;
+  volume?: number;
+  genre: BookGenre[];
+  status: ReadingStatus;
 };
