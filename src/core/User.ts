@@ -2,6 +2,7 @@ import { UserParamsType } from "./@types/types";
 import AccessLevel from "./AccessLevel";
 import Contact from "./Contact";
 import PersonalData from "./PersonalData";
+import UserStatus from "./UserStatus";
 
 export default class User {
   private id?: string;
@@ -13,6 +14,8 @@ export default class User {
   private created_at?: Date;
   private updated_at?: Date;
 
+  private status: UserStatus;
+
   constructor(userData: UserParamsType) {
     this.username = userData.username;
     this.password = userData.password;
@@ -21,14 +24,24 @@ export default class User {
     this.personal_data = userData.personal_data;
     this.created_at = userData.created_at;
     this.updated_at = userData.updated_at;
+
+    this.status = UserStatus.ACTIVE;
   }
 
   public getId(): string | undefined {
     return this.id;
   }
 
+  public getStatus(): UserStatus {
+    return this.status;
+  }
+
   public setId(id: string): void {
     this.id = id;
+  }
+
+  public setStatus(status: UserStatus): void {
+    this.status = status;
   }
 
   public get(): {
@@ -40,6 +53,8 @@ export default class User {
     personal_data?: PersonalData;
     created_at?: Date;
     updated_at?: Date;
+
+    status: UserStatus;
   } {
     return {
       id: this.id,
@@ -50,6 +65,8 @@ export default class User {
       personal_data: this.personal_data,
       created_at: this.created_at,
       updated_at: this.updated_at,
+
+      status: this.status,
     };
   }
 

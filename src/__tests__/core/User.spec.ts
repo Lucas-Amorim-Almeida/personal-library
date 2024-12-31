@@ -7,6 +7,7 @@ import AccessLevel from "@/core/AccessLevel";
 import Contact from "@/core/Contact";
 import PersonalData from "@/core/PersonalData";
 import User from "@/core/User";
+import UserStatus from "@/core/UserStatus";
 import Email from "@/core/valueObjects/Email";
 import Phone from "@/core/valueObjects/Phone";
 
@@ -116,6 +117,7 @@ describe("User", () => {
         username: params.username,
         password: expect.any(String),
         access_level: AccessLevel.COMMON,
+        status: UserStatus.ACTIVE,
       });
     });
     it("Should return an object when params object is complete", () => {
@@ -137,6 +139,7 @@ describe("User", () => {
         personal_data: params.personal_data,
         created_at: expect.any(Date),
         updated_at: expect.any(Date),
+        status: UserStatus.ACTIVE,
       });
     });
   });
@@ -172,6 +175,36 @@ describe("User", () => {
       expect(() => user.setPassword(newPassword)).toThrow(
         "An error occurred while changing the password.",
       );
+    });
+  });
+
+  describe("getStatus", () => {
+    it("Should return the user status", () => {
+      const params: UserParamsType = {
+        username: "jonh_doe",
+        password: "1234",
+        access_level: AccessLevel.ADMINISTRATOR,
+        personal_data: personalData,
+        contact: contact,
+      };
+      const user = new User(params);
+      expect(user.getStatus()).toBe(UserStatus.ACTIVE);
+    });
+  });
+
+  describe("setStatus", () => {
+    it("Should change the user status", () => {
+      const params: UserParamsType = {
+        username: "jonh_doe",
+        password: "1234",
+        access_level: AccessLevel.ADMINISTRATOR,
+        personal_data: personalData,
+        contact: contact,
+      };
+      const user = new User(params);
+
+      user.setStatus(UserStatus.SUSPENDED);
+      expect(user.getStatus()).toBe(UserStatus.SUSPENDED);
     });
   });
 });
