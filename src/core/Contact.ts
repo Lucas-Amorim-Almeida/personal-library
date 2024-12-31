@@ -1,8 +1,10 @@
 import { ContactParamsType } from "./@types/types";
+import Email from "./valueObjects/Email";
+import Phone from "./valueObjects/Phone";
 
 export default class Contact {
-  private email: string;
-  private phone: string[];
+  private email: Email;
+  private phone: Phone[];
   private created_at?: Date;
   private updated_at?: Date;
 
@@ -14,8 +16,8 @@ export default class Contact {
   }
 
   public get(): {
-    email: string;
-    phone: string[];
+    email: Email;
+    phone: Phone[];
     created_at?: Date;
     updated_at?: Date;
   } {

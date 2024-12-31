@@ -1,44 +1,32 @@
 import AccessLevel from "../AccessLevel";
-import Adress from "../Adress";
 import Book from "../Book";
 import BookGenre from "../BookGenre";
 import Contact from "../Contact";
 import PersonalData from "../PersonalData";
 import ReadingStatus from "../ReadingStatus";
 import User from "../User";
+import Email from "../valueObjects/Email";
+import Phone from "../valueObjects/Phone";
 
 export type UserParamsType = {
   username: string;
   password: string;
   access_level: AccessLevel;
-  adress?: Adress;
   contact?: Contact;
   personal_data?: PersonalData;
   created_at?: Date;
   updated_at?: Date;
 };
 
-export type AdressParamsType = {
-  street: string;
-  number: string;
-  city: string;
-  state: string;
-  country: string;
-  zip_code: string;
-  created_at?: Date;
-  updated_at?: Date;
-};
-
 export type ContactParamsType = {
-  email: string;
-  phone: string[];
+  email: Email;
+  phone: Phone[];
   created_at?: Date;
   updated_at?: Date;
 };
 
 export type PersonalDataParamsType = {
   name: string;
-  cpf: string;
   birth_date: Date;
   created_at?: Date;
   updated_at?: Date;

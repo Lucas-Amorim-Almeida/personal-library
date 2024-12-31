@@ -1,17 +1,12 @@
-import {
-  AdressParamsType,
-  ContactParamsType,
-  PersonalDataParamsType,
-} from "@/entities/@types/types";
-import AccessLevel from "@/entities/AccessLevel";
-import Adress from "@/entities/Adress";
-import Contact from "@/entities/Contact";
-import PersonalData from "@/entities/PersonalData";
-import Repository from "@/entities/Repository";
-import User from "@/entities/User";
-import CreateUser from "@/useCases/CreateUser";
+import CreateUser from "@/application/CreateUser/CreateUser";
+import CreateUserInputBoundary from "@/application/CreateUser/CreateUserInputBoundary";
+import CreateUserOutputBoundary from "@/application/CreateUser/CreateUserOutputBoundary";
+import { PersonalDataParamsType } from "@/core/@types/types";
+import AccessLevel from "@/core/AccessLevel";
+import UserRepository from "@/core/repositories/UserRepository";
+import User from "@/core/User";
 
-const repositoryMock: jest.Mocked<Repository> = {
+const repositoryMock: jest.Mocked<UserRepository> = {
   getOne: jest.fn(),
   getMany: jest.fn(),
   getAll: jest.fn(),
@@ -20,37 +15,28 @@ const repositoryMock: jest.Mocked<Repository> = {
 
 describe("CreateUser", () => {
   describe("Constructor", () => {
-    it("Should be a instance of CreateUser", () => {
+    it("Should be an instance of CreateUser", () => {
       expect(new CreateUser(repositoryMock)).toBeInstanceOf(CreateUser);
     });
   });
 
-  const adressData: AdressParamsType = {
-    street: "Rua X",
-    number: "s/n",
-    city: "São Paulo",
-    state: "São Paulo",
-    country: "Brasil",
-    zip_code: "",
-  };
-  const contactData: ContactParamsType = {
+  const contactData = {
     email: "jonh_doe@example.com",
-    phone: ["(11) 9 1111-1111", "(22) 9 2222-2222"],
+    phone: ["+5511911111111", "+5522922222222"],
   };
   const personalDataInfo: PersonalDataParamsType = {
     name: "John Doe",
-    cpf: "111.222.333-44",
     birth_date: new Date(2001, 1, 11),
   };
 
-  const input = {
+  const inputData = {
     username: "jonh_doe",
     password: "1234",
-    access_level: AccessLevel.ADMINISTRATOR,
-    personal_data: new PersonalData(personalDataInfo),
-    contact: new Contact(contactData),
-    adress: new Adress(adressData),
+    access_level: "ADMINISTRATOR",
+    personal_data: personalDataInfo,
+    contact: contactData,
   };
+  const input = new CreateUserInputBoundary(inputData);
 
   let userCreater: CreateUser;
   beforeEach(() => {
@@ -64,10 +50,13 @@ describe("CreateUser", () => {
 
     const result = await userCreater.execute(input);
 
+    const resultUserInstance = result.get();
     // Assert
-    expect(result).toBeInstanceOf(User);
-    expect(result.get().username).toBe(input.username);
-    expect(result.get().access_level).toBe(input.access_level);
+    expect(result).toBeInstanceOf(CreateUserOutputBoundary);
+    expect(result.get()).toBeInstanceOf(User);
+    expect(resultUserInstance.get().username).toBe(inputData.username);
+    expect(resultUserInstance.get().access_level).toBe(inputData.access_level);
+    expect(resultUserInstance.get().id).toEqual(expect.any(String));
     expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(User)); //verifica se o método foi chamado
   });
 

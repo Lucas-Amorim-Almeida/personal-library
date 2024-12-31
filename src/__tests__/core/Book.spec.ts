@@ -1,11 +1,11 @@
-import { BookParamsType } from "@/entities/@types/types";
-import Book from "@/entities/Book";
-import BookGenre from "@/entities/BookGenre";
-import ReadingStatus from "@/entities/ReadingStatus";
+import { BookParamsType } from "@/core/@types/types";
+import Book from "@/core/Book";
+import BookGenre from "@/core/BookGenre";
+import ReadingStatus from "@/core/ReadingStatus";
 
 describe("Book", () => {
   describe("Constructor", () => {
-    it("Should be a instance of Book", () => {
+    it("Should be an instance of Book", () => {
       const params: BookParamsType = {
         title: "1984",
         author: ["George Orwell"],
@@ -19,7 +19,7 @@ describe("Book", () => {
 
       expect(new Book(params)).toBeInstanceOf(Book);
     });
-    it("Should be a instance of Book with volume and isbn", () => {
+    it("Should be an instance of Book with volume and isbn", () => {
       const params: BookParamsType = {
         title: "O Senhor dos Anéis: A Sociedade do Anel",
         author: ["J.R.R. Tolkien"],
@@ -38,7 +38,7 @@ describe("Book", () => {
   });
 
   describe("get", () => {
-    it("Should returns an object", () => {
+    it("Should return an object", () => {
       const params: BookParamsType = {
         title: "1984",
         author: ["George Orwell"],
@@ -54,7 +54,7 @@ describe("Book", () => {
 
       expect(book.get()).toEqual(params);
     });
-    it("Should returns an object with volume and isbn", () => {
+    it("Should return an object with volume and isbn", () => {
       const params: BookParamsType = {
         title: "O Senhor dos Anéis: A Sociedade do Anel",
         author: ["J.R.R. Tolkien"],
@@ -88,7 +88,7 @@ describe("Book", () => {
       status: ReadingStatus.COMPLETED,
     };
 
-    it("Should be returns the author name", () => {
+    it("Should return the author name", () => {
       const book = new Book(params);
       expect(book.getAuthor()).toEqual(expect.arrayContaining(params.author));
     });
@@ -108,7 +108,7 @@ describe("Book", () => {
       status: ReadingStatus.COMPLETED,
     };
 
-    it("Should be returns the publisher name", () => {
+    it("Should return the publisher name", () => {
       const book = new Book(params);
       expect(book.getPublisher()).toEqual(params.publisher);
     });
@@ -128,7 +128,7 @@ describe("Book", () => {
       status: ReadingStatus.COMPLETED,
     };
 
-    it("Should be returns the publisher name", () => {
+    it("Should return the publisher name", () => {
       const book = new Book(params);
       expect(book.getGenre()).toEqual(expect.arrayContaining(params.genre));
     });
@@ -148,7 +148,7 @@ describe("Book", () => {
       status: ReadingStatus.COMPLETED,
     };
 
-    it("Should be returns the publisher name", () => {
+    it("Should return the publisher name", () => {
       const book = new Book(params);
       expect(Object.values(ReadingStatus)).toContain(book.getStatus());
     });
@@ -168,7 +168,7 @@ describe("Book", () => {
       status: ReadingStatus.PENDING,
     };
 
-    it("Should be returns the publisher name", () => {
+    it("Should return the publisher name", () => {
       const book = new Book(params);
       const newStatus = ReadingStatus.IN_PROGRESS;
       book.setStatus(newStatus);

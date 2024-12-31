@@ -1,10 +1,10 @@
-import { CollectionParamsType } from "@/entities/@types/types";
-import AccessLevel from "@/entities/AccessLevel";
-import Book from "@/entities/Book";
-import BookGenre from "@/entities/BookGenre";
-import Collection from "@/entities/Collection";
-import ReadingStatus from "@/entities/ReadingStatus";
-import User from "@/entities/User";
+import { CollectionParamsType } from "@/core/@types/types";
+import AccessLevel from "@/core/AccessLevel";
+import Book from "@/core/Book";
+import BookGenre from "@/core/BookGenre";
+import Collection from "@/core/Collection";
+import ReadingStatus from "@/core/ReadingStatus";
+import User from "@/core/User";
 
 describe("Collection", () => {
   const user: User = new User({
@@ -32,19 +32,21 @@ describe("Collection", () => {
     owner: user,
   };
   describe("Constructor", () => {
-    it("Should be a instance of Collection", () => {
+    it("Should be an instance of Collection", () => {
       expect(new Collection(params)).toBeInstanceOf(Collection);
     });
   });
 
   describe("get", () => {
-    const collection = new Collection(params);
+    it("Should return an object like CollectionParamsType", () => {
+      const collection = new Collection(params);
 
-    expect(collection.get()).toEqual({
-      title: params.title,
-      description: params.description,
-      collection: [expect.any(Book)],
-      owner: expect.any(User),
+      expect(collection.get()).toEqual({
+        title: params.title,
+        description: params.description,
+        collection: [expect.any(Book)],
+        owner: expect.any(User),
+      });
     });
   });
 });

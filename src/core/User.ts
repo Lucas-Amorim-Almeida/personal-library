@@ -1,6 +1,5 @@
 import { UserParamsType } from "./@types/types";
 import AccessLevel from "./AccessLevel";
-import Adress from "./Adress";
 import Contact from "./Contact";
 import PersonalData from "./PersonalData";
 
@@ -9,7 +8,6 @@ export default class User {
   private username: string;
   private password: string;
   private access_level: AccessLevel;
-  private adress?: Adress;
   private contact?: Contact;
   private personal_data?: PersonalData;
   private created_at?: Date;
@@ -19,7 +17,6 @@ export default class User {
     this.username = userData.username;
     this.password = userData.password;
     this.access_level = userData.access_level;
-    this.adress = userData.adress;
     this.contact = userData.contact;
     this.personal_data = userData.personal_data;
     this.created_at = userData.created_at;
@@ -39,7 +36,6 @@ export default class User {
     username: string;
     password: string;
     access_level: AccessLevel;
-    adress?: Adress;
     contact?: Contact;
     personal_data?: PersonalData;
     created_at?: Date;
@@ -50,7 +46,6 @@ export default class User {
       username: this.username,
       password: this.password,
       access_level: this.access_level,
-      adress: this.adress,
       contact: this.contact,
       personal_data: this.personal_data,
       created_at: this.created_at,

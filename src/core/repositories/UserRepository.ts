@@ -1,4 +1,4 @@
-export default interface Repository {
+export default interface UserRepository {
   /**
    * Retorna um único item com base nos critérios fornecidos.
    * @param query - Os critérios de busca para encontrar o item.

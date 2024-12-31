@@ -1,22 +1,20 @@
-import { PersonalDataParamsType } from "@/entities/@types/types";
-import PersonalData from "@/entities/PersonalData";
+import { PersonalDataParamsType } from "@/core/@types/types";
+import PersonalData from "@/core/PersonalData";
 
 describe("PersonalData", () => {
   describe("Constructor", () => {
-    it("Should be a instance of PersonsalData", () => {
+    it("Should be an instance of PersonsalData", () => {
       const params: PersonalDataParamsType = {
         name: "John Doe",
-        cpf: "111.222.333-44",
         birth_date: new Date(2001, 1, 11),
       };
 
       expect(new PersonalData(params)).toBeInstanceOf(PersonalData);
     });
 
-    it("Should be a instance of PersonsalData with timestamps", () => {
+    it("Should be an instance of PersonsalData with timestamps", () => {
       const params: PersonalDataParamsType = {
         name: "John Doe",
-        cpf: "111.222.333-44",
         birth_date: new Date(2001, 1, 11),
         created_at: new Date(2021, 1, 11),
         updated_at: new Date(2022, 2, 22),
@@ -27,10 +25,9 @@ describe("PersonalData", () => {
   });
 
   describe("get", () => {
-    it("Should returns an object", () => {
+    it("Should return an object", () => {
       const params: PersonalDataParamsType = {
         name: "John Doe",
-        cpf: "111.222.333-44",
         birth_date: new Date(2001, 1, 11),
       };
 
@@ -39,10 +36,9 @@ describe("PersonalData", () => {
       expect(personalData.get()).toEqual(params);
     });
 
-    it("Should returns an object with timestamps", () => {
+    it("Should return an object with timestamps", () => {
       const params: PersonalDataParamsType = {
         name: "John Doe",
-        cpf: "111.222.333-44",
         birth_date: new Date(2001, 1, 11),
         created_at: new Date(2021, 1, 11),
         updated_at: new Date(2022, 2, 22),
