@@ -1,11 +1,11 @@
-import { UserParamsType } from "@/core/@types/types";
 import User from "@/core/User";
 import OutputBoundary from "../OutputBoundary";
 import UserStatus from "@/core/UserStatus";
 import AccessLevel from "@/core/AccessLevel";
 
-export default class CreateUserOutputBoundary implements OutputBoundary<User> {
+export default class LoginOutputBoundary implements OutputBoundary<User> {
   private user: User;
+
   constructor(data: {
     id: string;
     status: string;
@@ -15,14 +15,23 @@ export default class CreateUserOutputBoundary implements OutputBoundary<User> {
     created_at?: Date;
     updated_at?: Date;
   }) {
-    const { id, status, username, password, access_level } = data;
+    const {
+      id,
+      status,
+      username,
+      password,
+      access_level,
+      created_at,
+      updated_at,
+    } = data;
 
     this.user = new User({
       username,
       password,
       access_level: this.define(AccessLevel, access_level, "Access level"),
-    } as UserParamsType);
-
+      created_at,
+      updated_at,
+    });
     this.user.setId(id);
     this.user.setStatus(this.define(UserStatus, status, "User status"));
   }
