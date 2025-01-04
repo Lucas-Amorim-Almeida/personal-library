@@ -19,7 +19,9 @@ export default class CreateUser
     inputData: InputBoundary<UserParamsType>,
   ): Promise<OutputBoundary<User>> {
     const userData = inputData.get();
-    const dbQueryResponse = await this.userRepository.getOne(userData.username);
+    const dbQueryResponse = await this.userRepository.getOne({
+      username: userData.username,
+    });
     if (dbQueryResponse) throw new Error("User already registered.");
 
     const newUser = new User(userData);

@@ -13,6 +13,7 @@ const repositoryMock: jest.Mocked<UserRepository> = {
   getMany: jest.fn(),
   getAll: jest.fn(),
   save: jest.fn(),
+  update: jest.fn(),
 };
 
 const encrypterMock: jest.Mocked<Cryptography> = {

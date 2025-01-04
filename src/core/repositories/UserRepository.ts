@@ -27,4 +27,11 @@ export default interface UserRepository {
    * @returns Uma promessa que resolve para o objeto salvo, possivelmente enriquecido com informações adicionais.
    */
   save<Input, Output>(data: Input): Promise<Output>;
+
+  /**
+   * Salva os dados em uma base de dados.
+   * @param data - Dados a serem salvos.
+   * @returns Uma promessa que resolve para o objeto salvo, possivelmente enriquecido com informações adicionais.
+   */
+  update<Input, Output>(data: Input): Promise<Output>;
 }
