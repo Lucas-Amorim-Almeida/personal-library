@@ -4,6 +4,7 @@ import OutputBoundary from "../OutputBoundary";
 import User from "@/core/User";
 import InputBoundary from "../InputBondary";
 import ChangePasswordOutputBoundary from "./ChangePasswordOutputBoundary";
+import UseCase from "../UseCase";
 
 type InputParams = {
   id: string;
@@ -21,9 +22,9 @@ type dbOutputData = {
   updated_at?: Date;
 } | null;
 
-export default class ChangePassword {
+export default class ChangePassword implements UseCase<InputParams, User> {
   constructor(
-    private readonly userRepository: UserRepository,
+    readonly repository: UserRepository,
     private readonly encrypter: Cryptography,
   ) {}
 
@@ -32,7 +33,7 @@ export default class ChangePassword {
   ): Promise<OutputBoundary<User>> {
     const { id, current_password, new_password } = inputData.get();
 
-    const dbUser: dbOutputData = await this.userRepository.getOne({ id });
+    const dbUser: dbOutputData = await this.repository.getOne({ id });
     if (!dbUser) {
       throw new Error("User not found.");
     }
@@ -46,7 +47,7 @@ export default class ChangePassword {
     }
 
     const encryptedPassword = await this.passwordEncryper(new_password);
-    const updatedUser: dbOutputData = await this.userRepository.update({
+    const updatedUser: dbOutputData = await this.repository.update({
       id,
       password: encryptedPassword,
     });

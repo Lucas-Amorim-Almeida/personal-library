@@ -5,10 +5,13 @@ import UserRepository from "@/core/repositories/UserRepository";
 import LoginOutputBoundary from "./LoginOutputBoundary";
 import Cryptography from "../accessories/Cryptography";
 import UserStatus from "@/core/UserStatus";
+import UseCase from "../UseCase";
 
-export default class Login {
+export default class Login
+  implements UseCase<{ username: string; password: string }, User>
+{
   constructor(
-    private readonly repository: UserRepository,
+    readonly repository: UserRepository,
     private encypter: Cryptography,
   ) {}
 

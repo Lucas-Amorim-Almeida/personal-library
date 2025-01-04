@@ -4,14 +4,12 @@ import { UserParamsType } from "@/core/@types/types";
 import CreateUserOutputBoundary from "./CreateUserOutputBoundary";
 import InputBoundary from "../InputBondary";
 import OutputBoundary from "../OutputBoundary";
-import CreationObject from "../CreationObject";
+import UseCase from "../UseCase";
 import Cryptography from "../accessories/Cryptography";
 
-export default class CreateUser
-  implements CreationObject<UserParamsType, User>
-{
+export default class CreateUser implements UseCase<UserParamsType, User> {
   constructor(
-    readonly userRepository: UserRepository,
+    readonly repository: UserRepository,
     private encrypter: Cryptography,
   ) {}
 
@@ -19,7 +17,7 @@ export default class CreateUser
     inputData: InputBoundary<UserParamsType>,
   ): Promise<OutputBoundary<User>> {
     const userData = inputData.get();
-    const dbQueryResponse = await this.userRepository.getOne({
+    const dbQueryResponse = await this.repository.getOne({
       username: userData.username,
     });
     if (dbQueryResponse) throw new Error("User already registered.");
@@ -39,7 +37,7 @@ export default class CreateUser
       access_level: string;
       created_at?: Date;
       updated_at?: Date;
-    } = await this.userRepository.save(newUser);
+    } = await this.repository.save(newUser);
 
     if (!savedUser) throw new Error("An internal server error occurred.");
 
