@@ -14,6 +14,18 @@ const config: Config = {
   moduleNameMapper: {
     "@/(.*)": "<rootDir>/src/$1",
   },
+  modulePathIgnorePatterns: [
+    "__mocks__",
+    "@types",
+    "accessories",
+    "<rootDir>/src/core/Repository.ts",
+    "<rootDir>/src/core/ReadingStatus.ts",
+    "<rootDir>/src/core/UserStatus.ts",
+    "<rootDir>/src/core/AccessLevel.ts",
+    "<rootDir>/src/application/InputBoundary.ts",
+    "<rootDir>/src/application/OutputBoundary.ts",
+    "<rootDir>/src/application/UseCase.ts",
+  ],
   // An array of file extensions your modules use
   // moduleFileExtensions: [
   //   "js",
