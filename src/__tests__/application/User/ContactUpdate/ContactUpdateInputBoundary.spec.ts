@@ -1,4 +1,4 @@
-import ContactUpdateInputBoundary from "@/application/Contact/ContactUpdate/ContactUpdateInputBoundary";
+import ContactUpdateInputBoundary from "@/application/User/ContactUpdate/ContactUpdateInputBoundary";
 import Email from "@/core/valueObjects/Email";
 import Phone from "@/core/valueObjects/Phone";
 

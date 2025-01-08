@@ -1,6 +1,6 @@
 import { dbContactExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
-import ContactUpdate from "@/application/Contact/ContactUpdate/ContactUpdate";
-import ContactUpdateOutputBoundary from "@/application/Contact/ContactUpdate/ContactUpdateOutputBoundary";
+import ContactUpdate from "@/application/User/ContactUpdate/ContactUpdate";
+import ContactUpdateOutputBoundary from "@/application/User/ContactUpdate/ContactUpdateOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import Email from "@/core/valueObjects/Email";
 import Phone from "@/core/valueObjects/Phone";

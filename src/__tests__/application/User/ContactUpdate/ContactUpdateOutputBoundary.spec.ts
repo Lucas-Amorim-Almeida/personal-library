@@ -1,5 +1,5 @@
 import { dbContactExample } from "@/__tests__/__mocks__/mocks";
-import ContactUpdateOutputBoundary from "@/application/Contact/ContactUpdate/ContactUpdateOutputBoundary";
+import ContactUpdateOutputBoundary from "@/application/User/ContactUpdate/ContactUpdateOutputBoundary";
 import Contact from "@/core/Contact";
 
 describe("ContactUpdateOutputBoundary", () => {
