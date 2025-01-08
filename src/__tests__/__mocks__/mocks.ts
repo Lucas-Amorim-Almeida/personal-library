@@ -48,3 +48,11 @@ export const dbContactExample = {
   created_at: new Date(2020, 2, 22),
   updated_at: new Date(2022, 2, 22),
 };
+
+export const dbPersonalDataExample = {
+  id: "id-123456",
+  name: "John Doe",
+  birth_date: new Date(2001, 1, 11),
+  created_at: new Date(2020, 2, 22),
+  updated_at: new Date(2022, 2, 22),
+};

@@ -15,3 +15,11 @@ export type DBOutputContactData = {
   created_at?: Date;
   updated_at?: Date;
 };
+
+export type DBOutputPersonalData = {
+  id: string;
+  name: string;
+  birth_date: Date;
+  created_at: Date;
+  updated_at: Date;
+};
