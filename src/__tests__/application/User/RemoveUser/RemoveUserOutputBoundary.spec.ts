@@ -1,10 +1,10 @@
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 import RemoveUserOutputBoundary from "@/application/User/RemoveUser/RemoveUserOutputBoundary";
 
 describe("RemoveUserOutputBoundary", () => {
   describe("Constructor", () => {
     it("Should be an instance of RemoveUserOutputBoundary", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-0001",
         status: "A DELETAR",
         username: "john_doe",
@@ -21,7 +21,7 @@ describe("RemoveUserOutputBoundary", () => {
 
   describe("get", () => {
     it("Should return true", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-0001",
         status: "A DELETAR",
         username: "john_doe",
@@ -37,7 +37,7 @@ describe("RemoveUserOutputBoundary", () => {
     });
 
     it("Should return false", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-0001",
         status: "BANIDO",
         username: "john_doe",
@@ -53,7 +53,7 @@ describe("RemoveUserOutputBoundary", () => {
     });
 
     it("Should throws an error User status is not valid.", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-0001",
         status: "invalid",
         username: "john_doe",

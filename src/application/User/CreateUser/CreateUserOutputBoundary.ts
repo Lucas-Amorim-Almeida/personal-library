@@ -4,11 +4,11 @@ import OutputBoundary from "../../OutputBoundary";
 import UserStatus from "@/core/UserStatus";
 import AccessLevel from "@/core/AccessLevel";
 import Utils from "@/application/Utils";
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 
 export default class CreateUserOutputBoundary implements OutputBoundary<User> {
   private user: User;
-  constructor(data: DBOutputData) {
+  constructor(data: DBOutputUserData) {
     const { id, status, username, password, access_level } = data;
 
     this.user = new User({

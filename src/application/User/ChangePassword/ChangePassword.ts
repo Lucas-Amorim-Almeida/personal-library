@@ -5,7 +5,7 @@ import User from "@/core/User";
 import InputBoundary from "../../InputBoundary";
 import ChangePasswordOutputBoundary from "./ChangePasswordOutputBoundary";
 import UseCase from "../../UseCase";
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 
 type InputParams = {
   id: string;
@@ -24,7 +24,9 @@ export default class ChangePassword implements UseCase<InputParams, User> {
   ): Promise<OutputBoundary<User>> {
     const { id, current_password, new_password } = inputData.get();
 
-    const dbUser: DBOutputData | null = await this.repository.getOne({ id });
+    const dbUser: DBOutputUserData | null = await this.repository.getOne({
+      id,
+    });
     if (!dbUser) {
       throw new Error("User not found.");
     }
@@ -38,7 +40,7 @@ export default class ChangePassword implements UseCase<InputParams, User> {
     }
 
     const encryptedPassword = await this.passwordEncryper(new_password);
-    const updatedUser: DBOutputData | null = await this.repository.update({
+    const updatedUser: DBOutputUserData | null = await this.repository.update({
       id,
       password: encryptedPassword,
     });

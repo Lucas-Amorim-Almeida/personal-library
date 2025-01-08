@@ -1,4 +1,4 @@
-import { userInputExemple } from "@/__tests__/__mocks__/mocks";
+import { userInputExample } from "@/__tests__/__mocks__/mocks";
 import CreateUserInputBoundary from "@/application/User/CreateUser/CreateUserInputBoundary";
 import AccessLevel from "@/core/AccessLevel";
 import Contact from "@/core/Contact";
@@ -7,7 +7,7 @@ import PersonalData from "@/core/PersonalData";
 describe("CreateUserInputBoundary", () => {
   describe("Constructor", () => {
     it("Should be an instance of CreateUserInputBoundary", () => {
-      expect(new CreateUserInputBoundary(userInputExemple)).toBeInstanceOf(
+      expect(new CreateUserInputBoundary(userInputExample)).toBeInstanceOf(
         CreateUserInputBoundary,
       );
     });
@@ -76,11 +76,11 @@ describe("CreateUserInputBoundary", () => {
 
   describe("get", () => {
     it("Should return an object as UserParamsType", () => {
-      const input = new CreateUserInputBoundary(userInputExemple);
+      const input = new CreateUserInputBoundary(userInputExample);
 
       expect(input.get()).toEqual({
-        username: userInputExemple.username,
-        password: userInputExemple.password,
+        username: userInputExample.username,
+        password: userInputExample.password,
         access_level: AccessLevel.COMMON,
         contact: expect.any(Contact),
         personal_data: expect.any(PersonalData),

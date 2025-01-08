@@ -1,5 +1,5 @@
 import { dbUserExample } from "@/__tests__/__mocks__/mocks";
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 import LoginOutputBoundary from "@/application/User/Login/LoginOutputBoundary";
 import AccessLevel from "@/core/AccessLevel";
 import User from "@/core/User";
@@ -14,7 +14,7 @@ describe("LoginOutputBoundary", () => {
     });
 
     it("Should throws an erro of Access level is not valid.", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-00001",
         status: "ATIVO",
         access_level: "invalid",
@@ -29,7 +29,7 @@ describe("LoginOutputBoundary", () => {
       );
     });
     it("Should throws an erro of User status is not valid.", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-00001",
         status: "Invalid",
         access_level: "COMMON",

@@ -6,7 +6,7 @@ import LoginOutputBoundary from "./LoginOutputBoundary";
 import Cryptography from "../../accessories/Cryptography";
 import UserStatus from "@/core/UserStatus";
 import UseCase from "../../UseCase";
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 
 export default class Login
   implements UseCase<{ username: string; password: string }, User>
@@ -21,7 +21,7 @@ export default class Login
   ): Promise<OutputBoundary<User>> {
     const data = inputData.get();
 
-    const userData: DBOutputData | null = await this.repository.getOne({
+    const userData: DBOutputUserData | null = await this.repository.getOne({
       username: data.username,
     });
 

@@ -1,5 +1,5 @@
 import { dbUserExample } from "@/__tests__/__mocks__/mocks";
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 import ChangePasswordOutputBoundary from "@/application/User/ChangePassword/ChangePasswordOutputBoundary";
 import AccessLevel from "@/core/AccessLevel";
 import User from "@/core/User";
@@ -14,7 +14,7 @@ describe("ChangePasswordOutputBoundary", () => {
     });
 
     it("Should throws an erro of Access level is not valid.", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-00001",
         status: "ATIVO",
         access_level: "invalid",
@@ -30,7 +30,7 @@ describe("ChangePasswordOutputBoundary", () => {
     });
 
     it("Should throws an error of User status is not valid.", () => {
-      const params: DBOutputData = {
+      const params: DBOutputUserData = {
         id: "id-0001",
         username: "john_doe",
         password: "1234",

@@ -1,4 +1,4 @@
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 import Cryptography from "@/application/accessories/Cryptography";
 import Repository from "@/core/Repository";
 
@@ -17,7 +17,7 @@ export const encrypterMock: jest.Mocked<Cryptography> = {
   setPlainText: jest.fn(),
 };
 
-export const dbUserExample: DBOutputData = {
+export const dbUserExample: DBOutputUserData = {
   id: "id-0001",
   username: "john_doe",
   password: "1234",
@@ -27,7 +27,7 @@ export const dbUserExample: DBOutputData = {
   updated_at: new Date(2022, 2, 22),
 };
 
-export const userInputExemple = {
+export const userInputExample = {
   username: "john_doe",
   password: "12345678",
   access_level: "COMMON",
@@ -39,4 +39,12 @@ export const userInputExemple = {
     name: "John Doe",
     birth_date: new Date(2001, 1, 11),
   },
+};
+
+export const dbContactExample = {
+  id: "id-123456",
+  email: "jonh_doe@example.com",
+  phone: ["+5511911111111", "+5522922222222"],
+  created_at: new Date(2020, 2, 22),
+  updated_at: new Date(2022, 2, 22),
 };

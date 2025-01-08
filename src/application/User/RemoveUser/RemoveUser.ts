@@ -4,7 +4,7 @@ import InputBoundary from "../../InputBoundary";
 import OutputBoundary from "../../OutputBoundary";
 import UserStatus from "@/core/UserStatus";
 import RemoveUserOutputBoundary from "./RemoveUserOutputBoundary";
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 
 export default class RemoveUser implements UseCase<{ id: string }, boolean> {
   constructor(readonly repository: Repository) {}
@@ -14,12 +14,14 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
   ): Promise<OutputBoundary<boolean>> {
     const { id } = inputData.get();
 
-    const dbUser: DBOutputData | null = await this.repository.getOne({ id });
+    const dbUser: DBOutputUserData | null = await this.repository.getOne({
+      id,
+    });
     if (!dbUser) {
       throw new Error("User not found.");
     }
 
-    const dbUserStatusChanged: DBOutputData | null =
+    const dbUserStatusChanged: DBOutputUserData | null =
       await this.repository.update({
         id,
         status: UserStatus.TO_DELETE,

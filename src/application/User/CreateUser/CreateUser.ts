@@ -6,7 +6,7 @@ import InputBoundary from "../../InputBoundary";
 import OutputBoundary from "../../OutputBoundary";
 import UseCase from "../../UseCase";
 import Cryptography from "../../accessories/Cryptography";
-import { DBOutputData } from "@/application/@types/applicationTypes";
+import { DBOutputUserData } from "@/application/@types/applicationTypes";
 
 export default class CreateUser implements UseCase<UserParamsType, User> {
   constructor(
@@ -18,9 +18,10 @@ export default class CreateUser implements UseCase<UserParamsType, User> {
     inputData: InputBoundary<UserParamsType>,
   ): Promise<OutputBoundary<User>> {
     const userData = inputData.get();
-    const dbQueryResponse: DBOutputData | null = await this.repository.getOne({
-      username: userData.username,
-    });
+    const dbQueryResponse: DBOutputUserData | null =
+      await this.repository.getOne({
+        username: userData.username,
+      });
     if (dbQueryResponse) throw new Error("User already registered.");
 
     const newUser = new User(userData);
@@ -30,7 +31,8 @@ export default class CreateUser implements UseCase<UserParamsType, User> {
     );
     newUser.setPassword(encryptedPassword);
 
-    const savedUser: DBOutputData | null = await this.repository.save(newUser);
+    const savedUser: DBOutputUserData | null =
+      await this.repository.save(newUser);
 
     if (!savedUser) throw new Error("An internal server error occurred.");
 
