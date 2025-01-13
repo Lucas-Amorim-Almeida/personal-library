@@ -56,3 +56,18 @@ export const dbPersonalDataExample = {
   created_at: new Date(2020, 2, 22),
   updated_at: new Date(2022, 2, 22),
 };
+
+export const dbBookExample = {
+  title: "O Senhor dos Anéis",
+  author: ["J. R. R. Tolkien"],
+  edition: "Coleção Nova Fronteira",
+  publication_year: 1954,
+  publisher: "Nova Fronteira",
+  publication_location: "Rio de Janeiro",
+  isbn: "9788520908190",
+  volume: 1,
+  genre: ["Fantasia", "Clássicos"],
+  status: "Leitura completa",
+  created_at: new Date(2020, 2, 20),
+  updated_at: new Date(2022, 2, 22),
+};

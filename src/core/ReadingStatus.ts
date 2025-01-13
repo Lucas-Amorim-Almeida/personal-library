@@ -1,8 +1,8 @@
 enum ReadingStatus {
-  COMPLETED = "Leitura completa",
-  PENDING = "Leitura pendente",
-  IN_PROGRESS = "Em leitura",
-  DROPPED_OUT = "Leitura cancelada",
+  COMPLETED = "LEITURA COMPLETA",
+  PENDING = "LEITURA PENDENTE",
+  IN_PROGRESS = "EM LEITURA",
+  DROPPED_OUT = "LEITURA CANCELADA",
 }
 
 export default ReadingStatus;

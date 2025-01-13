@@ -13,6 +13,8 @@ export default class Book {
   private volume?: number;
   private genre: BookGenre[];
   private status: ReadingStatus;
+  private created_at?: Date;
+  private updated_at?: Date;
 
   constructor(bookData: BookParamsType) {
     this.title = bookData.title;
@@ -25,6 +27,8 @@ export default class Book {
     this.volume = bookData.volume;
     this.genre = bookData.genre;
     this.status = bookData.status;
+    this.created_at = bookData.created_at;
+    this.updated_at = bookData.updated_at;
   }
 
   get(): {
@@ -38,6 +42,8 @@ export default class Book {
     volume?: number;
     genre: BookGenre[];
     status: ReadingStatus;
+    created_at?: Date;
+    updated_at?: Date;
   } {
     return {
       title: this.title,
@@ -50,6 +56,8 @@ export default class Book {
       volume: this.volume,
       genre: this.genre,
       status: this.status,
+      created_at: this.created_at,
+      updated_at: this.updated_at,
     };
   }
 

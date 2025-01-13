@@ -43,6 +43,8 @@ export type BookParamsType = {
   volume?: number;
   genre: BookGenre[];
   status: ReadingStatus;
+  created_at?: Date;
+  updated_at?: Date;
 };
 
 export type CollectionParamsType = {
@@ -50,4 +52,6 @@ export type CollectionParamsType = {
   description: string;
   collection: Book[];
   owner: User;
+  created_at?: Date;
+  updated_at?: Date;
 };
