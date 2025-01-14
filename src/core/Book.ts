@@ -3,6 +3,7 @@ import BookGenre from "./BookGenre";
 import ReadingStatus from "./ReadingStatus";
 
 export default class Book {
+  private id?: string;
   private title: string;
   private author: string[];
   private edition: string;
@@ -32,6 +33,7 @@ export default class Book {
   }
 
   get(): {
+    id?: string;
     title: string;
     author: string[];
     edition: string;
@@ -46,6 +48,7 @@ export default class Book {
     updated_at?: Date;
   } {
     return {
+      id: this.id,
       title: this.title,
       author: this.author,
       edition: this.edition,
@@ -79,5 +82,9 @@ export default class Book {
 
   setStatus(status: ReadingStatus): void {
     this.status = status;
+  }
+
+  setId(id: string): void {
+    this.id = id;
   }
 }

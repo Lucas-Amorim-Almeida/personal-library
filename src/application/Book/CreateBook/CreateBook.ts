@@ -6,25 +6,20 @@ import Book from "@/core/Book";
 import Repository from "@/core/Repository";
 import CreateBookOutputBoundary from "./CreateBookOutputBoundary";
 
-export default class CreateBook
-  implements UseCase<{ user_id: string; book: Book }, Book>
-{
+export default class CreateBook implements UseCase<Book, Book> {
   constructor(readonly repository: Repository) {}
 
-  async execute(
-    inputData: InputBoundary<{ user_id: string; book: Book }>,
-  ): Promise<OutputBoundary<Book>> {
-    const { user_id, book } = inputData.get();
+  async execute(inputData: InputBoundary<Book>): Promise<OutputBoundary<Book>> {
+    const book = inputData.get();
 
-    const dbUser: DBOutputBookData | null = await this.repository.getOne({
-      id: user_id,
+    const dbBook: DBOutputBookData | null = await this.repository.getOne({
+      book,
     });
-    if (!dbUser) {
-      throw new Error("User not found.");
+    if (dbBook) {
+      throw new Error("The Book already exists in the database.");
     }
 
     const createdBook: DBOutputBookData | null = await this.repository.save({
-      id: user_id,
       book,
     });
     if (!createdBook) {

@@ -7,7 +7,6 @@ describe("CreateBookInputBoundary", () => {
   describe("Constructor", () => {
     it("Should return an instance of CreateBookInputBoundary", () => {
       const inputData = {
-        user_id: "id-00001",
         title: "O Senhor dos Anéis",
         author: ["J. R. R. Tolkien"],
         edition: "Coleção Nova Fronteira",
@@ -27,7 +26,6 @@ describe("CreateBookInputBoundary", () => {
 
     it("Should throws an error of Book genre is not valid.", () => {
       const inputData = {
-        user_id: "id-00001",
         title: "O Senhor dos Anéis",
         author: ["J. R. R. Tolkien"],
         edition: "Coleção Nova Fronteira",
@@ -46,7 +44,6 @@ describe("CreateBookInputBoundary", () => {
     });
     it("Should throws an error of Reading status is not valid.", () => {
       const inputData = {
-        user_id: "id-00001",
         title: "O Senhor dos Anéis",
         author: ["J. R. R. Tolkien"],
         edition: "Coleção Nova Fronteira",
@@ -68,7 +65,6 @@ describe("CreateBookInputBoundary", () => {
   describe("get", () => {
     it("Should return an object containing an user_id and a Book class instance", () => {
       const inputData = {
-        user_id: "id-00001",
         title: "O Senhor dos Anéis",
         author: ["J. R. R. Tolkien"],
         edition: "Coleção Nova Fronteira",
@@ -82,11 +78,8 @@ describe("CreateBookInputBoundary", () => {
       };
       const input = new CreateBookInputBoundary(inputData);
 
-      expect(input.get()).toEqual({
-        user_id: inputData.user_id,
-        book: expect.any(Book),
-      });
-      expect(input.get().book.get()).toEqual({
+      expect(input.get()).toBeInstanceOf(Book);
+      expect(input.get().get()).toEqual({
         title: inputData.title,
         author: inputData.author,
         edition: inputData.edition,

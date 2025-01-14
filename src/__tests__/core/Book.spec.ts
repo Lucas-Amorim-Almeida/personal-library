@@ -154,7 +154,7 @@ describe("Book", () => {
     });
   });
 
-  describe("getStatus", () => {
+  describe("setStatus", () => {
     const params: BookParamsType = {
       title: "O Senhor dos Anéis: A Sociedade do Anel",
       author: ["J.R.R. Tolkien"],
@@ -173,6 +173,28 @@ describe("Book", () => {
       const newStatus = ReadingStatus.IN_PROGRESS;
       book.setStatus(newStatus);
       expect(book.getStatus()).toEqual(newStatus);
+    });
+  });
+
+  describe("setId", () => {
+    const params: BookParamsType = {
+      title: "O Senhor dos Anéis: A Sociedade do Anel",
+      author: ["J.R.R. Tolkien"],
+      edition: "1ª Edição",
+      publication_year: 1954,
+      publisher: "Allen & Unwin",
+      publication_location: "Londres",
+      isbn: "978-3-16-148410-0",
+      volume: 1,
+      genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
+      status: ReadingStatus.PENDING,
+    };
+
+    it("Should return an object with id property.", () => {
+      const book = new Book(params);
+      const newId = "id-xxx1";
+      book.setId(newId);
+      expect(book.get()).toEqual({ id: newId, ...params });
     });
   });
 });

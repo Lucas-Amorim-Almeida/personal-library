@@ -25,6 +25,7 @@ export type DBOutputPersonalData = {
 };
 
 export type DBOutputBookData = {
+  id: string;
   title: string;
   author: string[];
   edition: string;
@@ -40,7 +41,6 @@ export type DBOutputBookData = {
 };
 
 export type InputBook = {
-  user_id: string;
   title: string;
   author: string[];
   edition: string;

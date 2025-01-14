@@ -58,6 +58,7 @@ export const dbPersonalDataExample = {
 };
 
 export const dbBookExample = {
+  id: "id-00001",
   title: "O Senhor dos Anéis",
   author: ["J. R. R. Tolkien"],
   edition: "Coleção Nova Fronteira",

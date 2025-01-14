@@ -14,7 +14,7 @@ describe("CreateBookOutputBoundary", () => {
 
     it("Should throws an error of Book genre is not valid.", () => {
       const inputData = {
-        user_id: "id-00001",
+        id: "id-00001",
         title: "O Senhor dos Anéis",
         author: ["J. R. R. Tolkien"],
         edition: "Coleção Nova Fronteira",
@@ -35,7 +35,7 @@ describe("CreateBookOutputBoundary", () => {
     });
     it("Should throws an error of Reading status is not valid.", () => {
       const inputData = {
-        user_id: "id-00001",
+        id: "id-00001",
         title: "O Senhor dos Anéis",
         author: ["J. R. R. Tolkien"],
         edition: "Coleção Nova Fronteira",

@@ -5,13 +5,9 @@ import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
 import ReadingStatus from "@/core/ReadingStatus";
 
-export default class CreateBookInputBoundary
-  implements InputBoundary<{ user_id: string; book: Book }>
-{
-  private user_id: string;
+export default class CreateBookInputBoundary implements InputBoundary<Book> {
   private book: Book;
   constructor(inputData: InputBook) {
-    this.user_id = inputData.user_id;
     this.book = new Book({
       title: inputData.title,
       author: inputData.author,
@@ -28,7 +24,7 @@ export default class CreateBookInputBoundary
     });
   }
 
-  get(): { user_id: string; book: Book } {
-    return { user_id: this.user_id, book: this.book };
+  get(): Book {
+    return this.book;
   }
 }
