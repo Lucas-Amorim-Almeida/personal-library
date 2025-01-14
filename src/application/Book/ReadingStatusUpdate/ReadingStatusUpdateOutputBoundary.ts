@@ -1,12 +1,15 @@
 import { DBOutputBookData } from "@/application/@types/applicationTypes";
-import InputBoundary from "@/application/InputBoundary";
+import OutputBoundary from "@/application/OutputBoundary";
 import Utils from "@/application/Utils";
 import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
 import ReadingStatus from "@/core/ReadingStatus";
 
-export default class CreateBookOutputBoundary implements InputBoundary<Book> {
+export default class ReadingStatusUpdateOutputBoundary
+  implements OutputBoundary<Book>
+{
   private book: Book;
+
   constructor(data: DBOutputBookData) {
     this.book = new Book({
       title: data.title,
@@ -24,7 +27,6 @@ export default class CreateBookOutputBoundary implements InputBoundary<Book> {
       created_at: data.created_at,
       updated_at: data.updated_at,
     });
-    this.book.setId(data.id);
   }
 
   get(): Book {

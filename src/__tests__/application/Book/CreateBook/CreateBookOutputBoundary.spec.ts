@@ -62,6 +62,7 @@ describe("CreateBookOutputBoundary", () => {
 
       expect(input.get()).toBeInstanceOf(Book);
       expect(input.get().get()).toEqual({
+        id: "id-00001",
         title: dbBookExample.title,
         author: dbBookExample.author,
         edition: dbBookExample.edition,
@@ -71,7 +72,7 @@ describe("CreateBookOutputBoundary", () => {
         isbn: dbBookExample.isbn,
         volume: dbBookExample.volume,
         genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
-        status: ReadingStatus.COMPLETED,
+        status: ReadingStatus.IN_PROGRESS,
         created_at: expect.any(Date),
         updated_at: expect.any(Date),
       });
