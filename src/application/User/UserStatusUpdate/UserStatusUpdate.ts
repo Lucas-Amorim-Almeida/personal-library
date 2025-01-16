@@ -4,8 +4,8 @@ import UserStatus from "@/core/UserStatus";
 import OutputBoundary from "../../OutputBoundary";
 import User from "@/core/User";
 import InputBoundary from "../../InputBoundary";
-import UserStatusUpdateOutputBoundary from "./UserStatusUpdateOutputBoundary";
 import { DBOutputUserData } from "@/application/@types/applicationTypes";
+import UserOutputBoundary from "../UserOutputBoundary";
 
 export default class UserStatusUpdate
   implements UseCase<{ id: string; status: UserStatus }, User>
@@ -30,6 +30,6 @@ export default class UserStatusUpdate
       throw new Error("An internal server error has occurred.");
     }
 
-    return new UserStatusUpdateOutputBoundary(dbUserStatusChanged);
+    return new UserOutputBoundary(dbUserStatusChanged);
   }
 }

@@ -2,11 +2,11 @@ import User from "@/core/User";
 import InputBoundary from "../../InputBoundary";
 import OutputBoundary from "../../OutputBoundary";
 import Repository from "@/core/Repository";
-import LoginOutputBoundary from "./LoginOutputBoundary";
 import Cryptography from "../../accessories/Cryptography";
 import UserStatus from "@/core/UserStatus";
 import UseCase from "../../UseCase";
 import { DBOutputUserData } from "@/application/@types/applicationTypes";
+import UserOutputBoundary from "../UserOutputBoundary";
 
 export default class Login
   implements UseCase<{ username: string; password: string }, User>
@@ -35,7 +35,7 @@ export default class Login
     );
     if (!isUserValid) throw new Error("Password is incorrect.");
 
-    return new LoginOutputBoundary(userData);
+    return new UserOutputBoundary(userData);
   }
 
   private async userValidate(

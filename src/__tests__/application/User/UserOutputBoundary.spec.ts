@@ -1,19 +1,19 @@
 import { dbUserExample } from "@/__tests__/__mocks__/mocks";
-import CreateUserOutputBoundary from "@/application/User/CreateUser/CreateUserOutputBoundary";
+import UserOutputBoundary from "@/application/User/UserOutputBoundary";
 import User from "@/core/User";
 
-describe("CreateUserOutputBoundary", () => {
+describe("UserOutputBoundary", () => {
   describe("Constructor", () => {
-    it("Should be an instance of CreateOutputBoundary", () => {
-      expect(new CreateUserOutputBoundary(dbUserExample)).toBeInstanceOf(
-        CreateUserOutputBoundary,
+    it("Should be an instance of UserOutputBoundary", () => {
+      expect(new UserOutputBoundary(dbUserExample)).toBeInstanceOf(
+        UserOutputBoundary,
       );
     });
 
     it("Should throws an error is user status is not valud", () => {
       expect(
         () =>
-          new CreateUserOutputBoundary({
+          new UserOutputBoundary({
             id: "id-00001",
             username: "jonh_doe",
             password: "1234",
@@ -27,7 +27,7 @@ describe("CreateUserOutputBoundary", () => {
     it("Should throws an error is access level is not valud", () => {
       expect(
         () =>
-          new CreateUserOutputBoundary({
+          new UserOutputBoundary({
             id: "id-00001",
             username: "jonh_doe",
             password: "1234",
@@ -42,7 +42,7 @@ describe("CreateUserOutputBoundary", () => {
 
   describe("get", () => {
     it("Should return an instance of User class", () => {
-      const output = new CreateUserOutputBoundary(dbUserExample);
+      const output = new UserOutputBoundary(dbUserExample);
       expect(output.get()).toBeInstanceOf(User);
       expect(output.get().getId()).toBe(dbUserExample.id);
     });

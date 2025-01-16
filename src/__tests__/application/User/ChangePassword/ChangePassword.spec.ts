@@ -1,11 +1,11 @@
 import ChangePassword from "@/application/User/ChangePassword/ChangePassword";
-import ChangePasswordOutputBoundary from "@/application/User/ChangePassword/ChangePasswordOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import {
   dbUserExample,
   encrypterMock,
   repositoryMock,
 } from "@/__tests__/__mocks__/mocks";
+import UserOutputBoundary from "@/application/User/UserOutputBoundary";
 
 const inputParams = {
   id: "id-0001",
@@ -46,7 +46,7 @@ describe("ChangePassword", () => {
       });
 
       expect(changePassword.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        ChangePasswordOutputBoundary,
+        UserOutputBoundary,
       );
 
       const response = await changePassword.execute(inputBoundaryMock);

@@ -1,5 +1,5 @@
 import CreateUser from "@/application/User/CreateUser/CreateUser";
-import CreateUserOutputBoundary from "@/application/User/CreateUser/CreateUserOutputBoundary";
+import UserOutputBoundary from "@/application/User/UserOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import { UserParamsType } from "@/core/@types/types";
 import AccessLevel from "@/core/AccessLevel";
@@ -47,7 +47,7 @@ describe("CreateUser", () => {
 
       const resultUserInstance = result.get();
       // Assert
-      expect(result).toBeInstanceOf(CreateUserOutputBoundary);
+      expect(result).toBeInstanceOf(UserOutputBoundary);
       expect(result.get()).toBeInstanceOf(User);
       expect(resultUserInstance.get().username).toBe(userData.username);
       expect(resultUserInstance.get().access_level).toEqual(

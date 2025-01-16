@@ -1,7 +1,7 @@
 import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
 import InputBoundary from "@/application/InputBoundary";
+import UserOutputBoundary from "@/application/User/UserOutputBoundary";
 import UserStatusUpdate from "@/application/User/UserStatusUpdate/UserStatusUpdate";
-import UserStatusUpdateOutputBoundary from "@/application/User/UserStatusUpdate/UserStatusUpdateOutputBoundary";
 import UserStatus from "@/core/UserStatus";
 
 type InputParams = {
@@ -39,7 +39,7 @@ describe("UserStatusUpdate", () => {
       });
 
       expect(statusUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        UserStatusUpdateOutputBoundary,
+        UserOutputBoundary,
       );
 
       const response = await statusUpdate.execute(inputBoundaryMock);

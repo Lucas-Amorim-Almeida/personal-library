@@ -3,9 +3,9 @@ import Cryptography from "../../accessories/Cryptography";
 import OutputBoundary from "../../OutputBoundary";
 import User from "@/core/User";
 import InputBoundary from "../../InputBoundary";
-import ChangePasswordOutputBoundary from "./ChangePasswordOutputBoundary";
 import UseCase from "../../UseCase";
 import { DBOutputUserData } from "@/application/@types/applicationTypes";
+import UserOutputBoundary from "../UserOutputBoundary";
 
 type InputParams = {
   id: string;
@@ -48,7 +48,7 @@ export default class ChangePassword implements UseCase<InputParams, User> {
       throw new Error("An internal server error occurred.");
     }
 
-    return new ChangePasswordOutputBoundary(updatedUser);
+    return new UserOutputBoundary(updatedUser);
   }
 
   private async passwordValidation(

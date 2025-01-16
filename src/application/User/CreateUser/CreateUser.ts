@@ -1,7 +1,7 @@
 import Repository from "@/core/Repository";
 import User from "@/core/User";
 import { UserParamsType } from "@/core/@types/types";
-import CreateUserOutputBoundary from "./CreateUserOutputBoundary";
+import UserOutputBoundary from "../UserOutputBoundary";
 import InputBoundary from "../../InputBoundary";
 import OutputBoundary from "../../OutputBoundary";
 import UseCase from "../../UseCase";
@@ -36,7 +36,7 @@ export default class CreateUser implements UseCase<UserParamsType, User> {
 
     if (!savedUser) throw new Error("An internal server error occurred.");
 
-    return new CreateUserOutputBoundary(savedUser);
+    return new UserOutputBoundary(savedUser);
   }
 
   private async passwordEncryper(plainPassword: string): Promise<string> {

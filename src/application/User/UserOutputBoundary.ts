@@ -1,21 +1,20 @@
+import { UserParamsType } from "@/core/@types/types";
 import User from "@/core/User";
-import OutputBoundary from "../../OutputBoundary";
-import AccessLevel from "@/core/AccessLevel";
+import OutputBoundary from "../OutputBoundary";
 import UserStatus from "@/core/UserStatus";
+import AccessLevel from "@/core/AccessLevel";
 import Utils from "@/application/Utils";
 import { DBOutputUserData } from "@/application/@types/applicationTypes";
 
-export default class UserStatusUpdateOutputBoundary
-  implements OutputBoundary<User>
-{
+export default class UserOutputBoundary implements OutputBoundary<User> {
   private user: User;
   constructor(data: DBOutputUserData) {
     const {
       id,
+      status,
       username,
       password,
       access_level,
-      status,
       created_at,
       updated_at,
     } = data;
@@ -26,7 +25,8 @@ export default class UserStatusUpdateOutputBoundary
       access_level: Utils.define(AccessLevel, access_level, "Access level"),
       created_at,
       updated_at,
-    });
+    } as UserParamsType);
+
     this.user.setId(id);
     this.user.setStatus(Utils.define(UserStatus, status, "User status"));
   }

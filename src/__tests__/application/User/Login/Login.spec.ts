@@ -5,7 +5,7 @@ import {
 } from "@/__tests__/__mocks__/mocks";
 import InputBoundary from "@/application/InputBoundary";
 import Login from "@/application/User/Login/Login";
-import LoginOutputBoundary from "@/application/User/Login/LoginOutputBoundary";
+import UserOutputBoundary from "@/application/User/UserOutputBoundary";
 
 const userData = {
   username: "jonh_doe",
@@ -33,7 +33,7 @@ describe("Login", () => {
 
       const result = await login.execute(inputBondaryMock);
 
-      expect(result).toBeInstanceOf(LoginOutputBoundary);
+      expect(result).toBeInstanceOf(UserOutputBoundary);
     });
 
     it("Should throws an erro of User not found.", async () => {
