@@ -1,0 +1,69 @@
+import { dbBookExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
+import { InputBookUpdate } from "@/application/@types/applicationTypes";
+import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
+import UpdateBook from "@/application/Book/UpdateBook/UpdateBook";
+import InputBoundary from "@/application/InputBoundary";
+import Book from "@/core/Book";
+import BookGenre from "@/core/BookGenre";
+
+const inputParams = {
+  id: "id-00001",
+  title: "O Senhor dos Anéis",
+  author: ["J. R. R. Tolkien"],
+  edition: "Coleção Nova Fronteira",
+  publication_year: 1954,
+  publisher: "Nova Fronteira",
+  publication_location: "Rio de Janeiro",
+  isbn: "9788520908190",
+  volume: 1,
+  genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+};
+
+const inputBoundaryMock: jest.Mocked<InputBoundary<InputBookUpdate>> = {
+  get: jest.fn(() => inputParams),
+};
+
+describe("UpdateBook", () => {
+  describe("Constructor", () => {
+    it("Should be an instance of UpdateBook", () => {
+      expect(new UpdateBook(repositoryMock)).toBeInstanceOf(UpdateBook);
+    });
+  });
+
+  describe("execute", () => {
+    it("Should return instance of BookUpdateOutputBoundary", async () => {
+      repositoryMock.getOne.mockResolvedValue(dbBookExample);
+      repositoryMock.update.mockResolvedValue(dbBookExample);
+
+      const bookUpdate = new UpdateBook(repositoryMock);
+      expect(bookUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
+        BookOutputBoundary,
+      );
+
+      const output = await bookUpdate.execute(inputBoundaryMock);
+
+      expect(output.get()).toBeInstanceOf(Book);
+    });
+
+    it("Should throws an error of Book not found.", async () => {
+      repositoryMock.getOne.mockResolvedValue(null);
+
+      const bookUpdate = new UpdateBook(repositoryMock);
+
+      expect(bookUpdate.execute(inputBoundaryMock)).rejects.toThrow(
+        "Book not found.",
+      );
+    });
+
+    it("Should throws an error of An internal server error occurred.", async () => {
+      repositoryMock.getOne.mockResolvedValue(dbBookExample);
+      repositoryMock.update.mockResolvedValue(null);
+
+      const bookUpdate = new UpdateBook(repositoryMock);
+
+      expect(bookUpdate.execute(inputBoundaryMock)).rejects.toThrow(
+        "An internal server error occurred.",
+      );
+    });
+  });
+});

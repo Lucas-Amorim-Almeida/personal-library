@@ -1,3 +1,5 @@
+import BookGenre from "@/core/BookGenre";
+
 export type DBOutputUserData = {
   id: string;
   username: string;
@@ -51,4 +53,17 @@ export type InputBook = {
   volume?: number;
   genre: string[];
   status: string;
+};
+
+export type InputBookUpdate = {
+  id: string;
+  title?: string;
+  author?: string[];
+  edition?: string;
+  publication_year?: number;
+  publisher?: string;
+  publication_location?: string;
+  isbn?: string;
+  volume?: number;
+  genre?: BookGenre[];
 };

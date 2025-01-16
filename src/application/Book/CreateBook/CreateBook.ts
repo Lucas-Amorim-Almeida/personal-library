@@ -4,7 +4,7 @@ import OutputBoundary from "@/application/OutputBoundary";
 import UseCase from "@/application/UseCase";
 import Book from "@/core/Book";
 import Repository from "@/core/Repository";
-import CreateBookOutputBoundary from "./CreateBookOutputBoundary";
+import BookOutputBoundary from "../BookOutputBoundary";
 
 export default class CreateBook implements UseCase<Book, Book> {
   constructor(readonly repository: Repository) {}
@@ -26,6 +26,6 @@ export default class CreateBook implements UseCase<Book, Book> {
       throw new Error("An internal server error occurred.");
     }
 
-    return new CreateBookOutputBoundary(createdBook);
+    return new BookOutputBoundary(createdBook);
   }
 }

@@ -1,5 +1,5 @@
 import { dbBookExample } from "@/__tests__/__mocks__/mocks";
-import CreateBookOutputBoundary from "@/application/Book/CreateBook/CreateBookOutputBoundary";
+import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
 import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
 import ReadingStatus from "@/core/ReadingStatus";
@@ -7,8 +7,8 @@ import ReadingStatus from "@/core/ReadingStatus";
 describe("CreateBookOutputBoundary", () => {
   describe("Constructor", () => {
     it("Should be an instance of CreateBookOutputBoundary", () => {
-      expect(new CreateBookOutputBoundary(dbBookExample)).toBeInstanceOf(
-        CreateBookOutputBoundary,
+      expect(new BookOutputBoundary(dbBookExample)).toBeInstanceOf(
+        BookOutputBoundary,
       );
     });
 
@@ -29,7 +29,7 @@ describe("CreateBookOutputBoundary", () => {
         updated_at: new Date(2022, 2, 22),
       };
 
-      expect(() => new CreateBookOutputBoundary(inputData)).toThrow(
+      expect(() => new BookOutputBoundary(inputData)).toThrow(
         "Book genre is not valid.",
       );
     });
@@ -50,7 +50,7 @@ describe("CreateBookOutputBoundary", () => {
         updated_at: new Date(2022, 2, 22),
       };
 
-      expect(() => new CreateBookOutputBoundary(inputData)).toThrow(
+      expect(() => new BookOutputBoundary(inputData)).toThrow(
         "Reading status is not valid.",
       );
     });
@@ -58,7 +58,7 @@ describe("CreateBookOutputBoundary", () => {
 
   describe("get", () => {
     it("Should return an object containing an user_id and a Book class instance", () => {
-      const input = new CreateBookOutputBoundary(dbBookExample);
+      const input = new BookOutputBoundary(dbBookExample);
 
       expect(input.get()).toBeInstanceOf(Book);
       expect(input.get().get()).toEqual({

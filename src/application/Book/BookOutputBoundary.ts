@@ -5,7 +5,7 @@ import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
 import ReadingStatus from "@/core/ReadingStatus";
 
-export default class CreateBookOutputBoundary implements InputBoundary<Book> {
+export default class BookOutputBoundary implements InputBoundary<Book> {
   private book: Book;
   constructor(data: DBOutputBookData) {
     this.book = new Book({

@@ -1,6 +1,6 @@
 import { dbBookExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
+import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
 import ReadingStatusUpdate from "@/application/Book/ReadingStatusUpdate/ReadingStatusUpdate";
-import ReadingStatusUpdateOutputBoundary from "@/application/Book/ReadingStatusUpdate/ReadingStatusUpdateOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import Book from "@/core/Book";
 import ReadingStatus from "@/core/ReadingStatus";
@@ -45,7 +45,7 @@ describe("ReadingStatusUpdate", () => {
 
       const statusUpdate = new ReadingStatusUpdate(repositoryMock);
       expect(statusUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        ReadingStatusUpdateOutputBoundary,
+        BookOutputBoundary,
       );
 
       const output = await statusUpdate.execute(inputBoundaryMock);

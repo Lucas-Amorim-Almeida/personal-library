@@ -1,6 +1,6 @@
 import { dbBookExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
 import CreateBook from "@/application/Book/CreateBook/CreateBook";
-import CreateBookOutputBoundary from "@/application/Book/CreateBook/CreateBookOutputBoundary";
+import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
@@ -38,7 +38,7 @@ describe("CreateBook", () => {
       repositoryMock.save.mockResolvedValue(dbBookExample);
 
       expect(createBook.execute(inputMock)).resolves.toBeInstanceOf(
-        CreateBookOutputBoundary,
+        BookOutputBoundary,
       );
       const output = await createBook.execute(inputMock);
       expect(output.get()).toBeInstanceOf(Book);
