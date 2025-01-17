@@ -4,7 +4,7 @@ import BookGenre from "../BookGenre";
 import Contact from "../Contact";
 import PersonalData from "../PersonalData";
 import ReadingStatus from "../ReadingStatus";
-import User from "../User";
+
 import Email from "../valueObjects/Email";
 import Phone from "../valueObjects/Phone";
 
@@ -51,7 +51,7 @@ export type CollectionParamsType = {
   title: string;
   description: string;
   collection: Book[];
-  owner: User;
+  visibility: "public" | "private";
   created_at?: Date;
   updated_at?: Date;
 };
