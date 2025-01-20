@@ -50,8 +50,9 @@ export type BookParamsType = {
 export type CollectionParamsType = {
   title: string;
   description: string;
-  collection: Book[];
   visibility: "public" | "private";
+  collection: Book[];
+  owner: string; //user_id
   created_at?: Date;
   updated_at?: Date;
 };

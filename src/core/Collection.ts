@@ -5,8 +5,9 @@ type CollectionData = {
   id?: string;
   title: string;
   description: string;
-  collection: Book[];
   visibiliy: "public" | "private";
+  collection: Book[];
+  owner: string;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -15,16 +16,18 @@ export default class Collection {
   private id?: string;
   private title: string;
   private description: string;
-  private collection: Book[];
   private visibility: "public" | "private";
+  private collection: Book[];
+  private owner: string; //user_id
   private created_at?: Date;
   private updated_at?: Date;
 
   constructor(collectionData: CollectionParamsType) {
     this.title = collectionData.title;
     this.description = collectionData.description;
-    this.collection = collectionData.collection;
     this.visibility = collectionData.visibility;
+    this.collection = collectionData.collection;
+    this.owner = collectionData.owner;
     this.created_at = collectionData.created_at;
     this.updated_at = collectionData.updated_at;
   }
@@ -50,8 +53,9 @@ export default class Collection {
         id: this.id,
         title: this.title,
         description: this.description,
-        collection: this.collection,
         visibility: this.visibility,
+        collection: this.collection,
+        owner: this.owner,
         created_at: this.created_at,
         updated_at: this.updated_at,
         //eslint-disable-next-line

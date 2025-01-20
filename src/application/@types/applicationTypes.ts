@@ -67,3 +67,24 @@ export type InputBookUpdate = {
   volume?: number;
   genre?: BookGenre[];
 };
+
+export type DBOutputCollectionData = {
+  id: string;
+  title: string;
+  description: string;
+  visibility: "public" | "private";
+  collection: {
+    book_id: string;
+    title: string;
+    author: string[];
+  }[];
+  owner: string;
+};
+
+export type ColletionInputData = {
+  title: string;
+  description: string;
+  visibility: "public" | "private";
+  collection: string[];
+  owner: string;
+};

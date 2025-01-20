@@ -85,3 +85,18 @@ export const inputBookUpdateExample = {
   volume: 1,
   genre: ["Fantasia", "Clássicos"],
 };
+
+export const dbCollectionExample = {
+  id: "000001",
+  title: "Livros de Tolkien",
+  description: "Coleção com os livros de Tolkien.",
+  visibility: "private",
+  collection: [
+    {
+      book_id: "ID-book0001",
+      title: "O Senhor dos aneis",
+      author: ["Tolkien"],
+    },
+  ],
+  owner: "id-00001",
+};

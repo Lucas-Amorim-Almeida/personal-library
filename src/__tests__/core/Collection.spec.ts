@@ -21,8 +21,9 @@ describe("Collection", () => {
   const params: CollectionParamsType = {
     title: "Lord of the rings",
     description: "Livros da franquia de Tolkien",
-    collection: [book],
     visibility: "public",
+    collection: [book],
+    owner: "id-00001",
   };
 
   describe("Constructor", () => {
@@ -38,8 +39,9 @@ describe("Collection", () => {
       expect(collection.get()).toEqual({
         title: params.title,
         description: params.description,
-        collection: [expect.any(Book)],
         visibility: "public",
+        collection: [expect.any(Book)],
+        owner: "id-00001",
       });
     });
   });
@@ -50,6 +52,12 @@ describe("Collection", () => {
 
       collection.setId("id-00001");
       expect(collection.get().id).toEqual("id-00001");
+    });
+
+    it("Should throws an error of ID is not valid.", () => {
+      const collection = new Collection(params);
+
+      expect(() => collection.setId("")).toThrow("ID is not valid.");
     });
   });
 
