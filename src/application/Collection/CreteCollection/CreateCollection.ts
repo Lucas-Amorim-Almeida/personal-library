@@ -11,7 +11,7 @@ import UseCase from "@/application/UseCase";
 import Book from "@/core/Book";
 import Collection from "@/core/Collection";
 import Repository from "@/core/Repository";
-import CreateCollectionOutputBoundary from "./CreateCollectionOutputBoundary";
+import CollectionOutputBoundary from "../CollectionOutputBoundary";
 
 export default class CreateCollection
   implements UseCase<ColletionInputData, DBOutputCollectionData>
@@ -24,7 +24,7 @@ export default class CreateCollection
 
   async execute(
     inputData: InputBoundary<ColletionInputData>,
-  ): Promise<OutputBoundary<DBOutputCollectionData>> {
+  ): Promise<OutputBoundary<DBOutputCollectionData>[]> {
     const { owner, title, description, visibility, collection } =
       inputData.get();
 
@@ -59,6 +59,6 @@ export default class CreateCollection
       throw new Error("An internal server error occurred.");
     }
 
-    return new CreateCollectionOutputBoundary(dbCollection);
+    return [new CollectionOutputBoundary(dbCollection)];
   }
 }

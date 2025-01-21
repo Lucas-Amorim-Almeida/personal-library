@@ -45,13 +45,18 @@ describe("ReadingStatusUpdate", () => {
 
       const statusUpdate = new ReadingStatusUpdate(repositoryMock);
       expect(statusUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        BookOutputBoundary,
+        Array,
       );
 
-      const output = await statusUpdate.execute(inputBoundaryMock);
+      const [output] = await statusUpdate.execute(inputBoundaryMock);
+      expect(output).toBeInstanceOf(BookOutputBoundary);
 
       expect(output.get()).toBeInstanceOf(Book);
       expect(output.get().getStatus()).toEqual(inputParams.status);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-00001",
+      });
+      expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
     });
 
     it("Should throws an error of Book not found.", async () => {
@@ -72,6 +77,9 @@ describe("ReadingStatusUpdate", () => {
       expect(statusUpdate.execute(inputBoundaryMock)).rejects.toThrow(
         "Book not found.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-00001",
+      });
     });
 
     it("Should throws an error of An internal server error occurred.", async () => {
@@ -90,9 +98,15 @@ describe("ReadingStatusUpdate", () => {
 
       const statusUpdate = new ReadingStatusUpdate(repositoryMock);
 
-      expect(statusUpdate.execute(inputBoundaryMock)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+      try {
+        await statusUpdate.execute(inputBoundaryMock);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          id: "id-00001",
+        });
+        expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
+        expect(error).toEqual(new Error("An internal server error occurred."));
+      }
     });
   });
 });

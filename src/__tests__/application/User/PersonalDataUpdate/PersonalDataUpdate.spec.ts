@@ -28,8 +28,6 @@ describe("PersonalDataUpdate", () => {
 
   describe("execute", () => {
     it("Should be an instance of PersonalDataUpdateOutputBoundary.", async () => {
-      const personalDataUpdate = new PersonalDataUpdate(repositoryMock);
-
       repositoryMock.getOne.mockResolvedValue(dbPersonalDataExample);
       repositoryMock.update.mockResolvedValue({
         id: "id-123456",
@@ -39,9 +37,19 @@ describe("PersonalDataUpdate", () => {
         updated_at: new Date(2022, 2, 22),
       });
 
+      const personalDataUpdate = new PersonalDataUpdate(repositoryMock);
       expect(personalDataUpdate.execute(inputBoundary)).resolves.toBeInstanceOf(
-        PersonalDataUpdateOutputBoundary,
+        Array,
       );
+
+      const [response] = await personalDataUpdate.execute(inputBoundary);
+      expect(response).toBeInstanceOf(PersonalDataUpdateOutputBoundary);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+      expect(repositoryMock.update).toHaveBeenCalledWith({
+        id: "id-000001",
+        name: "Johnathan Someone",
+        birth_date: new Date(2000, 1, 11),
+      });
     });
 
     it("Should throws an error of name or birth_date is required.", async () => {
@@ -66,6 +74,7 @@ describe("PersonalDataUpdate", () => {
       expect(personalDataUpdate.execute(inputBoundary)).rejects.toThrow(
         "User or Personal data not found.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
     });
 
     it("Should throws an error of An internal server error occurred.", async () => {
@@ -74,9 +83,19 @@ describe("PersonalDataUpdate", () => {
       repositoryMock.getOne.mockResolvedValue(dbPersonalDataExample);
       repositoryMock.update.mockResolvedValue(null);
 
-      expect(() => personalDataUpdate.execute(inputBoundary)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+      try {
+        await personalDataUpdate.execute(inputBoundary);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+        expect(repositoryMock.update).toHaveBeenCalledWith({
+          id: "id-000001",
+          name: "Johnathan Someone",
+          birth_date: new Date(2000, 1, 11),
+        });
+        expect(error).toEqual(
+          new Error("An internal server error has occurred."),
+        );
+      }
     });
   });
 });

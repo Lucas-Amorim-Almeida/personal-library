@@ -6,9 +6,10 @@ import {
 } from "@/__tests__/__mocks__/mocks";
 import { ColletionInputData } from "@/application/@types/applicationTypes";
 import CreateCollection from "@/application/Collection/CreteCollection/CreateCollection";
-import CreateCollectionOutputBoundary from "@/application/Collection/CreteCollection/CreateCollectionOutputBoundary";
+import CollectionOutputBoundary from "@/application/Collection/CollectionOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import Repository from "@/core/Repository";
+import Collection from "@/core/Collection";
 
 const books = ["ID-book0001"];
 
@@ -42,7 +43,7 @@ describe("CreateCollection", () => {
     });
   });
   describe("execute", () => {
-    it("Should return an instance of CreateCollectionOutputBoundary", async () => {
+    it("Should return an instance of CollectionOutputBoundary", async () => {
       userRepository.getOne.mockResolvedValue(dbUserExample);
       bookRepository.getOne.mockResolvedValue(dbBookExample);
       collectionRepository.save.mockResolvedValue(dbCollectionExample);
@@ -53,7 +54,19 @@ describe("CreateCollection", () => {
         collectionRepository,
       );
       await expect(createCollection.execute(inputMock)).resolves.toBeInstanceOf(
-        CreateCollectionOutputBoundary,
+        Array,
+      );
+      const [response] = await createCollection.execute(inputMock);
+
+      await expect(response).toBeInstanceOf(CollectionOutputBoundary);
+      expect(userRepository.getOne).toHaveBeenCalledWith({
+        id: "id-00001",
+      });
+      expect(bookRepository.getOne).toHaveBeenCalledWith({
+        id: books[0],
+      });
+      expect(collectionRepository.save).toHaveBeenCalledWith(
+        expect.any(Collection),
       );
     });
 
@@ -67,9 +80,21 @@ describe("CreateCollection", () => {
         bookRepository,
         collectionRepository,
       );
-      expect(createCollection.execute(inputMock)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+
+      try {
+        await createCollection.execute(inputMock);
+      } catch (error) {
+        expect(userRepository.getOne).toHaveBeenCalledWith({
+          id: "id-00001",
+        });
+        expect(bookRepository.getOne).toHaveBeenCalledWith({
+          id: books[0],
+        });
+        expect(collectionRepository.save).toHaveBeenCalledWith(
+          expect.any(Collection),
+        );
+        expect(error).toEqual(new Error("An internal server error occurred."));
+      }
     });
 
     it("Should throws an error of Book not found.", async () => {
@@ -91,9 +116,18 @@ describe("CreateCollection", () => {
         bookRepository,
         collectionRepository,
       );
-      expect(createCollection.execute(inputMock)).rejects.toThrow(
-        "Book not found.",
-      );
+
+      try {
+        await createCollection.execute(inputMock);
+      } catch (error) {
+        expect(otherUserRepo.getOne).toHaveBeenCalledWith({
+          id: "id-00001",
+        });
+        expect(bookRepository.getOne).toHaveBeenCalledWith({
+          id: books[0],
+        });
+        expect(error).toEqual(new Error("Book not found."));
+      }
     });
 
     it("Should throws an error of User not found.", async () => {
@@ -103,9 +137,15 @@ describe("CreateCollection", () => {
         bookRepository,
         collectionRepository,
       );
-      expect(createCollection.execute(inputMock)).rejects.toThrow(
-        "User not found.",
-      );
+
+      try {
+        await createCollection.execute(inputMock);
+      } catch (error) {
+        expect(userRepository.getOne).toHaveBeenCalledWith({
+          id: "id-00001",
+        });
+        expect(error).toEqual(new Error("User not found."));
+      }
     });
   });
 });

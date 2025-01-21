@@ -11,7 +11,7 @@ export default class GetUserByID implements UseCase<{ id: string }, User> {
 
   async execute(
     inputData: InputBoundary<{ id: string }>,
-  ): Promise<OutputBoundary<User>> {
+  ): Promise<OutputBoundary<User>[]> {
     const { id } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
@@ -21,6 +21,6 @@ export default class GetUserByID implements UseCase<{ id: string }, User> {
       throw new Error("User not found.");
     }
 
-    return new UserOutputBoundary(dbUser);
+    return [new UserOutputBoundary(dbUser)];
   }
 }

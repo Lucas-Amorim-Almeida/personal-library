@@ -1,20 +1,20 @@
 import { dbCollectionExample } from "@/__tests__/__mocks__/mocks";
 import { DBOutputCollectionData } from "@/application/@types/applicationTypes";
-import CreateCollectionOutputBoundary from "@/application/Collection/CreteCollection/CreateCollectionOutputBoundary";
+import CollectionOutputBoundary from "@/application/Collection/CollectionOutputBoundary";
 
 describe("CreateCollectionOutputBoundary", () => {
   describe("Constructor", () => {
     it("Should be an instance of CreateCollectionOutputBoundary", () => {
       expect(
-        new CreateCollectionOutputBoundary(
+        new CollectionOutputBoundary(
           dbCollectionExample as DBOutputCollectionData,
         ),
-      ).toBeInstanceOf(CreateCollectionOutputBoundary);
+      ).toBeInstanceOf(CollectionOutputBoundary);
     });
   });
 
   describe("get", () => {
-    const output = new CreateCollectionOutputBoundary(
+    const output = new CollectionOutputBoundary(
       dbCollectionExample as DBOutputCollectionData,
     );
     expect(output.get()).toEqual(dbCollectionExample);

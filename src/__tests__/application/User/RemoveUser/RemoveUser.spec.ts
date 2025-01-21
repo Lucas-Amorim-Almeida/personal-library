@@ -2,10 +2,11 @@ import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
 import InputBoundary from "@/application/InputBoundary";
 import RemoveUser from "@/application/User/RemoveUser/RemoveUser";
 import RemoveUserOutputBoundary from "@/application/User/RemoveUser/RemoveUserOutputBoundary";
+import UserStatus from "@/core/UserStatus";
 
 const params: { id: string } = { id: "id-0001" };
 
-const inputBondary: jest.Mocked<InputBoundary<{ id: string }>> = {
+const inputBoundary: jest.Mocked<InputBoundary<{ id: string }>> = {
   get: jest.fn(() => params),
 };
 
@@ -31,9 +32,14 @@ describe("RemoveUser", () => {
         updated_at: new Date(2022, 2, 22),
       });
 
-      expect(removeUser.execute(inputBondary)).resolves.toBeInstanceOf(
-        RemoveUserOutputBoundary,
-      );
+      expect(removeUser.execute(inputBoundary)).resolves.toBeInstanceOf(Array);
+      const [response] = await removeUser.execute(inputBoundary);
+      expect(response).toBeInstanceOf(RemoveUserOutputBoundary);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith(params);
+      expect(repositoryMock.update).toHaveBeenCalledWith({
+        status: UserStatus.TO_DELETE,
+        ...params,
+      });
     });
 
     it("Should throws an error User not found.", async () => {
@@ -41,9 +47,10 @@ describe("RemoveUser", () => {
 
       repositoryMock.getOne.mockResolvedValue(null);
 
-      expect(removeUser.execute(inputBondary)).rejects.toThrow(
+      expect(removeUser.execute(inputBoundary)).rejects.toThrow(
         "User not found.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
     });
 
     it("Should throws an interenal error", async () => {
@@ -52,9 +59,18 @@ describe("RemoveUser", () => {
       repositoryMock.getOne.mockResolvedValue(dbUserExample);
       repositoryMock.update.mockResolvedValue(null);
 
-      expect(() => removeUser.execute(inputBondary)).rejects.toThrow(
-        "An internal server error has occurred.",
-      );
+      try {
+        await removeUser.execute(inputBoundary);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
+        expect(repositoryMock.update).toHaveBeenCalledWith({
+          id: "id-0001",
+          status: UserStatus.TO_DELETE,
+        });
+        expect(error).toEqual(
+          new Error("An internal server error has occurred."),
+        );
+      }
     });
   });
 });

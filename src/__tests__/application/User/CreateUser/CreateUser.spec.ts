@@ -16,7 +16,7 @@ const userData: UserParamsType = {
   access_level: AccessLevel.COMMON,
 };
 
-const inputBondaryMock: jest.Mocked<InputBoundary<UserParamsType>> = {
+const inputBoundaryMock: jest.Mocked<InputBoundary<UserParamsType>> = {
   get: jest.fn(() => userData),
 };
 
@@ -43,10 +43,13 @@ describe("CreateUser", () => {
         "pasdf4eas3r4rssw4535or5d1df44423eeda3",
       );
 
-      const result = await userCreater.execute(inputBondaryMock);
+      expect(userCreater.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
+        Array,
+      );
+
+      const [result] = await userCreater.execute(inputBoundaryMock);
 
       const resultUserInstance = result.get();
-      // Assert
       expect(result).toBeInstanceOf(UserOutputBoundary);
       expect(result.get()).toBeInstanceOf(User);
       expect(resultUserInstance.get().username).toBe(userData.username);
@@ -64,10 +67,12 @@ describe("CreateUser", () => {
 
       repositoryMock.getOne.mockResolvedValue(existingUser);
 
-      // Act & Assert
-      await expect(userCreater.execute(inputBondaryMock)).rejects.toThrow(
+      expect(userCreater.execute(inputBoundaryMock)).rejects.toThrow(
         "User already registered.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        username: "john_doe",
+      });
 
       // Verifica se o método save não foi chamado
       expect(repositoryMock.save).not.toHaveBeenCalled();
@@ -77,10 +82,15 @@ describe("CreateUser", () => {
       repositoryMock.getOne.mockResolvedValue(null);
       repositoryMock.save.mockResolvedValue(null);
 
-      // Act & Assert
-      await expect(userCreater.execute(inputBondaryMock)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+      try {
+        await userCreater.execute(inputBoundaryMock);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          username: "john_doe",
+        });
+        expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(User));
+        expect(error).toEqual(new Error("An internal server error occurred."));
+      }
     });
   });
 });

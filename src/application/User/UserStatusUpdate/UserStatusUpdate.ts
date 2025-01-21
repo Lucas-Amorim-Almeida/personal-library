@@ -14,7 +14,7 @@ export default class UserStatusUpdate
 
   async execute(
     inputData: InputBoundary<{ id: string; status: UserStatus }>,
-  ): Promise<OutputBoundary<User>> {
+  ): Promise<OutputBoundary<User>[]> {
     const { id, status } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
@@ -30,6 +30,6 @@ export default class UserStatusUpdate
       throw new Error("An internal server error has occurred.");
     }
 
-    return new UserOutputBoundary(dbUserStatusChanged);
+    return [new UserOutputBoundary(dbUserStatusChanged)];
   }
 }

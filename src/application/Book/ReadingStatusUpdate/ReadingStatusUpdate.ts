@@ -14,7 +14,7 @@ export default class ReadingStatusUpdate
 
   async execute(
     inputData: InputBoundary<{ id: string; status: ReadingStatus }>,
-  ): Promise<OutputBoundary<Book>> {
+  ): Promise<OutputBoundary<Book>[]> {
     const { id, status } = inputData.get();
 
     const dbBook: DBOutputBookData | null = await this.repository.getOne({
@@ -32,6 +32,6 @@ export default class ReadingStatusUpdate
       throw new Error("An internal server error occurred.");
     }
 
-    return new BookOutputBoundary(updatedBook);
+    return [new BookOutputBoundary(updatedBook)];
   }
 }

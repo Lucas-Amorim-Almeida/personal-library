@@ -18,7 +18,7 @@ export default class PersonalDataUpdate
       name?: string;
       birth_date?: Date;
     }>,
-  ): Promise<OutputBoundary<PersonalData>> {
+  ): Promise<OutputBoundary<PersonalData>[]> {
     const { user_id, name, birth_date } = inputData.get();
     if (!name && !birth_date) {
       throw new Error("name or birth_date is required.");
@@ -33,9 +33,9 @@ export default class PersonalDataUpdate
     const updateResponse: DBOutputPersonalData | null =
       await this.repository.update({ id: user_id, name, birth_date });
     if (!updateResponse) {
-      throw new Error("An internal server error occurred.");
+      throw new Error("An internal server error has occurred.");
     }
 
-    return new PersonalDataUpdateOutputBoundary(updateResponse);
+    return [new PersonalDataUpdateOutputBoundary(updateResponse)];
   }
 }

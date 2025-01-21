@@ -20,7 +20,7 @@ export default class ContactUpdate
       email?: Email;
       phone?: Phone[];
     }>,
-  ): Promise<OutputBoundary<Contact>> {
+  ): Promise<OutputBoundary<Contact>[]> {
     const { user_id, email, phone } = inputData.get();
 
     if (!email && (!phone || phone.length === 0)) {
@@ -40,6 +40,6 @@ export default class ContactUpdate
       throw new Error("An internal server error occurred.");
     }
 
-    return new ContactUpdateOutputBoundary(updateResponse);
+    return [new ContactUpdateOutputBoundary(updateResponse)];
   }
 }

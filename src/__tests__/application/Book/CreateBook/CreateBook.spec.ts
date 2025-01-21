@@ -37,11 +37,13 @@ describe("CreateBook", () => {
       repositoryMock.getOne.mockResolvedValue(null);
       repositoryMock.save.mockResolvedValue(dbBookExample);
 
-      expect(createBook.execute(inputMock)).resolves.toBeInstanceOf(
-        BookOutputBoundary,
-      );
-      const output = await createBook.execute(inputMock);
+      expect(createBook.execute(inputMock)).resolves.toBeInstanceOf(Array);
+
+      const [output] = await createBook.execute(inputMock);
+      expect(output).toBeInstanceOf(BookOutputBoundary);
       expect(output.get()).toBeInstanceOf(Book);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
+      expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(Book));
     });
 
     it("Should throws an error of The Book already exists in the database.", async () => {
@@ -51,6 +53,7 @@ describe("CreateBook", () => {
       expect(createBook.execute(inputMock)).rejects.toThrow(
         "The Book already exists in the database.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
     });
 
     it("Should throws an error of An internal server error occurred.", async () => {
@@ -59,9 +62,13 @@ describe("CreateBook", () => {
       repositoryMock.getOne.mockResolvedValue(null);
       repositoryMock.save.mockResolvedValue(null);
 
-      expect(createBook.execute(inputMock)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+      try {
+        await createBook.execute(inputMock);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
+        expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(Book));
+        expect(error).toEqual(new Error("An internal server error occurred."));
+      }
     });
   });
 });

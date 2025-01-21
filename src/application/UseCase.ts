@@ -4,5 +4,5 @@ import OutputBoundary from "./OutputBoundary";
 
 export default interface UseCase<T, S> {
   readonly repository: Repository;
-  execute(inputData: InputBoundary<T>): Promise<OutputBoundary<S>>;
+  execute(inputData: InputBoundary<T>): Promise<OutputBoundary<S>[]>;
 }

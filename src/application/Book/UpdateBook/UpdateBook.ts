@@ -14,7 +14,7 @@ export default class UpdateBook implements UseCase<InputBookUpdate, Book> {
 
   async execute(
     inputData: InputBoundary<InputBookUpdate>,
-  ): Promise<OutputBoundary<Book>> {
+  ): Promise<OutputBoundary<Book>[]> {
     const { id, ...updateData } = inputData.get();
 
     const dbBook: DBOutputBookData | null = await this.repository.getOne({
@@ -30,6 +30,6 @@ export default class UpdateBook implements UseCase<InputBookUpdate, Book> {
       throw new Error("An internal server error occurred.");
     }
 
-    return new BookOutputBoundary(bookUpdated);
+    return [new BookOutputBoundary(bookUpdated)];
   }
 }

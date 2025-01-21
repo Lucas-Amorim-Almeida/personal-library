@@ -10,7 +10,7 @@ const inputParams = {
   email: new Email("jonh_doe_22@example.com"),
   phone: [new Phone("+5511900000000")],
 };
-const InputBoundary: jest.Mocked<
+const inputBoundary: jest.Mocked<
   InputBoundary<{ user_id: string; email?: Email; phone?: Phone[] }>
 > = {
   get: jest.fn(() => inputParams),
@@ -25,8 +25,6 @@ describe("ContactUpdate", () => {
 
   describe("execute", () => {
     it("Should be an instance of OutputBoundary data changed.", async () => {
-      const contactUpdater = new ContactUpdate(repositoryMock);
-
       repositoryMock.getOne.mockResolvedValue(dbContactExample);
       repositoryMock.update.mockResolvedValue({
         user_id: "id-000001",
@@ -36,25 +34,37 @@ describe("ContactUpdate", () => {
         updated_at: new Date(2022, 2, 22),
       });
 
-      expect(contactUpdater.execute(InputBoundary)).resolves.toBeInstanceOf(
-        ContactUpdateOutputBoundary,
+      const contactUpdater = new ContactUpdate(repositoryMock);
+
+      expect(contactUpdater.execute(inputBoundary)).resolves.toBeInstanceOf(
+        Array,
       );
 
-      const output = await contactUpdater.execute(InputBoundary);
+      const [output] = await contactUpdater.execute(inputBoundary);
+      expect(output).toBeInstanceOf(ContactUpdateOutputBoundary);
       expect(output.get().get().email.get()).toBe("jonh_doe_22@example.com");
       expect(output.get().get().phone).toEqual(inputParams.phone);
+
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-000001",
+      });
+      expect(repositoryMock.update).toHaveBeenCalledWith({
+        id: "id-000001",
+        email: new Email("jonh_doe_22@example.com"),
+        phone: [new Phone("+5511900000000")],
+      });
     });
 
     it("Should throws an erro of Email or Phone is required.", async () => {
       const contactUpdater = new ContactUpdate(repositoryMock);
 
-      const InputBoundaryOnlyId: jest.Mocked<
+      const inputBoundaryOnlyId: jest.Mocked<
         InputBoundary<{ user_id: string; email?: Email; phone?: Phone[] }>
       > = {
         get: jest.fn(() => ({ user_id: "id-000001" })),
       };
 
-      expect(contactUpdater.execute(InputBoundaryOnlyId)).rejects.toThrow(
+      expect(contactUpdater.execute(inputBoundaryOnlyId)).rejects.toThrow(
         "Email or Phone is required.",
       );
     });
@@ -63,19 +73,33 @@ describe("ContactUpdate", () => {
 
       repositoryMock.getOne.mockResolvedValue(null);
 
-      expect(contactUpdater.execute(InputBoundary)).rejects.toThrow(
+      expect(contactUpdater.execute(inputBoundary)).rejects.toThrow(
         "User or Contact not found.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-000001",
+      });
     });
+
     it("Should throws an erro of An internal server error occurred.", async () => {
       const contactUpdater = new ContactUpdate(repositoryMock);
 
       repositoryMock.getOne.mockResolvedValue(dbContactExample);
       repositoryMock.update.mockResolvedValue(null);
 
-      expect(contactUpdater.execute(InputBoundary)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+      try {
+        await contactUpdater.execute(inputBoundary);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          id: "id-000001",
+        });
+        expect(repositoryMock.update).toHaveBeenCalledWith({
+          id: "id-000001",
+          email: new Email("jonh_doe_22@example.com"),
+          phone: [new Phone("+5511900000000")],
+        });
+        expect(error).toEqual(new Error("An internal server error occurred."));
+      }
     });
   });
 });

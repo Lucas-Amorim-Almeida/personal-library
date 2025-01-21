@@ -20,11 +20,11 @@ describe("GetUserByID", () => {
 
       const user = new GetUserByID(repositoryMock);
 
-      expect(user.execute(inputMock)).resolves.toBeInstanceOf(
-        UserOutputBoundary,
-      );
+      expect(user.execute(inputMock)).resolves.toBeInstanceOf(Array);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
 
-      const dbUser = await user.execute(inputMock);
+      const [dbUser] = await user.execute(inputMock);
+      expect(dbUser).toBeInstanceOf(UserOutputBoundary);
       expect(dbUser.get().getId()).toBe("id-0001");
     });
 
@@ -34,6 +34,7 @@ describe("GetUserByID", () => {
       const user = new GetUserByID(repositoryMock);
 
       expect(user.execute(inputMock)).rejects.toThrow("User not found.");
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
     });
   });
 });

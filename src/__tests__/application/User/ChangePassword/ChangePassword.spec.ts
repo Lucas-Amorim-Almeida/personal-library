@@ -46,11 +46,24 @@ describe("ChangePassword", () => {
       });
 
       expect(changePassword.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        UserOutputBoundary,
+        Array,
       );
 
-      const response = await changePassword.execute(inputBoundaryMock);
+      const [response] = await changePassword.execute(inputBoundaryMock);
+      expect(response).toBeInstanceOf(UserOutputBoundary);
       expect(response.get().get().password).toEqual("1ja2sbd3aie4u39682yejas");
+
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-0001",
+      });
+      expect(encrypterMock.compare).toHaveBeenCalledWith(
+        dbUserExample.password,
+      );
+      expect(encrypterMock.encrypt).toHaveBeenCalledWith();
+      expect(repositoryMock.update).toHaveBeenCalledWith({
+        id: "id-0001",
+        password: "1ja2sbd3aie4u39682yejas",
+      });
     });
 
     it("Should throws an error of User not found.", async () => {
@@ -60,6 +73,9 @@ describe("ChangePassword", () => {
       expect(changePassword.execute(inputBoundaryMock)).rejects.toThrow(
         "User not found.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-0001",
+      });
     });
 
     it("Should throws an error of The current password is incorrect.", async () => {
@@ -67,9 +83,18 @@ describe("ChangePassword", () => {
 
       repositoryMock.getOne.mockResolvedValue(dbUserExample);
       encrypterMock.compare.mockResolvedValue(false);
-      expect(changePassword.execute(inputBoundaryMock)).rejects.toThrow(
-        "The current password is incorrect.",
-      );
+
+      try {
+        await changePassword.execute(inputBoundaryMock);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          id: "id-0001",
+        });
+        expect(encrypterMock.compare).toHaveBeenCalledWith(
+          dbUserExample.password,
+        );
+        expect(error).toEqual(new Error("The current password is incorrect."));
+      }
     });
 
     it("Should throws an error of An internal server error occurred.", async () => {
@@ -80,9 +105,22 @@ describe("ChangePassword", () => {
       encrypterMock.encrypt.mockResolvedValue("1ja2sbd3aie4u39682yejas");
       repositoryMock.update.mockResolvedValue(null);
 
-      expect(changePassword.execute(inputBoundaryMock)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+      try {
+        await changePassword.execute(inputBoundaryMock);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          id: "id-0001",
+        });
+        expect(encrypterMock.compare).toHaveBeenCalledWith(
+          dbUserExample.password,
+        );
+        expect(encrypterMock.encrypt).toHaveBeenCalledWith();
+        expect(repositoryMock.update).toHaveBeenCalledWith({
+          id: "id-0001",
+          password: "1ja2sbd3aie4u39682yejas",
+        });
+        expect(error).toEqual(new Error("An internal server error occurred."));
+      }
     });
   });
 });

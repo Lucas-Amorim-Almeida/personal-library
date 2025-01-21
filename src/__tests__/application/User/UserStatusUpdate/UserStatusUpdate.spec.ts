@@ -39,11 +39,14 @@ describe("UserStatusUpdate", () => {
       });
 
       expect(statusUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        UserOutputBoundary,
+        Array,
       );
 
-      const response = await statusUpdate.execute(inputBoundaryMock);
+      const [response] = await statusUpdate.execute(inputBoundaryMock);
+      expect(response).toBeInstanceOf(UserOutputBoundary);
       expect(response.get().getStatus()).toEqual(UserStatus.BANNED);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+      expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
     });
 
     it("Should throws an error User not found.", async () => {
@@ -54,17 +57,24 @@ describe("UserStatusUpdate", () => {
       expect(statusUpdate.execute(inputBoundaryMock)).rejects.toThrow(
         "User not found.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
     });
 
     it("Should throws an internal error.", async () => {
-      const statusUpdate = new UserStatusUpdate(repositoryMock);
-
       repositoryMock.getOne.mockResolvedValue(dbUserExample);
       repositoryMock.update.mockResolvedValue(null);
 
-      expect(statusUpdate.execute(inputBoundaryMock)).rejects.toThrow(
-        "An internal server error has occurred.",
-      );
+      const statusUpdate = new UserStatusUpdate(repositoryMock);
+
+      try {
+        await statusUpdate.execute(inputBoundaryMock);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+        expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
+        expect(error).toEqual(
+          new Error("An internal server error has occurred."),
+        );
+      }
     });
   });
 });

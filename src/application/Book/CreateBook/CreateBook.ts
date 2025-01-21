@@ -9,7 +9,9 @@ import BookOutputBoundary from "../BookOutputBoundary";
 export default class CreateBook implements UseCase<Book, Book> {
   constructor(readonly repository: Repository) {}
 
-  async execute(inputData: InputBoundary<Book>): Promise<OutputBoundary<Book>> {
+  async execute(
+    inputData: InputBoundary<Book>,
+  ): Promise<OutputBoundary<Book>[]> {
     const book = inputData.get();
 
     const dbBook: DBOutputBookData | null = await this.repository.getOne({
@@ -19,13 +21,12 @@ export default class CreateBook implements UseCase<Book, Book> {
       throw new Error("The Book already exists in the database.");
     }
 
-    const createdBook: DBOutputBookData | null = await this.repository.save({
-      book,
-    });
+    const createdBook: DBOutputBookData | null =
+      await this.repository.save(book);
     if (!createdBook) {
       throw new Error("An internal server error occurred.");
     }
 
-    return new BookOutputBoundary(createdBook);
+    return [new BookOutputBoundary(createdBook)];
   }
 }

@@ -18,7 +18,7 @@ export default class Login
 
   async execute(
     inputData: InputBoundary<{ username: string; password: string }>,
-  ): Promise<OutputBoundary<User>> {
+  ): Promise<OutputBoundary<User>[]> {
     const data = inputData.get();
 
     const userData: DBOutputUserData | null = await this.repository.getOne({
@@ -35,7 +35,7 @@ export default class Login
     );
     if (!isUserValid) throw new Error("Password is incorrect.");
 
-    return new UserOutputBoundary(userData);
+    return [new UserOutputBoundary(userData)];
   }
 
   private async userValidate(

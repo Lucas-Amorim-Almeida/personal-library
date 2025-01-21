@@ -37,12 +37,27 @@ describe("UpdateBook", () => {
 
       const bookUpdate = new UpdateBook(repositoryMock);
       expect(bookUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        BookOutputBoundary,
+        Array,
       );
 
-      const output = await bookUpdate.execute(inputBoundaryMock);
-
+      const [output] = await bookUpdate.execute(inputBoundaryMock);
+      expect(output).toBeInstanceOf(BookOutputBoundary);
       expect(output.get()).toBeInstanceOf(Book);
+
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-00001",
+      });
+      expect(repositoryMock.update).toHaveBeenCalledWith({
+        title: "O Senhor dos Anéis",
+        author: ["J. R. R. Tolkien"],
+        edition: "Coleção Nova Fronteira",
+        publication_year: 1954,
+        publisher: "Nova Fronteira",
+        publication_location: "Rio de Janeiro",
+        isbn: "9788520908190",
+        volume: 1,
+        genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+      });
     });
 
     it("Should throws an error of Book not found.", async () => {
@@ -53,6 +68,9 @@ describe("UpdateBook", () => {
       expect(bookUpdate.execute(inputBoundaryMock)).rejects.toThrow(
         "Book not found.",
       );
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        id: "id-00001",
+      });
     });
 
     it("Should throws an error of An internal server error occurred.", async () => {
@@ -61,9 +79,25 @@ describe("UpdateBook", () => {
 
       const bookUpdate = new UpdateBook(repositoryMock);
 
-      expect(bookUpdate.execute(inputBoundaryMock)).rejects.toThrow(
-        "An internal server error occurred.",
-      );
+      try {
+        await bookUpdate.execute(inputBoundaryMock);
+      } catch (error) {
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          id: "id-00001",
+        });
+        expect(repositoryMock.update).toHaveBeenCalledWith({
+          title: "O Senhor dos Anéis",
+          author: ["J. R. R. Tolkien"],
+          edition: "Coleção Nova Fronteira",
+          publication_year: 1954,
+          publisher: "Nova Fronteira",
+          publication_location: "Rio de Janeiro",
+          isbn: "9788520908190",
+          volume: 1,
+          genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+        });
+        expect(error).toEqual(new Error("An internal server error occurred."));
+      }
     });
   });
 });

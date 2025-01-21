@@ -11,7 +11,7 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
 
   async execute(
     inputData: InputBoundary<{ id: string }>,
-  ): Promise<OutputBoundary<boolean>> {
+  ): Promise<OutputBoundary<boolean>[]> {
     const { id } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
@@ -30,6 +30,6 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
       throw new Error("An internal server error has occurred.");
     }
 
-    return new RemoveUserOutputBoundary(dbUserStatusChanged);
+    return [new RemoveUserOutputBoundary(dbUserStatusChanged)];
   }
 }

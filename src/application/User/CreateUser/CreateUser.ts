@@ -16,7 +16,7 @@ export default class CreateUser implements UseCase<UserParamsType, User> {
 
   async execute(
     inputData: InputBoundary<UserParamsType>,
-  ): Promise<OutputBoundary<User>> {
+  ): Promise<OutputBoundary<User>[]> {
     const userData = inputData.get();
     const dbQueryResponse: DBOutputUserData | null =
       await this.repository.getOne({
@@ -36,7 +36,7 @@ export default class CreateUser implements UseCase<UserParamsType, User> {
 
     if (!savedUser) throw new Error("An internal server error occurred.");
 
-    return new UserOutputBoundary(savedUser);
+    return [new UserOutputBoundary(savedUser)];
   }
 
   private async passwordEncryper(plainPassword: string): Promise<string> {

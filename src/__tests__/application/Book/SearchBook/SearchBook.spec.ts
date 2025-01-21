@@ -2,8 +2,6 @@ import { dbBookExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
 import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
 import SearchBook from "@/application/Book/SearchBook/SearchBook";
 import InputBoundary from "@/application/InputBoundary";
-import OutputBoundary from "@/application/OutputBoundary";
-import Book from "@/core/Book";
 
 const inputBoundaryMock: jest.Mocked<
   InputBoundary<{ query: string; take: number }>
@@ -25,11 +23,16 @@ describe("SearchBook", () => {
       const search = new SearchBook(repositoryMock);
       expect(search.execute(inputBoundaryMock)).resolves.toBeInstanceOf(Array);
 
-      const result: OutputBoundary<Book>[] =
-        await search.execute(inputBoundaryMock);
+      const result = await search.execute(inputBoundaryMock);
       result.forEach((item) => {
         expect(item).toBeInstanceOf(BookOutputBoundary);
       });
+      expect(repositoryMock.getMany).toHaveBeenCalledWith(
+        {
+          query: "Tolkien",
+        },
+        10,
+      );
     });
   });
 });

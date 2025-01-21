@@ -4,8 +4,11 @@ import OutputBoundary from "@/application/OutputBoundary";
 import Book from "@/core/Book";
 import BookOutputBoundary from "../BookOutputBoundary";
 import { DBOutputBookData } from "@/application/@types/applicationTypes";
+import UseCase from "@/application/UseCase";
 
-export default class SearchBook {
+export default class SearchBook
+  implements UseCase<{ query: string; take: number }, Book>
+{
   constructor(readonly repository: Repository) {}
 
   async execute(

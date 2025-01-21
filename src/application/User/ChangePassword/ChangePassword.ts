@@ -21,7 +21,7 @@ export default class ChangePassword implements UseCase<InputParams, User> {
 
   async execute(
     inputData: InputBoundary<InputParams>,
-  ): Promise<OutputBoundary<User>> {
+  ): Promise<OutputBoundary<User>[]> {
     const { id, current_password, new_password } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
@@ -48,7 +48,7 @@ export default class ChangePassword implements UseCase<InputParams, User> {
       throw new Error("An internal server error occurred.");
     }
 
-    return new UserOutputBoundary(updatedUser);
+    return [new UserOutputBoundary(updatedUser)];
   }
 
   private async passwordValidation(
