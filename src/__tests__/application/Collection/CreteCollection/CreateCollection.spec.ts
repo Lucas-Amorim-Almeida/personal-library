@@ -11,7 +11,7 @@ import InputBoundary from "@/application/InputBoundary";
 import Repository from "@/core/Repository";
 import Collection from "@/core/Collection";
 
-const books = ["ID-book0001"];
+const books = [{ book_id: "ID-book0001", status: "Em leitura" }];
 
 const inputMock: jest.Mocked<InputBoundary<ColletionInputData>> = {
   get: jest.fn(() => ({
@@ -63,7 +63,7 @@ describe("CreateCollection", () => {
         id: "id-00001",
       });
       expect(bookRepository.getOne).toHaveBeenCalledWith({
-        id: books[0],
+        id: books[0].book_id,
       });
       expect(collectionRepository.save).toHaveBeenCalledWith(
         expect.any(Collection),
@@ -88,7 +88,7 @@ describe("CreateCollection", () => {
           id: "id-00001",
         });
         expect(bookRepository.getOne).toHaveBeenCalledWith({
-          id: books[0],
+          id: books[0].book_id,
         });
         expect(collectionRepository.save).toHaveBeenCalledWith(
           expect.any(Collection),
@@ -124,7 +124,7 @@ describe("CreateCollection", () => {
           id: "id-00001",
         });
         expect(bookRepository.getOne).toHaveBeenCalledWith({
-          id: books[0],
+          id: books[0].book_id,
         });
         expect(error).toEqual(new Error("Book not found."));
       }

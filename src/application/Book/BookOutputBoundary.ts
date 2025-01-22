@@ -3,7 +3,6 @@ import InputBoundary from "@/application/InputBoundary";
 import Utils from "@/application/Utils";
 import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
-import ReadingStatus from "@/core/ReadingStatus";
 
 export default class BookOutputBoundary implements InputBoundary<Book> {
   private book: Book;
@@ -20,7 +19,6 @@ export default class BookOutputBoundary implements InputBoundary<Book> {
       genre: data.genre.map((item) =>
         Utils.define(BookGenre, item, "Book genre"),
       ),
-      status: Utils.define(ReadingStatus, data.status, "Reading status"),
       created_at: data.created_at,
       updated_at: data.updated_at,
     });

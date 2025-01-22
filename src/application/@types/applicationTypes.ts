@@ -52,7 +52,6 @@ export type InputBook = {
   isbn?: string;
   volume?: number;
   genre: string[];
-  status: string;
 };
 
 export type InputBookUpdate = {
@@ -77,6 +76,7 @@ export type DBOutputCollectionData = {
     book_id: string;
     title: string;
     author: string[];
+    status: string;
   }[];
   owner: string;
 };
@@ -85,6 +85,6 @@ export type ColletionInputData = {
   title: string;
   description: string;
   visibility: "public" | "private";
-  collection: string[];
+  collection: { book_id: string; status: string }[];
   owner: string;
 };

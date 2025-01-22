@@ -8,7 +8,11 @@ describe("CreateCollectionInputBoundary", () => {
           title: "Livros de Tolkien",
           description: "Coleção com os livros de Tolkien.",
           visibility: "private",
-          collection: ["ID-book0001", "ID-book0002", "ID-book0003"],
+          collection: [
+            { book_id: "ID-book0001", status: "em leitura" },
+            { book_id: "ID-book0002", status: "em leitura" },
+            { book_id: "ID-book0003", status: "em leitura" },
+          ],
           user_id: "id-00001",
         }),
       ).toBeInstanceOf(CreateCollectionInputBoundary);
@@ -21,7 +25,7 @@ describe("CreateCollectionInputBoundary", () => {
             title: "",
             description: "Coleção com os livros de Tolkien.",
             visibility: "private",
-            collection: ["ID-book0001"],
+            collection: [{ book_id: "ID-book0001", status: "em leitura" }],
             user_id: "id-00001",
           }),
       ).toThrow("Title is required.");
@@ -47,7 +51,11 @@ describe("CreateCollectionInputBoundary", () => {
         title: "Livros de Tolkien",
         description: "Coleção com os livros de Tolkien.",
         visibility: "private",
-        collection: ["ID-book0001", "ID-book0002", "ID-book0003"],
+        collection: [
+          { book_id: "ID-book0001", status: "em leitura" },
+          { book_id: "ID-book0002", status: "em leitura" },
+          { book_id: "ID-book0003", status: "em leitura" },
+        ],
         user_id: "id-00001",
       });
 
@@ -55,7 +63,11 @@ describe("CreateCollectionInputBoundary", () => {
         title: "Livros de Tolkien",
         description: "Coleção com os livros de Tolkien.",
         visibility: "private",
-        collection: ["ID-book0001", "ID-book0002", "ID-book0003"],
+        collection: [
+          { book_id: "ID-book0001", status: "em leitura" },
+          { book_id: "ID-book0002", status: "em leitura" },
+          { book_id: "ID-book0003", status: "em leitura" },
+        ],
         owner: "id-00001",
       });
     });

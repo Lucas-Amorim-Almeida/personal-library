@@ -1,7 +1,6 @@
 import CreateBookInputBoundary from "@/application/Book/CreateBook/CreateBookInputBoundary";
 import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
-import ReadingStatus from "@/core/ReadingStatus";
 
 describe("CreateBookInputBoundary", () => {
   describe("Constructor", () => {
@@ -16,7 +15,6 @@ describe("CreateBookInputBoundary", () => {
         isbn: "9788520908190",
         volume: 1,
         genre: ["Fantasia", "Clássicos"],
-        status: "Leitura completa",
       };
 
       expect(new CreateBookInputBoundary(inputData)).toBeInstanceOf(
@@ -35,29 +33,10 @@ describe("CreateBookInputBoundary", () => {
         isbn: "9788520908190",
         volume: 1,
         genre: ["invaildo"],
-        status: "Leitura completa",
       };
 
       expect(() => new CreateBookInputBoundary(inputData)).toThrow(
         "Book genre is not valid.",
-      );
-    });
-    it("Should throws an error of Reading status is not valid.", () => {
-      const inputData = {
-        title: "O Senhor dos Anéis",
-        author: ["J. R. R. Tolkien"],
-        edition: "Coleção Nova Fronteira",
-        publication_year: 1954,
-        publisher: "Nova Fronteira",
-        publication_location: "Rio de Janeiro",
-        isbn: "9788520908190",
-        volume: 1,
-        genre: ["Fantasia", "Clássicos"],
-        status: "invalido",
-      };
-
-      expect(() => new CreateBookInputBoundary(inputData)).toThrow(
-        "Reading status is not valid.",
       );
     });
   });
@@ -74,7 +53,6 @@ describe("CreateBookInputBoundary", () => {
         isbn: "9788520908190",
         volume: 1,
         genre: ["Fantasia", "Clássicos"],
-        status: "Leitura completa",
       };
       const input = new CreateBookInputBoundary(inputData);
 
@@ -89,7 +67,6 @@ describe("CreateBookInputBoundary", () => {
         isbn: inputData.isbn,
         volume: inputData.volume,
         genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
-        status: ReadingStatus.COMPLETED,
       });
     });
   });

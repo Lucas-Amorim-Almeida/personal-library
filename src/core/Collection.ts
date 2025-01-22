@@ -1,12 +1,13 @@
 import { CollectionParamsType } from "./@types/types";
 import Book from "./Book";
+import ReadingStatus from "./ReadingStatus";
 
 type CollectionData = {
   id?: string;
   title: string;
   description: string;
   visibiliy: "public" | "private";
-  collection: Book[];
+  collection: { book: Book; status: ReadingStatus }[];
   owner: string;
   created_at?: Date;
   updated_at?: Date;
@@ -17,7 +18,7 @@ export default class Collection {
   private title: string;
   private description: string;
   private visibility: "public" | "private";
-  private collection: Book[];
+  private collection: { book: Book; status: ReadingStatus }[];
   private owner: string; //user_id
   private created_at?: Date;
   private updated_at?: Date;

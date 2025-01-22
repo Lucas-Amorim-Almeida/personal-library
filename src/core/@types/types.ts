@@ -42,7 +42,6 @@ export type BookParamsType = {
   isbn?: string;
   volume?: number;
   genre: BookGenre[];
-  status: ReadingStatus;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -51,7 +50,7 @@ export type CollectionParamsType = {
   title: string;
   description: string;
   visibility: "public" | "private";
-  collection: Book[];
+  collection: { book: Book; status: ReadingStatus }[];
   owner: string; //user_id
   created_at?: Date;
   updated_at?: Date;

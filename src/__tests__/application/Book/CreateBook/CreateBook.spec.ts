@@ -4,7 +4,6 @@ import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
-import ReadingStatus from "@/core/ReadingStatus";
 
 const book = new Book({
   title: "O Senhor dos Anéis",
@@ -16,7 +15,6 @@ const book = new Book({
   isbn: "9788520908190",
   volume: 1,
   genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
-  status: ReadingStatus.COMPLETED,
 });
 
 const inputMock: jest.Mocked<InputBoundary<Book>> = {

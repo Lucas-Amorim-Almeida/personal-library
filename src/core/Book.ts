@@ -1,6 +1,5 @@
 import { BookParamsType } from "./@types/types";
 import BookGenre from "./BookGenre";
-import ReadingStatus from "./ReadingStatus";
 
 export default class Book {
   private id?: string;
@@ -13,7 +12,6 @@ export default class Book {
   private isbn?: string;
   private volume?: number;
   private genre: BookGenre[];
-  private status: ReadingStatus;
   private created_at?: Date;
   private updated_at?: Date;
 
@@ -27,7 +25,6 @@ export default class Book {
     this.isbn = bookData.isbn;
     this.volume = bookData.volume;
     this.genre = bookData.genre;
-    this.status = bookData.status;
     this.created_at = bookData.created_at;
     this.updated_at = bookData.updated_at;
   }
@@ -43,7 +40,6 @@ export default class Book {
     isbn?: string;
     volume?: number;
     genre: BookGenre[];
-    status: ReadingStatus;
     created_at?: Date;
     updated_at?: Date;
   } {
@@ -58,7 +54,6 @@ export default class Book {
       isbn: this.isbn,
       volume: this.volume,
       genre: this.genre,
-      status: this.status,
       created_at: this.created_at,
       updated_at: this.updated_at,
     };
@@ -74,14 +69,6 @@ export default class Book {
 
   getGenre(): BookGenre[] {
     return this.genre;
-  }
-
-  getStatus(): ReadingStatus {
-    return this.status;
-  }
-
-  setStatus(status: ReadingStatus): void {
-    this.status = status;
   }
 
   setId(id: string): void {

@@ -68,7 +68,6 @@ export const dbBookExample = {
   isbn: "9788520908190",
   volume: 1,
   genre: ["Fantasia", "Clássicos"],
-  status: "Em Leitura",
   created_at: new Date(2020, 2, 20),
   updated_at: new Date(2022, 2, 22),
 };
@@ -96,6 +95,7 @@ export const dbCollectionExample = {
       book_id: "ID-book0001",
       title: "O Senhor dos aneis",
       author: ["Tolkien"],
+      status: "Em leitura",
     },
   ],
   owner: "id-00001",

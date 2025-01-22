@@ -14,7 +14,6 @@ const book: Book = new Book({
   isbn: "978-3-16-148410-0",
   volume: 1,
   genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
-  status: ReadingStatus.PENDING,
 });
 
 describe("Collection", () => {
@@ -22,7 +21,7 @@ describe("Collection", () => {
     title: "Lord of the rings",
     description: "Livros da franquia de Tolkien",
     visibility: "public",
-    collection: [book],
+    collection: [{ book, status: ReadingStatus.PENDING }],
     owner: "id-00001",
   };
 
@@ -40,7 +39,7 @@ describe("Collection", () => {
         title: params.title,
         description: params.description,
         visibility: "public",
-        collection: [expect.any(Book)],
+        collection: params.collection,
         owner: "id-00001",
       });
     });

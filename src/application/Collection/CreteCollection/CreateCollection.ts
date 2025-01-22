@@ -12,6 +12,8 @@ import Book from "@/core/Book";
 import Collection from "@/core/Collection";
 import Repository from "@/core/Repository";
 import CollectionOutputBoundary from "../CollectionOutputBoundary";
+import ReadingStatus from "@/core/ReadingStatus";
+import Utils from "@/application/Utils";
 
 export default class CreateCollection
   implements UseCase<ColletionInputData, DBOutputCollectionData>
@@ -35,14 +37,17 @@ export default class CreateCollection
       throw new Error("User not found.");
     }
 
-    const books: Book[] = await Promise.all(
-      collection.map(async (bookId) => {
+    const books: { book: Book; status: ReadingStatus }[] = await Promise.all(
+      collection.map(async (item) => {
         const dbBook: DBOutputBookData | null =
-          await this.bookRepository.getOne({ id: bookId });
+          await this.bookRepository.getOne({ id: item.book_id });
         if (!dbBook) {
           throw new Error("Book not found.");
         }
-        return new BookOutputBoundary(dbBook).get();
+        return {
+          book: new BookOutputBoundary(dbBook).get(),
+          status: Utils.define(ReadingStatus, item.status, "Reading status"),
+        };
       }),
     );
 
