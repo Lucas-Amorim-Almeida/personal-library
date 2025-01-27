@@ -1,4 +1,5 @@
-import { dbBookExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
+import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
+import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
 import SearchBook from "@/application/Book/SearchBook/SearchBook";
 import InputBoundary from "@/application/InputBoundary";

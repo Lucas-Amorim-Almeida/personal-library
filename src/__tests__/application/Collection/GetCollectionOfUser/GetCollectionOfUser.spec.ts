@@ -1,7 +1,5 @@
-import {
-  dbCollectionExample,
-  repositoryMock,
-} from "@/__tests__/__mocks__/mocks";
+import { dbCollectionExample } from "@/__tests__/__mocks__/collectionMock";
+import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import { DBOutputCollectionData } from "@/application/@types/applicationTypes";
 import CollectionOutputBoundary from "@/application/Collection/CollectionOutputBoundary";
 import GetCollectionOfUser from "@/application/Collection/GetCollectionOfUser/GetCollectionOfUser";

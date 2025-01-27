@@ -1,15 +1,12 @@
-import {
-  dbBookExample,
-  dbCollectionExample,
-  dbUserExample,
-  repositoryMock,
-} from "@/__tests__/__mocks__/mocks";
+import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
 import { ColletionInputData } from "@/application/@types/applicationTypes";
 import CreateCollection from "@/application/Collection/CreteCollection/CreateCollection";
 import CollectionOutputBoundary from "@/application/Collection/CollectionOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import Repository from "@/core/Repository";
 import Collection from "@/core/Collection";
+import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
+import { dbCollectionExample } from "@/__tests__/__mocks__/collectionMock";
 
 const books = [{ book_id: "ID-book0001", status: "Em leitura" }];
 

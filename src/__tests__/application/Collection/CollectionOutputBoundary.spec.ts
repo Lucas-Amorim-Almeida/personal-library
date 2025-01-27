@@ -1,4 +1,4 @@
-import { dbCollectionExample } from "@/__tests__/__mocks__/mocks";
+import { dbCollectionExample } from "@/__tests__/__mocks__/collectionMock";
 import { DBOutputCollectionData } from "@/application/@types/applicationTypes";
 import CollectionOutputBoundary from "@/application/Collection/CollectionOutputBoundary";
 

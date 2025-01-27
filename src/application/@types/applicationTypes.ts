@@ -1,4 +1,5 @@
 import BookGenre from "@/core/BookGenre";
+import ReadingStatus from "@/core/ReadingStatus";
 
 export type DBOutputUserData = {
   id: string;
@@ -37,7 +38,6 @@ export type DBOutputBookData = {
   isbn?: string;
   volume?: number;
   genre: string[];
-  status: string;
   created_at?: Date;
   updated_at?: Date;
 };
@@ -67,17 +67,31 @@ export type InputBookUpdate = {
   genre?: BookGenre[];
 };
 
+export type CollectionUpdateOperation = "insert" | "remove" | "update";
+
+export type CollectionBookFromRequest = {
+  book_id: string;
+  operation: CollectionUpdateOperation;
+  status?: ReadingStatus;
+};
+export type CollectionInput = {
+  id: string;
+  collection: CollectionBookFromRequest[];
+};
+
+export type DBCollectionBook = {
+  book_id: string;
+  title: string;
+  author: string[];
+  status: string;
+};
+
 export type DBOutputCollectionData = {
   id: string;
   title: string;
   description: string;
   visibility: "public" | "private";
-  collection: {
-    book_id: string;
-    title: string;
-    author: string[];
-    status: string;
-  }[];
+  collection: DBCollectionBook[];
   owner: string;
 };
 

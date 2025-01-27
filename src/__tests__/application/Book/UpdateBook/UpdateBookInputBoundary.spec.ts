@@ -1,4 +1,4 @@
-import { inputBookUpdateExample } from "@/__tests__/__mocks__/mocks";
+import { inputBookUpdateExample } from "@/__tests__/__mocks__/bookMock";
 import UpdateBookInputBoundary from "@/application/Book/UpdateBook/UpdateBookInputBoundary";
 import Utils from "@/application/Utils";
 import BookGenre from "@/core/BookGenre";

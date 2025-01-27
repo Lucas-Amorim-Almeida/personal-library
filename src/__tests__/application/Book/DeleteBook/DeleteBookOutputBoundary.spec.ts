@@ -1,4 +1,4 @@
-import { dbBookExample } from "@/__tests__/__mocks__/mocks";
+import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
 import { DBOutputBookData } from "@/application/@types/applicationTypes";
 import DeleteBookOutputBoundary from "@/application/Book/DeleteBook/DeleteBookOutputBoundary";
 

@@ -1,9 +1,10 @@
-import { dbBookExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
+import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import CreateBook from "@/application/Book/CreateBook/CreateBook";
 import BookOutputBoundary from "@/application/Book/BookOutputBoundary";
 import InputBoundary from "@/application/InputBoundary";
 import Book from "@/core/Book";
 import BookGenre from "@/core/BookGenre";
+import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
 
 const book = new Book({
   title: "O Senhor dos Anéis",
