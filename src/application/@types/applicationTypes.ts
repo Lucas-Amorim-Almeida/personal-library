@@ -102,3 +102,12 @@ export type ColletionInputData = {
   collection: { book_id: string; status: string }[];
   owner: string;
 };
+
+export type InputCollectionInfoUpdate = {
+  colletion_id: string;
+  update_fields: {
+    title?: string;
+    description?: string;
+    visibility?: "public" | "private";
+  };
+};
