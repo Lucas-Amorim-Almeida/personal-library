@@ -1,4 +1,4 @@
-import Cryptography from "@/application/accessories/Cryptography";
+import Cryptography from "@/domain/application/accessories/Cryptography";
 import * as bcrypt from "bcrypt";
 
 export default class Bcrypt implements Cryptography {

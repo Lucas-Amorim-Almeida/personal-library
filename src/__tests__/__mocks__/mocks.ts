@@ -1,6 +1,6 @@
-import { DBOutputUserData } from "@/application/@types/applicationTypes";
-import Cryptography from "@/application/accessories/Cryptography";
-import Repository from "@/core/Repository";
+import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
+import Cryptography from "@/domain/application/accessories/Cryptography";
+import Repository from "@/domain/core/Repository";
 
 export const repositoryMock: jest.Mocked<Repository> = {
   getAll: jest.fn(),

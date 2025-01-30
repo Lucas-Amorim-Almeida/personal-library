@@ -1,0 +1,62 @@
+import {
+  ContactParamsType,
+  PersonalDataParamsType,
+  UserParamsType,
+} from "@/domain/core/@types/types";
+import AccessLevel from "@/domain/core/AccessLevel";
+import Contact from "@/domain/core/Contact";
+import PersonalData from "@/domain/core/PersonalData";
+import Email from "@/domain/core/valueObjects/Email";
+import InputBoundary from "../../InputBoundary";
+import Phone from "@/domain/core/valueObjects/Phone";
+import Utils from "@/domain/application/Utils";
+
+type Params = {
+  username: string;
+  password: string;
+  access_level: string;
+  contact: {
+    email: string;
+    phone: string[];
+  };
+  personal_data: PersonalDataParamsType;
+};
+
+export default class CreateUserInputBoundary
+  implements InputBoundary<UserParamsType>
+{
+  private username: string;
+  private password: string;
+  private access_level: string;
+  private contact: ContactParamsType;
+  private personal_data: PersonalDataParamsType;
+
+  constructor(inputData: Params) {
+    if (!inputData.username || !inputData.password || !inputData.access_level) {
+      throw new Error("Required fields are missing.");
+    }
+
+    this.username = inputData.username;
+    this.password = inputData.password;
+    this.contact = {
+      email: new Email(inputData.contact.email),
+      phone: inputData.contact.phone.map((item) => new Phone(item)),
+    };
+    this.access_level = inputData.access_level.toUpperCase();
+    this.personal_data = inputData.personal_data;
+  }
+
+  get(): UserParamsType {
+    return {
+      username: this.username,
+      password: this.password,
+      access_level: Utils.define(
+        AccessLevel,
+        this.access_level,
+        "Access level",
+      ),
+      contact: new Contact(this.contact),
+      personal_data: new PersonalData(this.personal_data),
+    };
+  }
+}

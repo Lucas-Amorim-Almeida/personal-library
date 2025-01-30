@@ -1,4 +1,4 @@
-import { DBOutputCollectionData } from "@/application/@types/applicationTypes";
+import { DBOutputCollectionData } from "@/domain/application/@types/CollectionTypes";
 
 export const dbCollectionExample = {
   id: "000001",
