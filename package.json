@@ -9,11 +9,6 @@
     "test": "jest",
     "test:watch": "npm test --watch",
     "husky:prepare": "husky || true",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate-dev": "prisma migrate dev",
-    "prisma:migrate-reset": "prisma migrate reset",
-    "prisma:migrate-deploy": "prisma migrate deploy",
-    "prisma:migrate-status": "prisma migrate status",
     "prepare": "husky"
   },
   "keywords": [],
@@ -45,6 +40,7 @@
     "express": "^4.21.2",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.5",
     "swagger-ui-express": "^5.0.1"
   }
 }
