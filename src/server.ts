@@ -1,7 +1,5 @@
-import "dotenv/config";
-import app from "./app";
+import App from "./app";
+import Database from "./infra/Repository/config/Database";
 
-const PORT = process.env.PORT ?? 3001;
-app.listen(PORT, () => {
-  console.log(`Server is linstening in http://localhost:${PORT}`);
-});
+const app = new App(Database.getInstance());
+app.start();
