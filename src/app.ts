@@ -1,7 +1,7 @@
 import "dotenv/config";
 import * as express from "express";
 import * as http from "http";
-import Database from "./infra/Repository/config/Database";
+import Database from "./infra/Database/config/Database";
 
 export default class App {
   private app;
