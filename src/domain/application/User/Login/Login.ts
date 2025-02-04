@@ -1,4 +1,3 @@
-import User from "@/domain/core/User";
 import InputBoundary from "../../InputBoundary";
 import OutputBoundary from "../../OutputBoundary";
 import Repository from "@/domain/core/Repository";
@@ -10,7 +9,7 @@ import UserOutputBoundary from "../UserOutputBoundary";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
 
 export default class Login
-  implements UseCase<{ username: string; password: string }, User>
+  implements UseCase<{ username: string; password: string }, DBOutputUserData>
 {
   constructor(
     readonly repository: Repository,
@@ -19,7 +18,7 @@ export default class Login
 
   async execute(
     inputData: InputBoundary<{ username: string; password: string }>,
-  ): Promise<OutputBoundary<User>[]> {
+  ): Promise<OutputBoundary<DBOutputUserData>[]> {
     const data = inputData.get();
 
     const userData: DBOutputUserData | null = await this.repository.getOne({

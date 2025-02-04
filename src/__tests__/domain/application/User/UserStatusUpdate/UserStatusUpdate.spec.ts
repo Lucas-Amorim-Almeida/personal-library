@@ -27,8 +27,7 @@ describe("UserStatusUpdate", () => {
     it("Should return an instance of OutputBoundary with other user status", async () => {
       const statusUpdate = new UserStatusUpdate(repositoryMock);
 
-      repositoryMock.getOne.mockResolvedValue(dbUserExample);
-      repositoryMock.update.mockResolvedValue({
+      const updatedUserMock = {
         id: "id-0001",
         username: "john_doe",
         password: "1234",
@@ -36,7 +35,10 @@ describe("UserStatusUpdate", () => {
         access_level: "COMMON",
         created_at: new Date(2020, 2, 22),
         updated_at: new Date(2022, 2, 22),
-      });
+      };
+
+      repositoryMock.getOne.mockResolvedValue(dbUserExample);
+      repositoryMock.update.mockResolvedValue(updatedUserMock);
 
       expect(statusUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
         Array,
@@ -44,7 +46,7 @@ describe("UserStatusUpdate", () => {
 
       const [response] = await statusUpdate.execute(inputBoundaryMock);
       expect(response).toBeInstanceOf(UserOutputBoundary);
-      expect(response.get().getStatus()).toEqual(UserStatus.BANNED);
+      expect(response.get()).toEqual(updatedUserMock);
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
       expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
     });

@@ -51,12 +51,10 @@ describe("CreateUser", () => {
 
       const resultUserInstance = result.get();
       expect(result).toBeInstanceOf(UserOutputBoundary);
-      expect(result.get()).toBeInstanceOf(User);
-      expect(resultUserInstance.get().username).toBe(userData.username);
-      expect(resultUserInstance.get().access_level).toEqual(
-        userData.access_level,
-      );
-      expect(resultUserInstance.get().id).toEqual(expect.any(String));
+      expect(result.get()).toEqual(dbUserExample);
+      expect(resultUserInstance.username).toBe(userData.username);
+      expect(resultUserInstance.access_level).toEqual(userData.access_level);
+      expect(resultUserInstance.id).toEqual(expect.any(String));
       expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(User)); //verifica se o método foi chamado
       expect(encrypterMock.encrypt).toHaveBeenCalled();
     });

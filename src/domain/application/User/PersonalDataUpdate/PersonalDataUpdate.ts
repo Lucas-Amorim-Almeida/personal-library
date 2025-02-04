@@ -31,7 +31,10 @@ export default class PersonalDataUpdate
     }
 
     const updateResponse: DBOutputPersonalData | null =
-      await this.repository.update({ id: user_id, name, birth_date });
+      await this.repository.update({
+        query: { id: user_id },
+        update_fields: { name, birth_date },
+      });
     if (!updateResponse) {
       throw new Error("An internal server error has occurred.");
     }

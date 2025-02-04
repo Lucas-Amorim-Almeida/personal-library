@@ -23,8 +23,8 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
 
     const dbUserStatusChanged: DBOutputUserData | null =
       await this.repository.update({
-        id,
-        status: UserStatus.TO_DELETE,
+        query: { id },
+        update_fields: { status: UserStatus.TO_DELETE },
       });
     if (!dbUserStatusChanged) {
       throw new Error("An internal server error has occurred.");

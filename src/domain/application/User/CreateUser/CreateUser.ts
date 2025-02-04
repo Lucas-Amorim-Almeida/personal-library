@@ -8,7 +8,9 @@ import UseCase from "../../UseCase";
 import Cryptography from "../../accessories/Cryptography";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
 
-export default class CreateUser implements UseCase<UserParamsType, User> {
+export default class CreateUser
+  implements UseCase<UserParamsType, DBOutputUserData>
+{
   constructor(
     readonly repository: Repository,
     private encrypter: Cryptography,
@@ -16,8 +18,9 @@ export default class CreateUser implements UseCase<UserParamsType, User> {
 
   async execute(
     inputData: InputBoundary<UserParamsType>,
-  ): Promise<OutputBoundary<User>[]> {
+  ): Promise<OutputBoundary<DBOutputUserData>[]> {
     const userData = inputData.get();
+
     const dbQueryResponse: DBOutputUserData | null =
       await this.repository.getOne({
         username: userData.username,

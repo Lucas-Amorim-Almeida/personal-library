@@ -46,9 +46,11 @@ describe("PersonalDataUpdate", () => {
       expect(response).toBeInstanceOf(PersonalDataUpdateOutputBoundary);
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        id: "id-000001",
-        name: "Johnathan Someone",
-        birth_date: new Date(2000, 1, 11),
+        query: { id: "id-000001" },
+        update_fields: {
+          name: "Johnathan Someone",
+          birth_date: new Date(2000, 1, 11),
+        },
       });
     });
 
@@ -88,9 +90,11 @@ describe("PersonalDataUpdate", () => {
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          id: "id-000001",
-          name: "Johnathan Someone",
-          birth_date: new Date(2000, 1, 11),
+          query: { id: "id-000001" },
+          update_fields: {
+            name: "Johnathan Someone",
+            birth_date: new Date(2000, 1, 11),
+          },
         });
         expect(error).toEqual(
           new Error("An internal server error has occurred."),

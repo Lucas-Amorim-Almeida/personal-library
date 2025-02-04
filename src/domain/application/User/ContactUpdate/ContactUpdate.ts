@@ -35,7 +35,10 @@ export default class ContactUpdate
     }
 
     const updateResponse: DBOutputContactData | null =
-      await this.repository.update({ id: user_id, email, phone });
+      await this.repository.update({
+        query: { id: user_id },
+        update_fields: { email, phone },
+      });
     if (!updateResponse) {
       throw new Error("An internal server error occurred.");
     }

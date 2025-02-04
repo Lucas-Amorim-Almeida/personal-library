@@ -1,3 +1,5 @@
+import { PersonalDataParamsType } from "@/domain/core/@types/types";
+
 export type DBOutputUserData = {
   id: string;
   username: string;
@@ -28,4 +30,15 @@ export type InputChangePassword = {
   id: string;
   current_password: string;
   new_password: string;
+};
+
+export type InputUserData = {
+  username: string;
+  password: string;
+  access_level: string;
+  contact: {
+    email: string;
+    phone: string[];
+  };
+  personal_data: PersonalDataParamsType;
 };

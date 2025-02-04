@@ -38,6 +38,6 @@ export default class UserModel {
   }
 
   getModel() {
-    return model<IUser>("User") || model<IUser>("User", this.schema);
+    return model<IUser>("User", this.schema);
   }
 }

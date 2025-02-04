@@ -37,8 +37,8 @@ describe("RemoveUser", () => {
       expect(response).toBeInstanceOf(RemoveUserOutputBoundary);
       expect(repositoryMock.getOne).toHaveBeenCalledWith(params);
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        status: UserStatus.TO_DELETE,
-        ...params,
+        query: { id: params.id },
+        update_fields: { status: UserStatus.TO_DELETE },
       });
     });
 
@@ -64,8 +64,8 @@ describe("RemoveUser", () => {
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          id: "id-0001",
-          status: UserStatus.TO_DELETE,
+          query: { id: "id-0001" },
+          update_fields: { status: UserStatus.TO_DELETE },
         });
         expect(error).toEqual(
           new Error("An internal server error has occurred."),

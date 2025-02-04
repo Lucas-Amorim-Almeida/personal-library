@@ -49,9 +49,11 @@ describe("ContactUpdate", () => {
         id: "id-000001",
       });
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        id: "id-000001",
-        email: new Email("jonh_doe_22@example.com"),
-        phone: [new Phone("+5511900000000")],
+        query: { id: "id-000001" },
+        update_fields: {
+          email: new Email("jonh_doe_22@example.com"),
+          phone: [new Phone("+5511900000000")],
+        },
       });
     });
 
@@ -94,9 +96,11 @@ describe("ContactUpdate", () => {
           id: "id-000001",
         });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          id: "id-000001",
-          email: new Email("jonh_doe_22@example.com"),
-          phone: [new Phone("+5511900000000")],
+          query: { id: "id-000001" },
+          update_fields: {
+            email: new Email("jonh_doe_22@example.com"),
+            phone: [new Phone("+5511900000000")],
+          },
         });
         expect(error).toEqual(new Error("An internal server error occurred."));
       }

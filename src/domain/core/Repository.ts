@@ -4,7 +4,7 @@ export default interface Repository {
    * @param query - Os critérios de busca para encontrar o item.
    * @returns Uma promessa que resolve para o item encontrado.
    */
-  getOne<Input, Output>(query: Input): Promise<Output> | null;
+  getOne<Input, Output>(query: Input): Promise<Output | null>;
 
   /**
    * Retorna múltiplos itens com base nos filtros fornecidos e uma limitação de quantidade.
@@ -19,7 +19,7 @@ export default interface Repository {
    * @param query - Os critérios de busca para encontrar os itens.
    * @returns Uma promessa que resolve para um array de todos os itens encontrados.
    */
-  getAll<Input, Output>(query: Input): Promise<Output[]>;
+  getAll<Input, Output>(query?: Input): Promise<Output[]>;
 
   /**
    * Salva os dados em uma base de dados.

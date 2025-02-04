@@ -2,6 +2,7 @@ import "dotenv/config";
 import * as express from "express";
 import * as http from "http";
 import Database from "./infra/Database/config/Database";
+import userRoutes from "./infra/http/routes/UserRoutes";
 
 export default class App {
   private app;
@@ -16,7 +17,9 @@ export default class App {
     this.app.use(express.json());
   }
 
-  configRoutes(): void {}
+  configRoutes(): void {
+    this.app.use("/user", userRoutes);
+  }
 
   async shutdown(
     server: http.Server<

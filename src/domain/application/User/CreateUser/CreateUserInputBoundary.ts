@@ -10,17 +10,7 @@ import Email from "@/domain/core/valueObjects/Email";
 import InputBoundary from "../../InputBoundary";
 import Phone from "@/domain/core/valueObjects/Phone";
 import Utils from "@/domain/application/Utils";
-
-type Params = {
-  username: string;
-  password: string;
-  access_level: string;
-  contact: {
-    email: string;
-    phone: string[];
-  };
-  personal_data: PersonalDataParamsType;
-};
+import { InputUserData } from "../../@types/UserTypes";
 
 export default class CreateUserInputBoundary
   implements InputBoundary<UserParamsType>
@@ -31,7 +21,7 @@ export default class CreateUserInputBoundary
   private contact: ContactParamsType;
   private personal_data: PersonalDataParamsType;
 
-  constructor(inputData: Params) {
+  constructor(inputData: InputUserData) {
     if (!inputData.username || !inputData.password || !inputData.access_level) {
       throw new Error("Required fields are missing.");
     }

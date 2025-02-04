@@ -51,7 +51,7 @@ describe("ChangePassword", () => {
 
       const [response] = await changePassword.execute(inputBoundaryMock);
       expect(response).toBeInstanceOf(UserOutputBoundary);
-      expect(response.get().get().password).toEqual("1ja2sbd3aie4u39682yejas");
+      expect(response.get().password).toEqual("1ja2sbd3aie4u39682yejas");
 
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
         id: "id-0001",
@@ -61,8 +61,8 @@ describe("ChangePassword", () => {
       );
       expect(encrypterMock.encrypt).toHaveBeenCalledWith();
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        id: "id-0001",
-        password: "1ja2sbd3aie4u39682yejas",
+        query: { id: "id-0001" },
+        update_fields: { password: "1ja2sbd3aie4u39682yejas" },
       });
     });
 
@@ -116,8 +116,8 @@ describe("ChangePassword", () => {
         );
         expect(encrypterMock.encrypt).toHaveBeenCalledWith();
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          id: "id-0001",
-          password: "1ja2sbd3aie4u39682yejas",
+          query: { id: "id-0001" },
+          update_fields: { password: "1ja2sbd3aie4u39682yejas" },
         });
         expect(error).toEqual(new Error("An internal server error occurred."));
       }

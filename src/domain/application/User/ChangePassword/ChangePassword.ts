@@ -1,7 +1,6 @@
 import Repository from "@/domain/core/Repository";
 import Cryptography from "../../accessories/Cryptography";
 import OutputBoundary from "../../OutputBoundary";
-import User from "@/domain/core/User";
 import InputBoundary from "../../InputBoundary";
 import UseCase from "../../UseCase";
 import UserOutputBoundary from "../UserOutputBoundary";
@@ -11,7 +10,7 @@ import {
 } from "@/domain/application/@types/UserTypes";
 
 export default class ChangePassword
-  implements UseCase<InputChangePassword, User>
+  implements UseCase<InputChangePassword, DBOutputUserData>
 {
   constructor(
     readonly repository: Repository,
@@ -20,7 +19,7 @@ export default class ChangePassword
 
   async execute(
     inputData: InputBoundary<InputChangePassword>,
-  ): Promise<OutputBoundary<User>[]> {
+  ): Promise<OutputBoundary<DBOutputUserData>[]> {
     const { id, current_password, new_password } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
@@ -40,8 +39,8 @@ export default class ChangePassword
 
     const encryptedPassword = await this.passwordEncryper(new_password);
     const updatedUser: DBOutputUserData | null = await this.repository.update({
-      id,
-      password: encryptedPassword,
+      query: { id },
+      update_fields: { password: encryptedPassword },
     });
     if (!updatedUser) {
       throw new Error("An internal server error occurred.");
