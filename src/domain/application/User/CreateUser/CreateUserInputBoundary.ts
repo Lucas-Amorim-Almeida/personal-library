@@ -11,6 +11,7 @@ import InputBoundary from "../../InputBoundary";
 import Phone from "@/domain/core/valueObjects/Phone";
 import Utils from "@/domain/application/Utils";
 import { InputUserData } from "../../@types/UserTypes";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
 
 export default class CreateUserInputBoundary
   implements InputBoundary<UserParamsType>
@@ -23,7 +24,7 @@ export default class CreateUserInputBoundary
 
   constructor(inputData: InputUserData) {
     if (!inputData.username || !inputData.password || !inputData.access_level) {
-      throw new Error("Required fields are missing.");
+      throw new FieldRequiredError("At least");
     }
 
     this.username = inputData.username;

@@ -1,4 +1,5 @@
 import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import GetUserByID from "@/domain/application/User/GetUserByID/GetUserByID";
 import UserOutputBoundary from "@/domain/application/User/UserOutputBoundary";
@@ -33,7 +34,7 @@ describe("GetUserByID", () => {
 
       const user = new GetUserByID(repositoryMock);
 
-      expect(user.execute(inputMock)).rejects.toThrow("User not found.");
+      expect(user.execute(inputMock)).rejects.toThrow(NotFoundError);
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
     });
   });

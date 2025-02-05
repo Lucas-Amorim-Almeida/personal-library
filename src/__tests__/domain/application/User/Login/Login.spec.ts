@@ -3,6 +3,9 @@ import {
   encrypterMock,
   repositoryMock,
 } from "@/__tests__/__mocks__/mocks";
+import NotAvailableError from "@/domain/application/Errors/NotAvailableError";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
+import PasswordIcorrectError from "@/domain/application/Errors/UserUseCaseErros/PasswordIcorrectError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import Login from "@/domain/application/User/Login/Login";
 import UserOutputBoundary from "@/domain/application/User/UserOutputBoundary";
@@ -47,9 +50,7 @@ describe("Login", () => {
       const login = new Login(repositoryMock, encrypterMock);
       repositoryMock.getOne.mockResolvedValue(null); //falhou em econtrar usuário no repositorio
 
-      expect(login.execute(inputBoundaryMock)).rejects.toThrow(
-        "User not found.",
-      );
+      expect(login.execute(inputBoundaryMock)).rejects.toThrow(NotFoundError);
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
         username: "jonh_doe",
       });
@@ -66,9 +67,7 @@ describe("Login", () => {
       password: "1234",
     }); //user status invalido
 
-    expect(login.execute(inputBoundaryMock)).rejects.toThrow(
-      "User is not available.",
-    );
+    expect(login.execute(inputBoundaryMock)).rejects.toThrow(NotAvailableError);
     expect(repositoryMock.getOne).toHaveBeenCalledWith({
       username: "jonh_doe",
     });
@@ -90,7 +89,7 @@ describe("Login", () => {
         dbUserExample.password,
       );
 
-      expect(error).toEqual(new Error("Password is incorrect."));
+      expect(error).toEqual(new PasswordIcorrectError());
     }
   });
 });

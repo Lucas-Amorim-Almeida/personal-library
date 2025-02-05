@@ -7,6 +7,9 @@ import Email from "@/domain/core/valueObjects/Email";
 import Phone from "@/domain/core/valueObjects/Phone";
 import ContactUpdateOutputBoundary from "./ContactUpdateOutputBoundary";
 import { DBOutputContactData } from "@/domain/application/@types/UserTypes";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
+import NotFoundError from "../../Errors/NotFoundError";
+import InternalServerError from "../../Errors/InternalServerError";
 
 export default class ContactUpdate
   implements
@@ -24,14 +27,14 @@ export default class ContactUpdate
     const { user_id, email, phone } = inputData.get();
 
     if (!email && (!phone || phone.length === 0)) {
-      throw new Error("Email or Phone is required.");
+      throw new FieldRequiredError("Email or Phone");
     }
 
     const dbResponse: DBOutputContactData | null = await this.repository.getOne(
       { id: user_id },
     );
     if (!dbResponse) {
-      throw new Error("User or Contact not found.");
+      throw new NotFoundError("User or Contact");
     }
 
     const updateResponse: DBOutputContactData | null =
@@ -40,7 +43,7 @@ export default class ContactUpdate
         update_fields: { email, phone },
       });
     if (!updateResponse) {
-      throw new Error("An internal server error occurred.");
+      throw new InternalServerError();
     }
 
     return [new ContactUpdateOutputBoundary(updateResponse)];

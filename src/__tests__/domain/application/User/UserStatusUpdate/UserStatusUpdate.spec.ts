@@ -1,4 +1,6 @@
 import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import UserOutputBoundary from "@/domain/application/User/UserOutputBoundary";
 import UserStatusUpdate from "@/domain/application/User/UserStatusUpdate/UserStatusUpdate";
@@ -57,7 +59,7 @@ describe("UserStatusUpdate", () => {
       repositoryMock.getOne.mockResolvedValue(null);
 
       expect(statusUpdate.execute(inputBoundaryMock)).rejects.toThrow(
-        "User not found.",
+        NotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
     });
@@ -73,9 +75,7 @@ describe("UserStatusUpdate", () => {
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
         expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
-        expect(error).toEqual(
-          new Error("An internal server error has occurred."),
-        );
+        expect(error).toEqual(new InternalServerError());
       }
     });
   });

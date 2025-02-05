@@ -1,6 +1,7 @@
 import InputBoundary from "@/domain/application/InputBoundary";
 import Email from "@/domain/core/valueObjects/Email";
 import Phone from "@/domain/core/valueObjects/Phone";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
 
 export default class ContactUpdateInputBoundary
   implements InputBoundary<{ user_id: string; email?: Email; phone?: Phone[] }>
@@ -13,7 +14,7 @@ export default class ContactUpdateInputBoundary
     const { user_id, email, phone } = inputData;
     this.user_id = user_id;
     if (!email && (!phone || phone.length === 0)) {
-      throw new Error("Email or Phone is required.");
+      throw new FieldRequiredError("Email or Phone");
     }
 
     this.email = new Email(email);

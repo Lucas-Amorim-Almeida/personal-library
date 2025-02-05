@@ -8,6 +8,9 @@ import {
   DBOutputUserData,
   InputChangePassword,
 } from "@/domain/application/@types/UserTypes";
+import NotFoundError from "../../Errors/NotFoundError";
+import PasswordIcorrectError from "../../Errors/UserUseCaseErros/PasswordIcorrectError";
+import InternalServerError from "../../Errors/InternalServerError";
 
 export default class ChangePassword
   implements UseCase<InputChangePassword, DBOutputUserData>
@@ -26,7 +29,7 @@ export default class ChangePassword
       id,
     });
     if (!dbUser) {
-      throw new Error("User not found.");
+      throw new NotFoundError("User");
     }
 
     const isSamePassword = await this.passwordValidation(
@@ -34,7 +37,7 @@ export default class ChangePassword
       dbUser.password,
     );
     if (!isSamePassword) {
-      throw new Error("The current password is incorrect.");
+      throw new PasswordIcorrectError();
     }
 
     const encryptedPassword = await this.passwordEncryper(new_password);
@@ -43,7 +46,7 @@ export default class ChangePassword
       update_fields: { password: encryptedPassword },
     });
     if (!updatedUser) {
-      throw new Error("An internal server error occurred.");
+      throw new InternalServerError();
     }
 
     return [new UserOutputBoundary(updatedUser)];

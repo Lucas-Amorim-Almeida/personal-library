@@ -7,6 +7,9 @@ import UseCase from "../../UseCase";
 
 import UserOutputBoundary from "../UserOutputBoundary";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
+import NotFoundError from "../../Errors/NotFoundError";
+import NotAvailableError from "../../Errors/NotAvailableError";
+import PasswordIcorrectError from "../../Errors/UserUseCaseErros/PasswordIcorrectError";
 
 export default class Login
   implements UseCase<{ username: string; password: string }, DBOutputUserData>
@@ -25,15 +28,15 @@ export default class Login
       username: data.username,
     });
 
-    if (!userData) throw new Error("User not found.");
+    if (!userData) throw new NotFoundError("User");
     if (userData.status != UserStatus.ACTIVE)
-      throw Error("User is not available.");
+      throw new NotAvailableError("User");
 
     const isUserValid = await this.userValidate(
       data.password,
       userData.password,
     );
-    if (!isUserValid) throw new Error("Password is incorrect.");
+    if (!isUserValid) throw new PasswordIcorrectError();
 
     return [new UserOutputBoundary(userData)];
   }

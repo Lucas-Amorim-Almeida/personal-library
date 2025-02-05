@@ -1,4 +1,5 @@
 import InputBoundary from "@/domain/application/InputBoundary";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 export default class PersonalDataUpdateInputBoundary
   implements
@@ -22,13 +23,13 @@ export default class PersonalDataUpdateInputBoundary
       const parsedDate = new Date(birth_date);
       if (isNaN(parsedDate.getTime())) {
         // Verifica se a data é inválida
-        throw new Error("birth_date format is not valid.");
+        throw new InvalidFieldError("birth_date format");
       }
       this.birth_date = parsedDate;
     } else if (birth_date instanceof Date) {
       this.birth_date = birth_date;
     } else if (birth_date) {
-      throw new Error("birth_date format is not valid.");
+      throw new InvalidFieldError("birth_date format");
     }
   }
 

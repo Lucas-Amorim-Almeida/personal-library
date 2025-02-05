@@ -1,3 +1,4 @@
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 import PersonalDataUpdateInputBoundary from "@/domain/application/User/PersonalDataUpdate/PersonalDataUpdateInputBoundary";
 
 describe("PersonalDataUpdateInputBoundary", () => {
@@ -28,7 +29,7 @@ describe("PersonalDataUpdateInputBoundary", () => {
         birth_date: "invalido",
       };
       expect(() => new PersonalDataUpdateInputBoundary(inputParams)).toThrow(
-        "birth_date format is not valid.",
+        InvalidFieldError,
       );
     });
   });

@@ -2,6 +2,9 @@ import {
   dbPersonalDataExample,
   repositoryMock,
 } from "@/__tests__/__mocks__/mocks";
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import PersonalDataUpdate from "@/domain/application/User/PersonalDataUpdate/PersonalDataUpdate";
 import PersonalDataUpdateOutputBoundary from "@/domain/application/User/PersonalDataUpdate/PersonalDataUpdateOutputBoundary";
@@ -65,7 +68,7 @@ describe("PersonalDataUpdate", () => {
 
       expect(
         personalDataUpdate.execute(inputBoundaryWithoutID),
-      ).rejects.toThrow("name or birth_date is required.");
+      ).rejects.toThrow(FieldRequiredError);
     });
 
     it("Should throws an error of User or Personal data not found.", async () => {
@@ -74,7 +77,7 @@ describe("PersonalDataUpdate", () => {
       repositoryMock.getOne.mockResolvedValue(null);
 
       expect(personalDataUpdate.execute(inputBoundary)).rejects.toThrow(
-        "User or Personal data not found.",
+        NotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
     });
@@ -96,9 +99,7 @@ describe("PersonalDataUpdate", () => {
             birth_date: new Date(2000, 1, 11),
           },
         });
-        expect(error).toEqual(
-          new Error("An internal server error has occurred."),
-        );
+        expect(error).toEqual(new InternalServerError());
       }
     });
   });

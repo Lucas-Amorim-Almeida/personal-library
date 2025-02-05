@@ -4,6 +4,7 @@ import UseCase from "@/domain/application/UseCase";
 import Repository from "@/domain/core/Repository";
 import UserOutputBoundary from "../UserOutputBoundary";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
+import NotFoundError from "../../Errors/NotFoundError";
 
 export default class GetUserByID
   implements UseCase<{ id: string }, DBOutputUserData>
@@ -19,7 +20,7 @@ export default class GetUserByID
       id,
     });
     if (!dbUser) {
-      throw new Error("User not found.");
+      throw new NotFoundError("User");
     }
 
     return [new UserOutputBoundary(dbUser)];

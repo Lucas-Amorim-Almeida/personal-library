@@ -5,6 +5,9 @@ import PersonalData from "@/domain/core/PersonalData";
 import Repository from "@/domain/core/Repository";
 import PersonalDataUpdateOutputBoundary from "./PersonalDataUpdateOutputBoundary";
 import { DBOutputPersonalData } from "@/domain/application/@types/UserTypes";
+import InternalServerError from "../../Errors/InternalServerError";
+import NotFoundError from "../../Errors/NotFoundError";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
 
 export default class PersonalDataUpdate
   implements
@@ -21,13 +24,13 @@ export default class PersonalDataUpdate
   ): Promise<OutputBoundary<PersonalData>[]> {
     const { user_id, name, birth_date } = inputData.get();
     if (!name && !birth_date) {
-      throw new Error("name or birth_date is required.");
+      throw new FieldRequiredError("name or birth_date");
     }
 
     const dbPersonalData: DBOutputPersonalData | null =
       await this.repository.getOne({ id: user_id });
     if (!dbPersonalData) {
-      throw new Error("User or Personal data not found.");
+      throw new NotFoundError("User or Personal data");
     }
 
     const updateResponse: DBOutputPersonalData | null =
@@ -36,7 +39,7 @@ export default class PersonalDataUpdate
         update_fields: { name, birth_date },
       });
     if (!updateResponse) {
-      throw new Error("An internal server error has occurred.");
+      throw new InternalServerError();
     }
 
     return [new PersonalDataUpdateOutputBoundary(updateResponse)];

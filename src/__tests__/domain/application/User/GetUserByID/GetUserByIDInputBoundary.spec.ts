@@ -1,3 +1,4 @@
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 import GetUserByIDInputBoundary from "@/domain/application/User/GetUserByID/GetUserByIDInputBoundary";
 
 describe("GetUserByIDInputBoundary", () => {
@@ -9,9 +10,7 @@ describe("GetUserByIDInputBoundary", () => {
       );
     });
     it("Should throws an error of Id is not valid.", () => {
-      expect(() => new GetUserByIDInputBoundary("")).toThrow(
-        "ID is not valid.",
-      );
+      expect(() => new GetUserByIDInputBoundary("")).toThrow(InvalidFieldError);
     });
   });
 

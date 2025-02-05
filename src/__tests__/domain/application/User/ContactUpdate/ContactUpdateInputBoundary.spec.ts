@@ -1,4 +1,7 @@
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
 import ContactUpdateInputBoundary from "@/domain/application/User/ContactUpdate/ContactUpdateInputBoundary";
+import EmailError from "@/domain/core/Errors/UserErrors/EmailError";
+import PhoneError from "@/domain/core/Errors/UserErrors/PhoneError";
 import Email from "@/domain/core/valueObjects/Email";
 import Phone from "@/domain/core/valueObjects/Phone";
 
@@ -21,9 +24,7 @@ describe("ContactUpdateInputBoundary", () => {
         email: "jonh_do02e#example.com",
         phone: ["+5511911111110"],
       };
-      expect(() => new ContactUpdateInputBoundary(params)).toThrow(
-        "Email is not valid.",
-      );
+      expect(() => new ContactUpdateInputBoundary(params)).toThrow(EmailError);
     });
     it("Should throws an error of Phone class", () => {
       const params = {
@@ -31,8 +32,16 @@ describe("ContactUpdateInputBoundary", () => {
         email: "jonh_do02e@example.com",
         phone: ["+551191"],
       };
+      expect(() => new ContactUpdateInputBoundary(params)).toThrow(PhoneError);
+    });
+    it("Should throws an error of Empty value in fields.", () => {
+      const params = {
+        user_id: "id-00001",
+        email: "",
+        phone: [],
+      };
       expect(() => new ContactUpdateInputBoundary(params)).toThrow(
-        "Phone number is not valid.",
+        FieldRequiredError,
       );
     });
   });

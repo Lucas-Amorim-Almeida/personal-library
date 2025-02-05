@@ -7,6 +7,8 @@ import OutputBoundary from "../../OutputBoundary";
 import UseCase from "../../UseCase";
 import Cryptography from "../../accessories/Cryptography";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
+import InternalServerError from "../../Errors/InternalServerError";
+import UserAlreadyRegisteredError from "../../Errors/UserUseCaseErros/UserAlreadyRegisteredError";
 
 export default class CreateUser
   implements UseCase<UserParamsType, DBOutputUserData>
@@ -25,7 +27,7 @@ export default class CreateUser
       await this.repository.getOne({
         username: userData.username,
       });
-    if (dbQueryResponse) throw new Error("User already registered.");
+    if (dbQueryResponse) throw new UserAlreadyRegisteredError();
 
     const newUser = new User(userData);
 
@@ -37,7 +39,7 @@ export default class CreateUser
     const savedUser: DBOutputUserData | null =
       await this.repository.save(newUser);
 
-    if (!savedUser) throw new Error("An internal server error occurred.");
+    if (!savedUser) throw new InternalServerError();
 
     return [new UserOutputBoundary(savedUser)];
   }

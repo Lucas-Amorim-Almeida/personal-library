@@ -4,6 +4,9 @@ import ContactUpdateOutputBoundary from "@/domain/application/User/ContactUpdate
 import InputBoundary from "@/domain/application/InputBoundary";
 import Email from "@/domain/core/valueObjects/Email";
 import Phone from "@/domain/core/valueObjects/Phone";
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
 
 const inputParams = {
   user_id: "id-000001",
@@ -67,7 +70,7 @@ describe("ContactUpdate", () => {
       };
 
       expect(contactUpdater.execute(inputBoundaryOnlyId)).rejects.toThrow(
-        "Email or Phone is required.",
+        FieldRequiredError,
       );
     });
     it("Should throws an erro of User not found.", async () => {
@@ -76,7 +79,7 @@ describe("ContactUpdate", () => {
       repositoryMock.getOne.mockResolvedValue(null);
 
       expect(contactUpdater.execute(inputBoundary)).rejects.toThrow(
-        "User or Contact not found.",
+        NotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
         id: "id-000001",
@@ -102,7 +105,7 @@ describe("ContactUpdate", () => {
             phone: [new Phone("+5511900000000")],
           },
         });
-        expect(error).toEqual(new Error("An internal server error occurred."));
+        expect(error).toEqual(new InternalServerError());
       }
     });
   });

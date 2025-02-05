@@ -1,3 +1,4 @@
+import UtilsErrors from "@/domain/application/Errors/UtilsErrors/UtilsErrors";
 import Utils from "@/domain/application/Utils";
 import AccessLevel from "@/domain/core/AccessLevel";
 
@@ -12,7 +13,7 @@ describe("Utils", () => {
     it("Should throws an error like AccessLevel", () => {
       expect(() =>
         Utils.define(AccessLevel, "invalid", "Access level"),
-      ).toThrow("Access level is not valid.");
+      ).toThrow(UtilsErrors);
     });
   });
 });

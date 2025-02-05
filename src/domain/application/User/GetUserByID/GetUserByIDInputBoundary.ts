@@ -1,11 +1,12 @@
 import InputBoundary from "@/domain/application/InputBoundary";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 export default class GetUserByIDInputBoundary
   implements InputBoundary<{ id: string }>
 {
   constructor(readonly id: string) {
     if (id === "") {
-      throw new Error("ID is not valid.");
+      throw new InvalidFieldError("ID");
     }
   }
   get(): { id: string } {

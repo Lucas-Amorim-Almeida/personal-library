@@ -9,6 +9,8 @@ import {
   encrypterMock,
   repositoryMock,
 } from "@/__tests__/__mocks__/mocks";
+import UserAlreadyRegisteredError from "@/domain/application/Errors/UserUseCaseErros/UserAlreadyRegisteredError";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
 
 const userData: UserParamsType = {
   username: "john_doe",
@@ -66,7 +68,7 @@ describe("CreateUser", () => {
       repositoryMock.getOne.mockResolvedValue(existingUser);
 
       expect(userCreater.execute(inputBoundaryMock)).rejects.toThrow(
-        "User already registered.",
+        UserAlreadyRegisteredError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
         username: "john_doe",
@@ -87,7 +89,7 @@ describe("CreateUser", () => {
           username: "john_doe",
         });
         expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(User));
-        expect(error).toEqual(new Error("An internal server error occurred."));
+        expect(error).toEqual(new InternalServerError());
       }
     });
   });
