@@ -1,6 +1,7 @@
 import { UserParamsType } from "./@types/types";
 import AccessLevel from "./AccessLevel";
 import Contact from "./Contact";
+import ChangePasswordError from "./Errors/UserErrors/ChangePasswordError";
 import PersonalData from "./PersonalData";
 import UserStatus from "./UserStatus";
 
@@ -72,7 +73,7 @@ export default class User {
 
   public setPassword(password: string): void {
     if (!password || password === this.password) {
-      throw new Error("An error occurred while changing the password.");
+      throw new ChangePasswordError();
     }
     this.password = password;
   }

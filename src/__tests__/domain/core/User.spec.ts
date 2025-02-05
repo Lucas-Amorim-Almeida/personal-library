@@ -5,6 +5,7 @@ import {
 } from "@/domain/core/@types/types";
 import AccessLevel from "@/domain/core/AccessLevel";
 import Contact from "@/domain/core/Contact";
+import ChangePasswordError from "@/domain/core/Errors/UserErrors/ChangePasswordError";
 import PersonalData from "@/domain/core/PersonalData";
 import User from "@/domain/core/User";
 import UserStatus from "@/domain/core/UserStatus";
@@ -165,16 +166,12 @@ describe("User", () => {
 
     it("Should not change password", () => {
       const newPassword = params.password;
-      expect(() => user.setPassword(newPassword)).toThrow(
-        "An error occurred while changing the password.",
-      );
+      expect(() => user.setPassword(newPassword)).toThrow(ChangePasswordError);
     });
 
     it("Should not change password", () => {
       const newPassword = "";
-      expect(() => user.setPassword(newPassword)).toThrow(
-        "An error occurred while changing the password.",
-      );
+      expect(() => user.setPassword(newPassword)).toThrow(ChangePasswordError);
     });
   });
 

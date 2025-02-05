@@ -1,3 +1,4 @@
+import PhoneError from "@/domain/core/Errors/UserErrors/PhoneError";
 import Phone from "@/domain/core/valueObjects/Phone";
 
 describe("Phone", () => {
@@ -11,9 +12,7 @@ describe("Phone", () => {
     it("Should return a error", () => {
       const phoneNumber = "+55119abc45678";
 
-      expect(() => new Phone(phoneNumber)).toThrow(
-        "Phone number is not valid.",
-      );
+      expect(() => new Phone(phoneNumber)).toThrow(PhoneError);
     });
   });
 
@@ -31,9 +30,7 @@ describe("Phone", () => {
 
       const phone = new Phone("+551191111111");
 
-      expect(() => phone.set(newPhoneNumber)).toThrow(
-        "Phone number is not valid.",
-      );
+      expect(() => phone.set(newPhoneNumber)).toThrow(PhoneError);
     });
   });
 

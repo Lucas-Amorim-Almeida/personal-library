@@ -1,5 +1,6 @@
 import { CollectionParamsType } from "./@types/types";
 import Book from "./Book";
+import CollectionIdError from "./Errors/CollectionErrors/CollectionIdError";
 import ReadingStatus from "./ReadingStatus";
 
 type CollectionData = {
@@ -35,7 +36,7 @@ export default class Collection {
 
   setId(id: string): void {
     if (!id) {
-      throw Error("ID is not valid.");
+      throw new CollectionIdError();
     }
     this.id = id;
   }

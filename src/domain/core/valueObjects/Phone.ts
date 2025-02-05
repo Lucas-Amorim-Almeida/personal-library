@@ -1,9 +1,11 @@
+import PhoneError from "../Errors/UserErrors/PhoneError";
+
 export default class Phone {
   private readonly PHONE_REGEX = /^\+\d{1,3}\d{10,15}$/;
 
   constructor(private phone: string) {
     if (!this.validate(phone)) {
-      throw new Error("Phone number is not valid.");
+      throw new PhoneError();
     }
   }
 
@@ -13,7 +15,7 @@ export default class Phone {
 
   set(phone: string): void {
     if (!phone || !this.validate(phone)) {
-      throw new Error("Phone number is not valid.");
+      throw new PhoneError();
     }
     this.phone = phone;
   }

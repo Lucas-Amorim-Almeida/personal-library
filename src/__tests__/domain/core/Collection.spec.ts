@@ -2,6 +2,7 @@ import { CollectionParamsType } from "@/domain/core/@types/types";
 import Book from "@/domain/core/Book";
 import BookGenre from "@/domain/core/BookGenre";
 import Collection from "@/domain/core/Collection";
+import CollectionIdError from "@/domain/core/Errors/CollectionErrors/CollectionIdError";
 import ReadingStatus from "@/domain/core/ReadingStatus";
 
 const book: Book = new Book({
@@ -56,7 +57,7 @@ describe("Collection", () => {
     it("Should throws an error of ID is not valid.", () => {
       const collection = new Collection(params);
 
-      expect(() => collection.setId("")).toThrow("ID is not valid.");
+      expect(() => collection.setId("")).toThrow(CollectionIdError);
     });
   });
 

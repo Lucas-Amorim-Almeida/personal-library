@@ -1,3 +1,4 @@
+import EmailError from "@/domain/core/Errors/UserErrors/EmailError";
 import Email from "@/domain/core/valueObjects/Email";
 
 describe("Email", () => {
@@ -9,7 +10,7 @@ describe("Email", () => {
 
     it("Should throws an error of invalid email", () => {
       const emailStr = "test#example.com";
-      expect(() => new Email(emailStr)).toThrow("Email is not valid.");
+      expect(() => new Email(emailStr)).toThrow(EmailError);
     });
   });
 
@@ -35,7 +36,7 @@ describe("Email", () => {
       const email = new Email("test@example.com");
       const emailChange = "change&example.com";
 
-      expect(() => email.set(emailChange)).toThrow("Email is not valid.");
+      expect(() => email.set(emailChange)).toThrow(EmailError);
     });
   });
 });
