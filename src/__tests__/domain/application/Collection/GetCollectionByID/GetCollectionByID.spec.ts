@@ -2,6 +2,7 @@ import { dbCollectionExample2 } from "@/__tests__/__mocks__/collectionMock";
 import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import CollectionOutputBoundary from "@/domain/application/Collection/CollectionOutputBoundary";
 import GetCollectionByID from "@/domain/application/Collection/GetCollectionByID/GetCollectionByID";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 
 const inputMock: jest.Mocked<InputBoundary<{ collection_id: string }>> = {
@@ -46,7 +47,7 @@ describe("GetCollectionByID", () => {
         await collection.execute(inputMock);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "000001" });
-        expect(error).toEqual(new Error("Collection not found."));
+        expect(error).toEqual(new NotFoundError("Collection"));
       }
     });
   });

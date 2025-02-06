@@ -1,4 +1,5 @@
 import GetCollectionByIDInputBoundary from "@/domain/application/Collection/GetCollectionByID/GetCollectionByIDInputBoundary";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 
 describe("GetCollectionByIDInputBoundary", () => {
   describe("Constructor", () => {
@@ -11,7 +12,7 @@ describe("GetCollectionByIDInputBoundary", () => {
     it("Should throws an error of Collection id is not valid.", () => {
       expect(
         () => new GetCollectionByIDInputBoundary({ collection_id: "" }),
-      ).toThrow("Collection id is not valid.");
+      ).toThrow(InvalidFieldError);
     });
   });
 

@@ -4,6 +4,8 @@ import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import { CollectionInput } from "@/domain/application/@types/CollectionTypes";
 import CollectionOutputBoundary from "@/domain/application/Collection/CollectionOutputBoundary";
 import UpdateBookInCollection from "@/domain/application/Collection/UpdateBookInCollection/UpdateBookInCollection";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import ReadingStatus from "@/domain/core/ReadingStatus";
 import Repository from "@/domain/core/Repository";
@@ -140,7 +142,7 @@ describe("UpdateBookInCollection", () => {
         expect(repositoryMock.getOne).toHaveBeenLastCalledWith({
           id: inputParams.id,
         });
-        expect(error).toEqual(new Error("Collection not found."));
+        expect(error).toEqual(new NotFoundError("Collection"));
       }
     });
 
@@ -173,7 +175,7 @@ describe("UpdateBookInCollection", () => {
         expect(bookRepoMock.getOne).toHaveBeenCalledWith({
           id: "id-00005",
         });
-        expect(error).toEqual(new Error("Book not found."));
+        expect(error).toEqual(new NotFoundError("Book"));
       }
     });
 
@@ -203,7 +205,7 @@ describe("UpdateBookInCollection", () => {
         });
         expect(bookRepoMock.getOne).toHaveBeenCalledWith({ id: "id-00005" });
         expect(collectionRepoMock.update).toHaveBeenCalled();
-        expect(error).toEqual(new Error("An internal server error occurred."));
+        expect(error).toEqual(new InternalServerError());
       }
     });
   });

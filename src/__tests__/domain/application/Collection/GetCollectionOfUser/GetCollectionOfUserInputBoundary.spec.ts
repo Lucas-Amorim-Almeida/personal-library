@@ -1,4 +1,5 @@
 import GetCollectionOfUserInputBoundary from "@/domain/application/Collection/GetCollectionOfUser/GetCollectionOfUserInputBoundary";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 
 describe("GetCollectionOfUserInputBoundary", () => {
   describe("Constructor", () => {
@@ -16,7 +17,7 @@ describe("GetCollectionOfUserInputBoundary", () => {
           new GetCollectionOfUserInputBoundary({
             user_id: "",
           }),
-      ).toThrow("Owner is not valid.");
+      ).toThrow(InvalidFieldError);
     });
   });
 

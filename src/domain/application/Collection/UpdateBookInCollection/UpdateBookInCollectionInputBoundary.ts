@@ -5,6 +5,8 @@ import {
 import InputBoundary from "@/domain/application/InputBoundary";
 import Utils from "@/domain/application/Utils";
 import ReadingStatus from "@/domain/core/ReadingStatus";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 type InputDataProps = {
   id: string;
@@ -22,7 +24,7 @@ export default class UpdateBookInCollectionInputBoundary
   constructor(inputData: InputDataProps) {
     const { id, collection } = inputData;
     if (!id) {
-      throw new Error("Id is required.");
+      throw new FieldRequiredError("Id");
     }
     this.data = {
       id,
@@ -52,11 +54,11 @@ export default class UpdateBookInCollectionInputBoundary
     status?: ReadingStatus;
   } {
     if (!book_id) {
-      throw new Error("book_id is required.");
+      throw new FieldRequiredError("book_id");
     }
 
     if (!this.validateOperation(operation.toLowerCase())) {
-      throw new Error("Operation is not valid.");
+      throw new InvalidFieldError("Operation");
     }
 
     return status

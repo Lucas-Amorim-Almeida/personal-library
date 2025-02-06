@@ -7,6 +7,8 @@ import Repository from "@/domain/core/Repository";
 import Collection from "@/domain/core/Collection";
 import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
 import { dbCollectionExample } from "@/__tests__/__mocks__/collectionMock";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
 
 const books = [{ book_id: "ID-book0001", status: "Em leitura" }];
 
@@ -90,7 +92,7 @@ describe("CreateCollection", () => {
         expect(collectionRepository.save).toHaveBeenCalledWith(
           expect.any(Collection),
         );
-        expect(error).toEqual(new Error("An internal server error occurred."));
+        expect(error).toEqual(new InternalServerError());
       }
     });
 
@@ -123,7 +125,7 @@ describe("CreateCollection", () => {
         expect(bookRepository.getOne).toHaveBeenCalledWith({
           id: books[0].book_id,
         });
-        expect(error).toEqual(new Error("Book not found."));
+        expect(error).toEqual(new NotFoundError("Book"));
       }
     });
 
@@ -141,7 +143,7 @@ describe("CreateCollection", () => {
         expect(userRepository.getOne).toHaveBeenCalledWith({
           id: "id-00001",
         });
-        expect(error).toEqual(new Error("User not found."));
+        expect(error).toEqual(new NotFoundError("User"));
       }
     });
   });

@@ -3,6 +3,8 @@ import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import { InputCollectionInfoUpdate } from "@/domain/application/@types/CollectionTypes";
 import CollectionOutputBoundary from "@/domain/application/Collection/CollectionOutputBoundary";
 import UpdateCollectionInfo from "@/domain/application/Collection/UpdateCollectionInfo/UpdateCollectionInfo";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import NotFoundError from "@/domain/application/Errors/NotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 
 const inputParams: InputCollectionInfoUpdate = {
@@ -79,7 +81,7 @@ describe("UpdateCollectionInfo", () => {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({
           id: inputParams.colletion_id,
         });
-        expect(error).toEqual(new Error("Collection not found."));
+        expect(error).toEqual(new NotFoundError("Collection"));
       }
     });
 
@@ -99,7 +101,7 @@ describe("UpdateCollectionInfo", () => {
           id: inputParams.colletion_id,
           update_fields: inputParams.update_fields,
         });
-        expect(error).toEqual(new Error("An internal server error occurred."));
+        expect(error).toEqual(new InternalServerError());
       }
     });
   });

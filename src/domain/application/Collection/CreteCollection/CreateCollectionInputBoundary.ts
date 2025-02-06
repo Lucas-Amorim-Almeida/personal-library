@@ -1,5 +1,6 @@
 import { ColletionInputData } from "@/domain/application/@types/CollectionTypes";
 import InputBoundary from "@/domain/application/InputBoundary";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
 
 export default class CreateCollectionInputBoundary
   implements InputBoundary<ColletionInputData>
@@ -10,10 +11,10 @@ export default class CreateCollectionInputBoundary
     inputData: { user_id: string } & Omit<ColletionInputData, "owner">,
   ) {
     if (inputData.title === "") {
-      throw new Error("Title is required.");
+      throw new FieldRequiredError("Title");
     }
     if (inputData.collection.length === 0) {
-      throw new Error("At least a book id is required.");
+      throw new FieldRequiredError("At least a book id");
     }
 
     this.collectionInputData = {

@@ -1,4 +1,5 @@
 import CreateCollectionInputBoundary from "@/domain/application/Collection/CreteCollection/CreateCollectionInputBoundary";
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
 
 describe("CreateCollectionInputBoundary", () => {
   describe("Constructor", () => {
@@ -28,7 +29,7 @@ describe("CreateCollectionInputBoundary", () => {
             collection: [{ book_id: "ID-book0001", status: "em leitura" }],
             user_id: "id-00001",
           }),
-      ).toThrow("Title is required.");
+      ).toThrow(FieldRequiredError);
     });
 
     it("Should throws an error of empty collection.", () => {
@@ -41,7 +42,7 @@ describe("CreateCollectionInputBoundary", () => {
             collection: [],
             user_id: "id-00001",
           }),
-      ).toThrow("At least a book id is required.");
+      ).toThrow(FieldRequiredError);
     });
   });
 

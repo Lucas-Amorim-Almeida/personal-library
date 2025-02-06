@@ -1,11 +1,12 @@
 import InputBoundary from "@/domain/application/InputBoundary";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 export default class GetCollectionByIDInputBoundary
   implements InputBoundary<{ collection_id: string }>
 {
   constructor(private readonly inputData: { collection_id: string }) {
     if (!inputData.collection_id) {
-      throw new Error("Collection id is not valid.");
+      throw new InvalidFieldError("Collection id");
     }
   }
 

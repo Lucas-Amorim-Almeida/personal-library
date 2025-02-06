@@ -1,6 +1,6 @@
 import { userInputExample } from "@/__tests__/__mocks__/mocks";
 import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
-import UtilsErrors from "@/domain/application/Errors/UtilsErrors/UtilsErrors";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 import CreateUserInputBoundary from "@/domain/application/User/CreateUser/CreateUserInputBoundary";
 import AccessLevel from "@/domain/core/AccessLevel";
 import Contact from "@/domain/core/Contact";
@@ -106,7 +106,7 @@ describe("CreateUserInputBoundary", () => {
 
       const input = new CreateUserInputBoundary(params);
 
-      expect(() => input.get()).toThrow(UtilsErrors);
+      expect(() => input.get()).toThrow(InvalidFieldError);
     });
   });
 });

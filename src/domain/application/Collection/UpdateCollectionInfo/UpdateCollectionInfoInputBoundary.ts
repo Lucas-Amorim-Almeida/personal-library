@@ -1,5 +1,7 @@
 import { InputCollectionInfoUpdate } from "@/domain/application/@types/CollectionTypes";
 import InputBoundary from "@/domain/application/InputBoundary";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
 
 export default class UpdateCollectionInfoInputBoundary
   implements InputBoundary<InputCollectionInfoUpdate>
@@ -17,13 +19,13 @@ export default class UpdateCollectionInfoInputBoundary
     const { title, description, visibility } = inputData.update_fields;
 
     if (!inputData.colletion_id) {
-      throw new Error("Collection id is not valid.");
+      throw new InvalidFieldError("Collection id");
     }
     if (!title && !description && !visibility) {
-      throw new Error("At least update fields is required.");
+      throw new FieldRequiredError("At least update fields");
     }
     if (visibility && visibility !== "public" && visibility !== "private") {
-      throw new Error("Visibility is not valid.");
+      throw new InvalidFieldError("Visibility");
     }
   }
 

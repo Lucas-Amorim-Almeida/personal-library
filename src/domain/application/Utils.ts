@@ -1,4 +1,4 @@
-import UtilsErrors from "./Errors/UtilsErrors/UtilsErrors";
+import InvalidFieldError from "./Errors/InvalidFieldError";
 
 export default class Utils {
   static define<T extends Record<string, string | number>>(
@@ -9,14 +9,14 @@ export default class Utils {
     const enumValues = Object.values(enumObj) as string[];
 
     if (!enumValues.includes(param.toUpperCase())) {
-      throw new UtilsErrors(descriptionn);
+      throw new InvalidFieldError(descriptionn);
     }
 
     const keyOfT = Object.keys(enumObj).find(
       (key) => enumObj[key as keyof T] === param.toUpperCase(),
     );
     if (!keyOfT) {
-      throw new UtilsErrors(descriptionn);
+      throw new InvalidFieldError(descriptionn);
     }
 
     return enumObj[keyOfT as keyof T];

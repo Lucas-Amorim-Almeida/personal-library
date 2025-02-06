@@ -4,6 +4,7 @@ import OutputBoundary from "@/domain/application/OutputBoundary";
 import UseCase from "@/domain/application/UseCase";
 import Repository from "@/domain/core/Repository";
 import CollectionOutputBoundary from "../CollectionOutputBoundary";
+import NotFoundError from "../../Errors/NotFoundError";
 
 export default class GetCollectionByID
   implements UseCase<{ collection_id: string }, DBOutputCollectionData>
@@ -18,7 +19,7 @@ export default class GetCollectionByID
     const dbCollection: DBOutputCollectionData | null =
       await this.repository.getOne({ id: collection_id });
     if (!dbCollection) {
-      throw new Error("Collection not found.");
+      throw new NotFoundError("Collection");
     }
 
     return [new CollectionOutputBoundary(dbCollection)];

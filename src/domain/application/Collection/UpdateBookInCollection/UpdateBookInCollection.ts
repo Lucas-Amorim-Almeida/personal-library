@@ -11,6 +11,8 @@ import ReadingStatus from "@/domain/core/ReadingStatus";
 import Repository from "@/domain/core/Repository";
 import CollectionOutputBoundary from "../CollectionOutputBoundary";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
+import NotFoundError from "../../Errors/NotFoundError";
+import InternalServerError from "../../Errors/InternalServerError";
 
 export default class UpdateBookInCollection
   implements UseCase<CollectionInput, DBOutputCollectionData>
@@ -43,7 +45,7 @@ export default class UpdateBookInCollection
           });
 
         if (!dbBook) {
-          throw new Error("Book not found.");
+          throw new NotFoundError("Book");
         }
 
         return {
@@ -103,7 +105,7 @@ export default class UpdateBookInCollection
     const dbCollection: DBOutputCollectionData | null =
       await this.repository.getOne({ id });
     if (!dbCollection) {
-      throw new Error("Collection not found.");
+      throw new NotFoundError("Collection");
     }
 
     const collectionInDB = dbCollection.collection;
@@ -129,7 +131,7 @@ export default class UpdateBookInCollection
       });
 
     if (!updatedCollection) {
-      throw new Error("An internal server error occurred.");
+      throw new InternalServerError();
     }
 
     return [new CollectionOutputBoundary(updatedCollection)];

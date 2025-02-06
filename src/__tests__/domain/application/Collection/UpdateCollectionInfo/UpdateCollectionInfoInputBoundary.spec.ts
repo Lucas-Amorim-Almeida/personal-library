@@ -1,4 +1,6 @@
 import UpdateCollectionInfoInputBoundary from "@/domain/application/Collection/UpdateCollectionInfo/UpdateCollectionInfoInputBoundary";
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 
 const inputParams = {
   colletion_id: "000001",
@@ -28,7 +30,7 @@ describe("UpdateCollectionInfoInputBoundary", () => {
               visibility: "public",
             },
           }),
-      ).toThrow("Collection id is not valid.");
+      ).toThrow(InvalidFieldError);
     });
 
     it("Should throws an error of At least update fields is required.", () => {
@@ -38,7 +40,7 @@ describe("UpdateCollectionInfoInputBoundary", () => {
             colletion_id: "000001",
             update_fields: {},
           }),
-      ).toThrow("At least update fields is required.");
+      ).toThrow(FieldRequiredError);
     });
 
     it("Should throws an error of Visibility is not valid.", () => {
@@ -52,7 +54,7 @@ describe("UpdateCollectionInfoInputBoundary", () => {
               visibility: "invalid",
             },
           }),
-      ).toThrow("Visibility is not valid.");
+      ).toThrow(InvalidFieldError);
     });
   });
 

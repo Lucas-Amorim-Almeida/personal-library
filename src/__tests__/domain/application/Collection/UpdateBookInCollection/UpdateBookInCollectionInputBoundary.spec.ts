@@ -1,4 +1,6 @@
 import UpdateBookInCollectionInputBoundary from "@/domain/application/Collection/UpdateBookInCollection/UpdateBookInCollectionInputBoundary";
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 import ReadingStatus from "@/domain/core/ReadingStatus";
 
 const inputParams = {
@@ -40,7 +42,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
               },
             ],
           }),
-      ).toThrow("Id is required.");
+      ).toThrow(FieldRequiredError);
     });
 
     it("Should throws an error of book_id is required.", () => {
@@ -55,7 +57,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
               },
             ],
           }),
-      ).toThrow("book_id is required.");
+      ).toThrow(FieldRequiredError);
     });
 
     it("Should throws an error of operation is not valid.", () => {
@@ -70,7 +72,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
               },
             ],
           }),
-      ).toThrow("Operation is not valid.");
+      ).toThrow(InvalidFieldError);
     });
 
     it("Should throws an error of Status is not valid.", () => {
@@ -86,7 +88,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
               },
             ],
           }),
-      ).toThrow("Reading status is not valid.");
+      ).toThrow(InvalidFieldError);
     });
   });
 

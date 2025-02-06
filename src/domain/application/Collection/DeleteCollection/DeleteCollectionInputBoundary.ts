@@ -1,11 +1,12 @@
 import InputBoundary from "@/domain/application/InputBoundary";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 export default class DeleteCollectionInputBoundary
   implements InputBoundary<{ id: string }>
 {
   constructor(readonly inputData: { id: string }) {
     if (!inputData.id) {
-      throw new Error("Id is not vaild.");
+      throw new InvalidFieldError("Id");
     }
   }
 

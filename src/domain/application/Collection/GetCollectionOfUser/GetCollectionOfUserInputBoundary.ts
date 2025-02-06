@@ -1,11 +1,12 @@
 import InputBoundary from "@/domain/application/InputBoundary";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 export default class GetCollectionOfUserInputBoundary
   implements InputBoundary<{ owner: string }>
 {
   constructor(readonly user: { user_id: string }) {
     if (!user.user_id) {
-      throw new Error("Owner is not valid.");
+      throw new InvalidFieldError("Owner");
     }
   }
 

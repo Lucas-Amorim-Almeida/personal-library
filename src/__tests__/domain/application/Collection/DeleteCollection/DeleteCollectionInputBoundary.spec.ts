@@ -1,4 +1,5 @@
 import DeleteCollectionInputBoundary from "@/domain/application/Collection/DeleteCollection/DeleteCollectionInputBoundary";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 
 const inputParams = {
   id: "id-collection00001",
@@ -13,7 +14,7 @@ describe("DeleteCollectionInputBoundary", () => {
     });
     it("Should throws an error of Id is not vaild", () => {
       expect(() => new DeleteCollectionInputBoundary({ id: "" })).toThrow(
-        "Id is not vaild.",
+        InvalidFieldError,
       );
     });
   });
