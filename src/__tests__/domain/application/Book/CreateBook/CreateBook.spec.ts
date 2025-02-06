@@ -5,6 +5,8 @@ import Book from "@/domain/core/Book";
 import BookGenre from "@/domain/core/BookGenre";
 import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
 import { repositoryMock } from "@/__tests__/__mocks__/mocks";
+import BookAlreadyExistsError from "@/domain/application/Errors/BookUseCaseError/BookAlreadyExistsError";
+import InternalServerError from "@/domain/application/Errors/InternalServerError";
 
 const book = new Book({
   title: "O Senhor dos Anéis",
@@ -50,7 +52,7 @@ describe("CreateBook", () => {
       repositoryMock.getOne.mockResolvedValue(dbBookExample);
 
       expect(createBook.execute(inputMock)).rejects.toThrow(
-        "The Book already exists in the database.",
+        BookAlreadyExistsError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
     });
@@ -66,7 +68,7 @@ describe("CreateBook", () => {
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
         expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(Book));
-        expect(error).toEqual(new Error("An internal server error occurred."));
+        expect(error).toEqual(new InternalServerError());
       }
     });
   });

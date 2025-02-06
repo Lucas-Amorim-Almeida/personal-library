@@ -1,14 +1,16 @@
 import InputBoundary from "@/domain/application/InputBoundary";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
+import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 export default class SearchBookInputBoundary
   implements InputBoundary<{ query: string; take: number }>
 {
   constructor(readonly inputData: { query: string; take: number }) {
     if (inputData.query === "") {
-      throw new Error("query is required.");
+      throw new FieldRequiredError("query");
     }
     if (inputData.take <= 0) {
-      throw new Error("take param is not valid.");
+      throw new InvalidFieldError("take param");
     }
   }
 

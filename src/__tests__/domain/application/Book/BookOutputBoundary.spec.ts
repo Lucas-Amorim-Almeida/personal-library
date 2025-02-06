@@ -2,6 +2,7 @@ import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
 
 import BookOutputBoundary from "@/domain/application/Book/BookOutputBoundary";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 import Book from "@/domain/core/Book";
 import BookGenre from "@/domain/core/BookGenre";
 
@@ -31,7 +32,7 @@ describe("CreateBookOutputBoundary", () => {
 
       expect(
         () => new BookOutputBoundary(inputData as DBOutputBookData),
-      ).toThrow("Book genre is not valid.");
+      ).toThrow(InvalidFieldError);
     });
   });
 

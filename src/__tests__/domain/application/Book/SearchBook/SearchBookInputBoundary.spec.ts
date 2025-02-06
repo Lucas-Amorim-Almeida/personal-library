@@ -1,4 +1,6 @@
 import SearchBookInputBoundary from "@/domain/application/Book/SearchBook/SearchBookInputBoundary";
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 
 describe("SearchBookInputBoundary", () => {
   describe("Constructor", () => {
@@ -11,13 +13,13 @@ describe("SearchBookInputBoundary", () => {
     it("Should throws an error of field query is required.", () => {
       expect(
         () => new SearchBookInputBoundary({ query: "", take: 10 }),
-      ).toThrow("query is required.");
+      ).toThrow(FieldRequiredError);
     });
     it("Should throws an error of take param is not valid.", () => {
       expect(
         () =>
           new SearchBookInputBoundary({ query: "O Senhor dos Anéis", take: 0 }),
-      ).toThrow("take param is not valid.");
+      ).toThrow(InvalidFieldError);
     });
   });
 

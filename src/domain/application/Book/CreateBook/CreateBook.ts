@@ -5,6 +5,8 @@ import Book from "@/domain/core/Book";
 import Repository from "@/domain/core/Repository";
 import BookOutputBoundary from "../BookOutputBoundary";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
+import InternalServerError from "../../Errors/InternalServerError";
+import BookAlreadyExistsError from "../../Errors/BookUseCaseError/BookAlreadyExistsError";
 
 export default class CreateBook implements UseCase<Book, Book> {
   constructor(readonly repository: Repository) {}
@@ -18,13 +20,13 @@ export default class CreateBook implements UseCase<Book, Book> {
       book,
     });
     if (dbBook) {
-      throw new Error("The Book already exists in the database.");
+      throw new BookAlreadyExistsError();
     }
 
     const createdBook: DBOutputBookData | null =
       await this.repository.save(book);
     if (!createdBook) {
-      throw new Error("An internal server error occurred.");
+      throw new InternalServerError();
     }
 
     return [new BookOutputBoundary(createdBook)];

@@ -1,5 +1,7 @@
 import { inputBookUpdateExample } from "@/__tests__/__mocks__/bookMock";
 import UpdateBookInputBoundary from "@/domain/application/Book/UpdateBook/UpdateBookInputBoundary";
+import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 import Utils from "@/domain/application/Utils";
 import BookGenre from "@/domain/core/BookGenre";
 
@@ -13,7 +15,7 @@ describe("UpdateBookInputBoundary", () => {
 
     it("Should throws an error of At least one of the properties is required.", () => {
       expect(() => new UpdateBookInputBoundary({ id: "id-00001" })).toThrow(
-        "At least one of the properties is required.",
+        FieldRequiredError,
       );
     });
 
@@ -21,7 +23,7 @@ describe("UpdateBookInputBoundary", () => {
       expect(
         () =>
           new UpdateBookInputBoundary({ id: "id-00001", genre: ["invalid"] }),
-      ).toThrow("Book genre is not valid.");
+      ).toThrow(InvalidFieldError);
     });
   });
 

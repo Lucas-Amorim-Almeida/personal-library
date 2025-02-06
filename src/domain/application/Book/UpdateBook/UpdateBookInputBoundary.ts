@@ -2,6 +2,7 @@ import InputBoundary from "@/domain/application/InputBoundary";
 import Utils from "@/domain/application/Utils";
 import BookGenre from "@/domain/core/BookGenre";
 import { InputBookUpdate } from "../../@types/BookTypes";
+import FieldRequiredError from "../../Errors/FieldRequiredError";
 
 type InputBookUpdateRequestData = {
   id: string;
@@ -21,7 +22,7 @@ export default class UpdateBookInputBoundary
   private inputBookData: InputBookUpdate;
   constructor(inputData: InputBookUpdateRequestData) {
     if (Object.keys(inputData).length <= 1) {
-      throw new Error("At least one of the properties is required.");
+      throw new FieldRequiredError("At least one of the properties");
     }
 
     const {

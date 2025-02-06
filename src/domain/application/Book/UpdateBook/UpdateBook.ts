@@ -8,6 +8,8 @@ import {
   DBOutputBookData,
   InputBookUpdate,
 } from "@/domain/application/@types/BookTypes";
+import NotFoundError from "../../Errors/NotFoundError";
+import InternalServerError from "../../Errors/InternalServerError";
 
 export default class UpdateBook implements UseCase<InputBookUpdate, Book> {
   constructor(readonly repository: Repository) {}
@@ -21,13 +23,13 @@ export default class UpdateBook implements UseCase<InputBookUpdate, Book> {
       id,
     });
     if (!dbBook) {
-      throw new Error("Book not found.");
+      throw new NotFoundError("Book");
     }
 
     const bookUpdated: DBOutputBookData | null =
       await this.repository.update(updateData);
     if (!bookUpdated) {
-      throw new Error("An internal server error occurred.");
+      throw new InternalServerError();
     }
 
     return [new BookOutputBoundary(bookUpdated)];

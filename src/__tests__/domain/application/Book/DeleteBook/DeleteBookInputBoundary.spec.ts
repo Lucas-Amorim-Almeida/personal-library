@@ -1,4 +1,5 @@
 import DeleteBookInputBoundary from "@/domain/application/Book/DeleteBook/DeleteBookInputBoundary";
+import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 
 const inputParams = { id: "id-book00001" };
 
@@ -12,7 +13,7 @@ describe("DeleteBookInputBoundary", () => {
 
     it("Should throws  an error of Id is not valid.", () => {
       expect(() => new DeleteBookInputBoundary({ id: "" })).toThrow(
-        "Id is not vaild.",
+        InvalidFieldError,
       );
     });
   });
