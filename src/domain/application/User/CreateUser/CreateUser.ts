@@ -7,7 +7,7 @@ import OutputBoundary from "../../OutputBoundary";
 import UseCase from "../../UseCase";
 import Cryptography from "../../accessories/Cryptography";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
-import InternalServerError from "../../Errors/InternalServerError";
+import InternalError from "../../Errors/InternalError";
 import UserAlreadyRegisteredError from "../../Errors/UserUseCaseErros/UserAlreadyRegisteredError";
 
 export default class CreateUser
@@ -39,7 +39,7 @@ export default class CreateUser
     const savedUser: DBOutputUserData | null =
       await this.repository.save(newUser);
 
-    if (!savedUser) throw new InternalServerError();
+    if (!savedUser) throw new InternalError();
 
     return [new UserOutputBoundary(savedUser)];
   }

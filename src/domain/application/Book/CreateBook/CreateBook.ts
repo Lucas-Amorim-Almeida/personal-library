@@ -5,7 +5,7 @@ import Book from "@/domain/core/Book";
 import Repository from "@/domain/core/Repository";
 import BookOutputBoundary from "../BookOutputBoundary";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
-import InternalServerError from "../../Errors/InternalServerError";
+import InternalError from "../../Errors/InternalError";
 import BookAlreadyExistsError from "../../Errors/BookUseCaseError/BookAlreadyExistsError";
 
 export default class CreateBook implements UseCase<Book, Book> {
@@ -26,7 +26,7 @@ export default class CreateBook implements UseCase<Book, Book> {
     const createdBook: DBOutputBookData | null =
       await this.repository.save(book);
     if (!createdBook) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new BookOutputBoundary(createdBook)];

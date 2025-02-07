@@ -14,8 +14,8 @@ import {
 } from "@/domain/application/@types/CollectionTypes";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
-import NotFoundError from "../../Errors/NotFoundError";
-import InternalServerError from "../../Errors/InternalServerError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
+import InternalError from "../../Errors/InternalError";
 
 export default class CreateCollection
   implements UseCase<ColletionInputData, DBOutputCollectionData>
@@ -36,7 +36,7 @@ export default class CreateCollection
       id: owner,
     });
     if (!dbOwner) {
-      throw new NotFoundError("User");
+      throw new EntityNotFoundError("User");
     }
 
     const books: { book: Book; status: ReadingStatus }[] = await Promise.all(
@@ -44,7 +44,7 @@ export default class CreateCollection
         const dbBook: DBOutputBookData | null =
           await this.bookRepository.getOne({ id: item.book_id });
         if (!dbBook) {
-          throw new NotFoundError("Book");
+          throw new EntityNotFoundError("Book");
         }
         return {
           book: new BookOutputBoundary(dbBook).get(),
@@ -63,7 +63,7 @@ export default class CreateCollection
     const dbCollection: DBOutputCollectionData | null =
       await this.repository.save(newCollection);
     if (!dbCollection) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new CollectionOutputBoundary(dbCollection)];

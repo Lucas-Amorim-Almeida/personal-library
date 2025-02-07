@@ -11,8 +11,8 @@ import ReadingStatus from "@/domain/core/ReadingStatus";
 import Repository from "@/domain/core/Repository";
 import CollectionOutputBoundary from "../CollectionOutputBoundary";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
-import NotFoundError from "../../Errors/NotFoundError";
-import InternalServerError from "../../Errors/InternalServerError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
+import InternalError from "../../Errors/InternalError";
 
 export default class UpdateBookInCollection
   implements UseCase<CollectionInput, DBOutputCollectionData>
@@ -45,7 +45,7 @@ export default class UpdateBookInCollection
           });
 
         if (!dbBook) {
-          throw new NotFoundError("Book");
+          throw new EntityNotFoundError("Book");
         }
 
         return {
@@ -105,7 +105,7 @@ export default class UpdateBookInCollection
     const dbCollection: DBOutputCollectionData | null =
       await this.repository.getOne({ id });
     if (!dbCollection) {
-      throw new NotFoundError("Collection");
+      throw new EntityNotFoundError("Collection");
     }
 
     const collectionInDB = dbCollection.collection;
@@ -131,7 +131,7 @@ export default class UpdateBookInCollection
       });
 
     if (!updatedCollection) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new CollectionOutputBoundary(updatedCollection)];

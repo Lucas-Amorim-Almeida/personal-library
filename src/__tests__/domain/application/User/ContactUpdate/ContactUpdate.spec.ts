@@ -5,8 +5,8 @@ import InputBoundary from "@/domain/application/InputBoundary";
 import Email from "@/domain/core/valueObjects/Email";
 import Phone from "@/domain/core/valueObjects/Phone";
 import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
-import NotFoundError from "@/domain/application/Errors/NotFoundError";
-import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
+import InternalError from "@/domain/application/Errors/InternalError";
 
 const inputParams = {
   user_id: "id-000001",
@@ -79,7 +79,7 @@ describe("ContactUpdate", () => {
       repositoryMock.getOne.mockResolvedValue(null);
 
       expect(contactUpdater.execute(inputBoundary)).rejects.toThrow(
-        NotFoundError,
+        EntityNotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
         id: "id-000001",
@@ -105,7 +105,7 @@ describe("ContactUpdate", () => {
             phone: [new Phone("+5511900000000")],
           },
         });
-        expect(error).toEqual(new InternalServerError());
+        expect(error).toEqual(new InternalError());
       }
     });
   });

@@ -6,9 +6,9 @@ import {
   repositoryMock,
 } from "@/__tests__/__mocks__/mocks";
 import UserOutputBoundary from "@/domain/application/User/UserOutputBoundary";
-import NotFoundError from "@/domain/application/Errors/NotFoundError";
+import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import PasswordIcorrectError from "@/domain/application/Errors/UserUseCaseErros/PasswordIcorrectError";
-import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import InternalError from "@/domain/application/Errors/InternalError";
 
 const inputParams = {
   id: "id-0001",
@@ -74,7 +74,7 @@ describe("ChangePassword", () => {
 
       repositoryMock.getOne.mockResolvedValue(null);
       expect(changePassword.execute(inputBoundaryMock)).rejects.toThrow(
-        NotFoundError,
+        EntityNotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
         id: "id-0001",
@@ -122,7 +122,7 @@ describe("ChangePassword", () => {
           query: { id: "id-0001" },
           update_fields: { password: "1ja2sbd3aie4u39682yejas" },
         });
-        expect(error).toEqual(new InternalServerError());
+        expect(error).toEqual(new InternalError());
       }
     });
   });

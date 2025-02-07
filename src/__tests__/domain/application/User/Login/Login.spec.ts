@@ -4,7 +4,7 @@ import {
   repositoryMock,
 } from "@/__tests__/__mocks__/mocks";
 import NotAvailableError from "@/domain/application/Errors/NotAvailableError";
-import NotFoundError from "@/domain/application/Errors/NotFoundError";
+import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import PasswordIcorrectError from "@/domain/application/Errors/UserUseCaseErros/PasswordIcorrectError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import Login from "@/domain/application/User/Login/Login";
@@ -50,7 +50,9 @@ describe("Login", () => {
       const login = new Login(repositoryMock, encrypterMock);
       repositoryMock.getOne.mockResolvedValue(null); //falhou em econtrar usuário no repositorio
 
-      expect(login.execute(inputBoundaryMock)).rejects.toThrow(NotFoundError);
+      expect(login.execute(inputBoundaryMock)).rejects.toThrow(
+        EntityNotFoundError,
+      );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
         username: "jonh_doe",
       });

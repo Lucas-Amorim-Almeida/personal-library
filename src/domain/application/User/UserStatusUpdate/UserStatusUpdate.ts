@@ -6,8 +6,8 @@ import InputBoundary from "../../InputBoundary";
 import UserOutputBoundary from "../UserOutputBoundary";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
 import UseCase from "../../UseCase";
-import NotFoundError from "../../Errors/NotFoundError";
-import InternalServerError from "../../Errors/InternalServerError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
+import InternalError from "../../Errors/InternalError";
 
 export default class UserStatusUpdate
   implements UseCase<{ id: string; status: UserStatus }, DBOutputUserData>
@@ -23,13 +23,13 @@ export default class UserStatusUpdate
       id,
     });
     if (!dbUser) {
-      throw new NotFoundError("User");
+      throw new EntityNotFoundError("User");
     }
 
     const dbUserStatusChanged: DBOutputUserData | null =
       await this.repository.update({ id, status });
     if (!dbUserStatusChanged) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new UserOutputBoundary(dbUserStatusChanged)];

@@ -8,9 +8,9 @@ import {
   DBOutputUserData,
   InputChangePassword,
 } from "@/domain/application/@types/UserTypes";
-import NotFoundError from "../../Errors/NotFoundError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
 import PasswordIcorrectError from "../../Errors/UserUseCaseErros/PasswordIcorrectError";
-import InternalServerError from "../../Errors/InternalServerError";
+import InternalError from "../../Errors/InternalError";
 
 export default class ChangePassword
   implements UseCase<InputChangePassword, DBOutputUserData>
@@ -29,7 +29,7 @@ export default class ChangePassword
       id,
     });
     if (!dbUser) {
-      throw new NotFoundError("User");
+      throw new EntityNotFoundError("User");
     }
 
     const isSamePassword = await this.passwordValidation(
@@ -46,7 +46,7 @@ export default class ChangePassword
       update_fields: { password: encryptedPassword },
     });
     if (!updatedUser) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new UserOutputBoundary(updatedUser)];

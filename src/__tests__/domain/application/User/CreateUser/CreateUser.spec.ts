@@ -10,7 +10,7 @@ import {
   repositoryMock,
 } from "@/__tests__/__mocks__/mocks";
 import UserAlreadyRegisteredError from "@/domain/application/Errors/UserUseCaseErros/UserAlreadyRegisteredError";
-import InternalServerError from "@/domain/application/Errors/InternalServerError";
+import InternalError from "@/domain/application/Errors/InternalError";
 
 const userData: UserParamsType = {
   username: "john_doe",
@@ -89,7 +89,7 @@ describe("CreateUser", () => {
           username: "john_doe",
         });
         expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(User));
-        expect(error).toEqual(new InternalServerError());
+        expect(error).toEqual(new InternalError());
       }
     });
   });

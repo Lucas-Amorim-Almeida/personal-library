@@ -7,7 +7,7 @@ import UseCase from "../../UseCase";
 
 import UserOutputBoundary from "../UserOutputBoundary";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
-import NotFoundError from "../../Errors/NotFoundError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
 import NotAvailableError from "../../Errors/NotAvailableError";
 import PasswordIcorrectError from "../../Errors/UserUseCaseErros/PasswordIcorrectError";
 
@@ -28,7 +28,7 @@ export default class Login
       username: data.username,
     });
 
-    if (!userData) throw new NotFoundError("User");
+    if (!userData) throw new EntityNotFoundError("User");
     if (userData.status != UserStatus.ACTIVE)
       throw new NotAvailableError("User");
 

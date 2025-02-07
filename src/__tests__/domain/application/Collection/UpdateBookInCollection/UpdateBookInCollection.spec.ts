@@ -4,8 +4,8 @@ import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import { CollectionInput } from "@/domain/application/@types/CollectionTypes";
 import CollectionOutputBoundary from "@/domain/application/Collection/CollectionOutputBoundary";
 import UpdateBookInCollection from "@/domain/application/Collection/UpdateBookInCollection/UpdateBookInCollection";
-import InternalServerError from "@/domain/application/Errors/InternalServerError";
-import NotFoundError from "@/domain/application/Errors/NotFoundError";
+import InternalError from "@/domain/application/Errors/InternalError";
+import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import ReadingStatus from "@/domain/core/ReadingStatus";
 import Repository from "@/domain/core/Repository";
@@ -142,7 +142,7 @@ describe("UpdateBookInCollection", () => {
         expect(repositoryMock.getOne).toHaveBeenLastCalledWith({
           id: inputParams.id,
         });
-        expect(error).toEqual(new NotFoundError("Collection"));
+        expect(error).toEqual(new EntityNotFoundError("Collection"));
       }
     });
 
@@ -175,7 +175,7 @@ describe("UpdateBookInCollection", () => {
         expect(bookRepoMock.getOne).toHaveBeenCalledWith({
           id: "id-00005",
         });
-        expect(error).toEqual(new NotFoundError("Book"));
+        expect(error).toEqual(new EntityNotFoundError("Book"));
       }
     });
 
@@ -205,7 +205,7 @@ describe("UpdateBookInCollection", () => {
         });
         expect(bookRepoMock.getOne).toHaveBeenCalledWith({ id: "id-00005" });
         expect(collectionRepoMock.update).toHaveBeenCalled();
-        expect(error).toEqual(new InternalServerError());
+        expect(error).toEqual(new InternalError());
       }
     });
   });

@@ -1,6 +1,6 @@
 import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
-import InternalServerError from "@/domain/application/Errors/InternalServerError";
-import NotFoundError from "@/domain/application/Errors/NotFoundError";
+import InternalError from "@/domain/application/Errors/InternalError";
+import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import RemoveUser from "@/domain/application/User/RemoveUser/RemoveUser";
 import RemoveUserOutputBoundary from "@/domain/application/User/RemoveUser/RemoveUserOutputBoundary";
@@ -49,7 +49,9 @@ describe("RemoveUser", () => {
 
       repositoryMock.getOne.mockResolvedValue(null);
 
-      expect(removeUser.execute(inputBoundary)).rejects.toThrow(NotFoundError);
+      expect(removeUser.execute(inputBoundary)).rejects.toThrow(
+        EntityNotFoundError,
+      );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
     });
 
@@ -67,7 +69,7 @@ describe("RemoveUser", () => {
           query: { id: "id-0001" },
           update_fields: { status: UserStatus.TO_DELETE },
         });
-        expect(error).toEqual(new InternalServerError());
+        expect(error).toEqual(new InternalError());
       }
     });
   });

@@ -5,8 +5,8 @@ import OutputBoundary from "../../OutputBoundary";
 import UserStatus from "@/domain/core/UserStatus";
 import RemoveUserOutputBoundary from "./RemoveUserOutputBoundary";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
-import NotFoundError from "../../Errors/NotFoundError";
-import InternalServerError from "../../Errors/InternalServerError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
+import InternalError from "../../Errors/InternalError";
 
 export default class RemoveUser implements UseCase<{ id: string }, boolean> {
   constructor(readonly repository: Repository) {}
@@ -20,7 +20,7 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
       id,
     });
     if (!dbUser) {
-      throw new NotFoundError("User");
+      throw new EntityNotFoundError("User");
     }
 
     const dbUserStatusChanged: DBOutputUserData | null =
@@ -29,7 +29,7 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
         update_fields: { status: UserStatus.TO_DELETE },
       });
     if (!dbUserStatusChanged) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new RemoveUserOutputBoundary(dbUserStatusChanged)];

@@ -1,4 +1,4 @@
-export default class NotFoundError extends Error {
+export default class EntityNotFoundError extends Error {
   constructor(entityName: string) {
     super(`${entityName} not found.`);
   }

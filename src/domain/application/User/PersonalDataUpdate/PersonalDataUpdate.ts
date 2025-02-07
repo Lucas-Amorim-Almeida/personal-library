@@ -5,8 +5,8 @@ import PersonalData from "@/domain/core/PersonalData";
 import Repository from "@/domain/core/Repository";
 import PersonalDataUpdateOutputBoundary from "./PersonalDataUpdateOutputBoundary";
 import { DBOutputPersonalData } from "@/domain/application/@types/UserTypes";
-import InternalServerError from "../../Errors/InternalServerError";
-import NotFoundError from "../../Errors/NotFoundError";
+import InternalError from "../../Errors/InternalError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
 import FieldRequiredError from "../../Errors/FieldRequiredError";
 
 export default class PersonalDataUpdate
@@ -30,7 +30,7 @@ export default class PersonalDataUpdate
     const dbPersonalData: DBOutputPersonalData | null =
       await this.repository.getOne({ id: user_id });
     if (!dbPersonalData) {
-      throw new NotFoundError("User or Personal data");
+      throw new EntityNotFoundError("User or Personal data");
     }
 
     const updateResponse: DBOutputPersonalData | null =
@@ -39,7 +39,7 @@ export default class PersonalDataUpdate
         update_fields: { name, birth_date },
       });
     if (!updateResponse) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new PersonalDataUpdateOutputBoundary(updateResponse)];

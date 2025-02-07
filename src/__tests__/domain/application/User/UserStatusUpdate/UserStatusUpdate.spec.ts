@@ -1,6 +1,6 @@
 import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
-import InternalServerError from "@/domain/application/Errors/InternalServerError";
-import NotFoundError from "@/domain/application/Errors/NotFoundError";
+import InternalError from "@/domain/application/Errors/InternalError";
+import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import UserOutputBoundary from "@/domain/application/User/UserOutputBoundary";
 import UserStatusUpdate from "@/domain/application/User/UserStatusUpdate/UserStatusUpdate";
@@ -59,7 +59,7 @@ describe("UserStatusUpdate", () => {
       repositoryMock.getOne.mockResolvedValue(null);
 
       expect(statusUpdate.execute(inputBoundaryMock)).rejects.toThrow(
-        NotFoundError,
+        EntityNotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
     });
@@ -75,7 +75,7 @@ describe("UserStatusUpdate", () => {
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
         expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
-        expect(error).toEqual(new InternalServerError());
+        expect(error).toEqual(new InternalError());
       }
     });
   });

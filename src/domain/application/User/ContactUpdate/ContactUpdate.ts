@@ -8,8 +8,8 @@ import Phone from "@/domain/core/valueObjects/Phone";
 import ContactUpdateOutputBoundary from "./ContactUpdateOutputBoundary";
 import { DBOutputContactData } from "@/domain/application/@types/UserTypes";
 import FieldRequiredError from "../../Errors/FieldRequiredError";
-import NotFoundError from "../../Errors/NotFoundError";
-import InternalServerError from "../../Errors/InternalServerError";
+import EntityNotFoundError from "../../Errors/EntityNotFoundError";
+import InternalError from "../../Errors/InternalError";
 
 export default class ContactUpdate
   implements
@@ -34,7 +34,7 @@ export default class ContactUpdate
       { id: user_id },
     );
     if (!dbResponse) {
-      throw new NotFoundError("User or Contact");
+      throw new EntityNotFoundError("User or Contact");
     }
 
     const updateResponse: DBOutputContactData | null =
@@ -43,7 +43,7 @@ export default class ContactUpdate
         update_fields: { email, phone },
       });
     if (!updateResponse) {
-      throw new InternalServerError();
+      throw new InternalError();
     }
 
     return [new ContactUpdateOutputBoundary(updateResponse)];

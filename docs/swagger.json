@@ -1,0 +1,169 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Personal Library",
+    "summary": "API que fornece uma forma de gerenciar acervos de livros.",
+    "description": "Essa API pretende ser uma ferramenta na qual os usuários possam cadastrar e gerenciar coleções de livros e seu estado de leitura.",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "Developtment server"
+    },
+    {
+      "url": "",
+      "description": "Staging  server"
+    },
+    {
+      "url": "",
+      "description": "Production server"
+    }
+  ],
+
+  "paths": {
+    "/user": {
+      "post": {
+        "summary": "Insere informações de um novo usuário na base de dados.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateUserReqBody" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResBodyToUserCreation"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "securitySchemes": {
+        "BearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+
+      "UserToken": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "description": "Token utilizado para autenticação em várias rotas que necessitam que um usuário válido esteja logado.",
+            "type": "string"
+          }
+        }
+      },
+
+      "ContatcData": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "description": "Email do usuário, consiste em um email válido que já NÃO esteja cadastrado.",
+            "type": "string",
+            "example": "example@email.com"
+          },
+          "phone": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array contendo os números de contato do usuário",
+            "example": ["+5511911111111", "+5511922222222"]
+          }
+        }
+      },
+
+      "PersonalData": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Nome completo do usuário.",
+            "type": "string",
+            "example": "João da Silva"
+          },
+          "birth_date": {
+            "description": "Data de nascimento do usuário.",
+            "type": "string",
+            "format": "date",
+            "example": "2000-02-22"
+          }
+        }
+      },
+
+      "CreateUserReqBody": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "description": "Nome do usuário, consiste em uma apelido (nickname).",
+            "type": "string",
+            "example": "joao_silva"
+          },
+          "password": {
+            "description": "Senha escolhida pelo usuário",
+            "type": "string",
+            "example": "12345678"
+          },
+          "access_level": {
+            "description": "Nível de acesso que o novo usuário terá, caso o campo esteja vazio será tratado como common.",
+            "type": "string",
+            "enum": ["COMMON", "ADMINISTRATOR", "GUEST"],
+            "example": "ADMINISTRATOR"
+          },
+          "contact": {
+            "description": "Informações de contato do usuário, como email e telefones.",
+            "$ref": "#/components/schemas/ContatcData"
+          },
+          "personal_data": {
+            "description": "Informações de contato do usuário, como email e telefones.",
+            "$ref": "#/components/schemas/PersonalData"
+          }
+        },
+        "required": ["username", "password", "contact", "personal_data"]
+      },
+
+      "ResBodyToUserCreation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id do usuário na base de dados da aplicação.",
+            "example": "67a0cf5ee43cbc3f689e3757"
+          },
+          "username": {
+            "type": "string",
+            "description": "Nome de usuário na base de dados",
+            "example": "john_doe"
+          },
+          "access_level": {
+            "type": "string",
+            "description": "Nível de acesso do usuáro.",
+            "example": "COMMON"
+          }
+        }
+      }
+    }
+  }
+}
