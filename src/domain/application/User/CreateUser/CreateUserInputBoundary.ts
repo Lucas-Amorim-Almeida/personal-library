@@ -23,8 +23,8 @@ export default class CreateUserInputBoundary
   private personal_data: PersonalDataParamsType;
 
   constructor(inputData: InputUserData) {
-    if (!inputData.username || !inputData.password || !inputData.access_level) {
-      throw new FieldRequiredError("At least");
+    if (!inputData.username || !inputData.password) {
+      throw new FieldRequiredError("Filling in all fields");
     }
 
     this.username = inputData.username;
@@ -33,7 +33,9 @@ export default class CreateUserInputBoundary
       email: new Email(inputData.contact.email),
       phone: inputData.contact.phone.map((item) => new Phone(item)),
     };
-    this.access_level = inputData.access_level.toUpperCase();
+    this.access_level = !inputData.access_level
+      ? "COMMON"
+      : inputData.access_level.toUpperCase();
     this.personal_data = inputData.personal_data;
   }
 

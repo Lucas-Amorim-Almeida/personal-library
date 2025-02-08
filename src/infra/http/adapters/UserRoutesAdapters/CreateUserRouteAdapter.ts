@@ -2,6 +2,7 @@ import Controller from "@/infra/adapters/interfaces/Controller";
 import HTTPRequest from "@/infra/interfaces/HTTPRequest";
 import HTTPResponse from "@/infra/interfaces/HTTPResponse";
 import { Request, Response } from "express";
+import HTTPErrorsAdapater from "../HTTPErrorsAdapater";
 
 export default class CreateUserRouteAdapter {
   constructor(
@@ -10,9 +11,14 @@ export default class CreateUserRouteAdapter {
   ) {}
 
   async handle(controller: Controller) {
-    const httpRequest: HTTPRequest = { body: this.req.body };
-    const httpResponse: HTTPResponse = await controller.handle(httpRequest);
+    try {
+      const httpRequest: HTTPRequest = { body: this.req.body };
+      const httpResponse: HTTPResponse = await controller.handle(httpRequest);
 
-    return this.res.status(httpResponse.statusCode).json(httpResponse.body);
+      return this.res.status(httpResponse.statusCode).json(httpResponse.body);
+    } catch (error) {
+      const httpErrorAdapter = new HTTPErrorsAdapater(error as Error);
+      throw httpErrorAdapter.handle();
+    }
   }
 }

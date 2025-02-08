@@ -51,6 +51,14 @@
                 "schema": { "$ref": "#/components/schemas/InternalServerError" }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
           }
         }
       }
@@ -143,7 +151,6 @@
         },
         "required": ["username", "password", "contact", "personal_data"]
       },
-
       "ResBodyToUserCreation": {
         "type": "object",
         "properties": {
@@ -161,6 +168,27 @@
             "type": "string",
             "description": "Nível de acesso do usuáro.",
             "example": "COMMON"
+          }
+        }
+      },
+
+      "InternalServerError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "description": "Ocorreu algum erro interno ao servidor.",
+            "type": "string",
+            "example": "An internal server error occurred."
+          }
+        }
+      },
+      "BadRequestError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A requisição não contém todas as propriedades necessárias.",
+            "examples": ["Password is required.", "User already registered."]
           }
         }
       }
