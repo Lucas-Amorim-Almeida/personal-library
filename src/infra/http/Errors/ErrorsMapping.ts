@@ -3,7 +3,7 @@ import BadRequestError from "./BadRequestError";
 import HTTPError from "./HTTPError";
 import NotFoundError from "./NotFoundError";
 import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
-import NotAvailableError from "@/domain/application/Errors/NotAvailableError";
+//import NotAvailableError from "@/domain/application/Errors/NotAvailableError";
 import EmailError from "@/domain/core/Errors/UserErrors/EmailError";
 import PhoneError from "@/domain/core/Errors/UserErrors/PhoneError";
 import CollectionIdError from "@/domain/core/Errors/CollectionErrors/CollectionIdError";
@@ -20,7 +20,7 @@ type ErrorConstructor = new (...args: any[]) => Error;
 const errorMap = new Map<ErrorConstructor, [typeof HTTPError, number]>([
   [FieldRequiredError, [BadRequestError, 400]],
   [InvalidFieldError, [BadRequestError, 400]],
-  [NotAvailableError, [BadRequestError, 400]],
+  //[NotAvailableError, [BadRequestError, 400]],
   [EmailError, [BadRequestError, 400]],
   [PhoneError, [BadRequestError, 400]],
   [CollectionIdError, [BadRequestError, 400]],

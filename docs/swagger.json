@@ -39,7 +39,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResBodyToUserCreation"
+                  "$ref": "#/components/schemas/ResBodyToUserDefault"
                 }
               }
             }
@@ -57,6 +57,55 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "Responsável pelo login dos usuários. Verifica as credenciais fornecidas pelo usuários com as presentes no banco de dados.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/LoginReqBody" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResBodyToUserDefault"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
               }
             }
           }
@@ -151,7 +200,7 @@
         },
         "required": ["username", "password", "contact", "personal_data"]
       },
-      "ResBodyToUserCreation": {
+      "ResBodyToUserDefault": {
         "type": "object",
         "properties": {
           "id": {
@@ -162,7 +211,7 @@
           "username": {
             "type": "string",
             "description": "Nome de usuário na base de dados",
-            "example": "john_doe"
+            "example": "joao_silva"
           },
           "access_level": {
             "type": "string",
@@ -170,6 +219,22 @@
             "example": "COMMON"
           }
         }
+      },
+      "LoginReqBody": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "description": "Nome do usuário, consiste em uma apelido (nickname).",
+            "type": "string",
+            "example": "joao_silva"
+          },
+          "password": {
+            "description": "Senha escolhida pelo usuário",
+            "type": "string",
+            "example": "12345678"
+          }
+        },
+        "required": ["username", "password"]
       },
 
       "InternalServerError": {
@@ -189,6 +254,20 @@
             "type": "string",
             "description": "A requisição não contém todas as propriedades necessárias.",
             "examples": ["Password is required.", "User already registered."]
+          }
+        }
+      },
+      "NotFoundError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "A requisição pretende buscar uma entidade que não está salvo no banco de dados.",
+            "examples": [
+              "User not found.",
+              "Book not found.",
+              "Collection not found."
+            ]
           }
         }
       }
