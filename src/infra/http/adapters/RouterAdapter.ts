@@ -2,9 +2,9 @@ import Controller from "@/infra/adapters/interfaces/Controller";
 import HTTPRequest from "@/infra/interfaces/HTTPRequest";
 import HTTPResponse from "@/infra/interfaces/HTTPResponse";
 import { Request, Response } from "express";
-import HTTPErrorsAdapater from "../HTTPErrorsAdapater";
+import HTTPErrorsAdapater from "./HTTPErrorsAdapater";
 
-export default class CreateUserRouteAdapter {
+export default class RouterAdapter {
   constructor(
     readonly req: Request,
     readonly res: Response,

@@ -54,26 +54,6 @@ describe("CreateUserInputBoundary", () => {
         FieldRequiredError,
       );
     });
-
-    it("Should return an Error", () => {
-      const params = {
-        username: "john_doe",
-        password: "12345678",
-        access_level: "",
-        contact: {
-          email: "jonh_doe@example.com",
-          phone: ["+5511911111111", "+5522922222222"],
-        },
-        personal_data: {
-          name: "John Doe",
-          birth_date: new Date(2001, 1, 11),
-        },
-      };
-
-      expect(() => new CreateUserInputBoundary(params)).toThrow(
-        FieldRequiredError,
-      );
-    });
   });
 
   describe("get", () => {

@@ -1,4 +1,5 @@
 import AccessLevel from "@/domain/core/AccessLevel";
+import UserStatus from "@/domain/core/UserStatus";
 import { Document } from "mongoose";
 
 export interface IContact {
@@ -21,4 +22,5 @@ export interface IUser extends Document {
   access_level: AccessLevel;
   contact?: IContact;
   personal_data?: IPersonalData;
+  status: UserStatus;
 }

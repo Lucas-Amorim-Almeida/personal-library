@@ -5,13 +5,13 @@ import User from "@/domain/core/User";
 export default class UserRepository implements Repository {
   private readonly userModel;
   constructor() {
-    this.userModel = new UserModel().getModel();
+    this.userModel = UserModel.getModel();
   }
 
   async save<Input, Output>(data: Input): Promise<Output> {
     const user = data as User;
 
-    const { username, password, access_level, contact, personal_data } =
+    const { username, password, access_level, contact, personal_data, status } =
       user.get();
     const userContactData = contact?.get();
     const userPersonalData = personal_data?.get();
@@ -25,6 +25,7 @@ export default class UserRepository implements Repository {
         contact: userContactData?.phone.map((item) => item.get()),
       },
       personal_data: userPersonalData,
+      status,
     });
 
     return dbUser as Output;

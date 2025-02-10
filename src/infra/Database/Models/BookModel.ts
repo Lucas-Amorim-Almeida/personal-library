@@ -18,7 +18,7 @@ export default class BookModel {
     { timestamps: true },
   );
 
-  getModel() {
-    return model<IBook>("Book") || model<IBook>("Book", BookModel.schema);
+  static getModel() {
+    return model<IBook>("Book", this.schema);
   }
 }

@@ -1,15 +1,18 @@
 import { Router } from "express";
 import CreateUserFactory from "../factories/UserFactory/CreateUserFactory";
-import CreateUserRouteAdapter from "../adapters/UserRoutesAdapters/CreateUserRouteAdapter";
+import RouterAdapter from "../adapters/RouterAdapter";
+import LoginFactory from "../factories/UserFactory/LoginFactory";
 
 const userRoutes = Router();
+const createUserController = new CreateUserFactory().getController();
+const loginController = new LoginFactory().getController();
 
-const controller = new CreateUserFactory().getController();
 userRoutes.post("/", async (req, res) => {
-  await new CreateUserRouteAdapter(req, res).handle(controller);
+  await new RouterAdapter(req, res).handle(createUserController);
 });
-userRoutes.get("/route", async function () {
-  throw new Error("Teste de erro");
+
+userRoutes.post("/login", async (req, res) => {
+  await new RouterAdapter(req, res).handle(loginController);
 });
 
 export default userRoutes;
