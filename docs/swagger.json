@@ -166,6 +166,61 @@
           }
         }
       }
+    },
+    "/user/contact/:id": {
+      "post": {
+        "summary": "Responsável pelo login dos usuários. Verifica as credenciais fornecidas pelo usuários com as presentes no banco de dados.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateContactReqBody" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
     }
   },
 
@@ -306,6 +361,24 @@
           }
         },
         "required": ["current_password", "new_password"]
+      },
+      "UpdateContactReqBody": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "description": "Novo email do usuário.",
+            "type": "string",
+            "example": "new_email@example.com"
+          },
+          "phone": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Array contendo os novos números de contato do usuário",
+            "example": ["+5511911111111", "+5511922222222"]
+          }
+        }
       },
 
       "InternalServerError": {

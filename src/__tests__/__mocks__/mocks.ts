@@ -17,12 +17,28 @@ export const encrypterMock: jest.Mocked<Cryptography> = {
   setPlainText: jest.fn(),
 };
 
+export const dbContactExample = {
+  email: "jonh_doe@example.com",
+  phone: ["+5511911111111", "+5522922222222"],
+  created_at: new Date(2020, 2, 22),
+  updated_at: new Date(2022, 2, 22),
+};
+
+export const dbPersonalDataExample = {
+  name: "John Doe",
+  birth_date: new Date(2001, 1, 11),
+  created_at: new Date(2020, 2, 22),
+  updated_at: new Date(2022, 2, 22),
+};
+
 export const dbUserExample: DBOutputUserData = {
   id: "id-0001",
   username: "john_doe",
   password: "1234",
-  status: "ATIVO",
   access_level: "COMMON",
+  status: "ATIVO",
+  contact: dbContactExample,
+  personal_data: dbPersonalDataExample,
   created_at: new Date(2020, 2, 22),
   updated_at: new Date(2022, 2, 22),
 };
@@ -39,20 +55,4 @@ export const userInputExample = {
     name: "John Doe",
     birth_date: new Date(2001, 1, 11),
   },
-};
-
-export const dbContactExample = {
-  id: "id-123456",
-  email: "jonh_doe@example.com",
-  phone: ["+5511911111111", "+5522922222222"],
-  created_at: new Date(2020, 2, 22),
-  updated_at: new Date(2022, 2, 22),
-};
-
-export const dbPersonalDataExample = {
-  id: "id-123456",
-  name: "John Doe",
-  birth_date: new Date(2001, 1, 11),
-  created_at: new Date(2020, 2, 22),
-  updated_at: new Date(2022, 2, 22),
 };

@@ -26,13 +26,50 @@ describe("ContactUpdate", () => {
     });
   });
 
+  const dbUserExample = {
+    id: "id-0001",
+    username: "john_doe",
+    password: "1234",
+    access_level: "COMMON",
+    status: "ATIVO",
+    contact: {
+      email: "jonh_doe@example.com",
+      phone: ["+5511911111111", "+5522922222222"],
+      created_at: new Date(2020, 2, 22),
+      updated_at: new Date(2022, 2, 22),
+    },
+    personal_data: {
+      name: "John Doe",
+      birth_date: new Date(2001, 1, 11),
+      created_at: new Date(2020, 2, 22),
+      updated_at: new Date(2022, 2, 22),
+    },
+    created_at: new Date(2020, 2, 22),
+    updated_at: new Date(2022, 2, 22),
+  };
+
   describe("execute", () => {
     it("Should be an instance of OutputBoundary data changed.", async () => {
-      repositoryMock.getOne.mockResolvedValue(dbContactExample);
+      repositoryMock.getOne.mockResolvedValue(dbUserExample);
+
       repositoryMock.update.mockResolvedValue({
-        user_id: "id-000001",
-        email: "jonh_doe_22@example.com",
-        phone: ["+5511900000000"],
+        id: "id-0001",
+        username: "john_doe",
+        password: "1234",
+        access_level: "COMMON",
+        status: "ATIVO",
+        contact: {
+          email: "jonh_doe_22@example.com",
+          phone: ["+5511900000000"],
+          created_at: new Date(2020, 2, 22),
+          updated_at: new Date(2022, 2, 22),
+        },
+        personal_data: {
+          name: "John Doe",
+          birth_date: new Date(2001, 1, 11),
+          created_at: new Date(2020, 2, 22),
+          updated_at: new Date(2022, 2, 22),
+        },
         created_at: new Date(2020, 2, 22),
         updated_at: new Date(2022, 2, 22),
       });
@@ -45,17 +82,19 @@ describe("ContactUpdate", () => {
 
       const [output] = await contactUpdater.execute(inputBoundary);
       expect(output).toBeInstanceOf(ContactUpdateOutputBoundary);
-      expect(output.get().get().email.get()).toBe("jonh_doe_22@example.com");
-      expect(output.get().get().phone).toEqual(inputParams.phone);
+      expect(output.get().email).toBe("jonh_doe_22@example.com");
+      expect(output.get().phone).toEqual(["+5511900000000"]);
 
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-000001",
+        _id: "id-000001",
       });
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        query: { id: "id-000001" },
+        query: { _id: "id-000001" },
         update_fields: {
-          email: new Email("jonh_doe_22@example.com"),
-          phone: [new Phone("+5511900000000")],
+          contact: {
+            email: "jonh_doe_22@example.com",
+            phone: ["+5511900000000"],
+          },
         },
       });
     });
@@ -82,7 +121,7 @@ describe("ContactUpdate", () => {
         EntityNotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-000001",
+        _id: "id-000001",
       });
     });
 
@@ -96,13 +135,15 @@ describe("ContactUpdate", () => {
         await contactUpdater.execute(inputBoundary);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({
-          id: "id-000001",
+          _id: "id-000001",
         });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          query: { id: "id-000001" },
+          query: { _id: "id-000001" },
           update_fields: {
-            email: new Email("jonh_doe_22@example.com"),
-            phone: [new Phone("+5511900000000")],
+            contact: {
+              email: "jonh_doe_22@example.com",
+              phone: ["+5511900000000"],
+            },
           },
         });
         expect(error).toEqual(new InternalError());

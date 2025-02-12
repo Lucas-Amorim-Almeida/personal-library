@@ -23,10 +23,10 @@ export default class ChangePassword
   async execute(
     inputData: InputBoundary<InputChangePassword>,
   ): Promise<OutputBoundary<DBOutputUserData>[]> {
-    const { id, current_password, new_password } = inputData.get();
+    const { id: _id, current_password, new_password } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
-      id,
+      _id,
     });
     if (!dbUser) {
       throw new EntityNotFoundError("User");
@@ -42,7 +42,7 @@ export default class ChangePassword
 
     const encryptedPassword = await this.passwordEncryper(new_password);
     const updatedUser: DBOutputUserData | null = await this.repository.update({
-      query: { id },
+      query: { _id },
       update_fields: { password: encryptedPassword },
     });
     if (!updatedUser) {

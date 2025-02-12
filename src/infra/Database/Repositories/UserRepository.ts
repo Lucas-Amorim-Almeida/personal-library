@@ -33,7 +33,7 @@ export default class UserRepository implements Repository {
 
   async getOne<Input, Output>(query: Input): Promise<Output | null> {
     const dbUser = await this.userModel.findOne(
-      query as { username: string } | { id: string },
+      query as { username: string } | { _id: string },
     );
 
     return dbUser as Output | null;

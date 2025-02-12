@@ -1,6 +1,5 @@
 import UseCase from "@/domain/application/UseCase";
 import Controller from "../../interfaces/Controller";
-import Presenter from "../../interfaces/Presenter";
 import {
   DBOutputUserData,
   InputChangePassword,
@@ -12,7 +11,6 @@ import ChangePasswordInputBoundary from "@/domain/application/User/ChangePasswor
 
 export default class ChangePasswordController implements Controller {
   constructor(
-    readonly presenter: Presenter,
     readonly useCase: UseCase<InputChangePassword, DBOutputUserData>,
   ) {}
 
@@ -24,8 +22,6 @@ export default class ChangePasswordController implements Controller {
 
     const input = new ChangePasswordInputBoundary(inputParams);
     await this.useCase.execute(input);
-    //const [user] = await this.useCase.execute(input);
-    //const output = this.presenter.output(user.get());
 
     return new ResponseObject(200);
   }

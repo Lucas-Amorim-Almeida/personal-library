@@ -12,7 +12,11 @@ export default class RouterAdapter {
 
   async handle(controller: Controller) {
     try {
-      const httpRequest: HTTPRequest = { body: this.req.body };
+      const httpRequest: HTTPRequest = {
+        body: this.req.body,
+        params: this.req.params,
+        query: this.req.query,
+      };
       const httpResponse: HTTPResponse = await controller.handle(httpRequest);
 
       return this.res.status(httpResponse.statusCode).json(httpResponse.body);

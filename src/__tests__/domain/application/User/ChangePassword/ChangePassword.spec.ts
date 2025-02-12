@@ -39,7 +39,7 @@ describe("ChangePassword", () => {
       encrypterMock.compare.mockResolvedValue(true);
       encrypterMock.encrypt.mockResolvedValue("1ja2sbd3aie4u39682yejas");
       repositoryMock.update.mockResolvedValue({
-        id: "id-0001",
+        _id: "id-0001",
         username: "john_doe",
         password: "1ja2sbd3aie4u39682yejas",
         status: "ATIVO",
@@ -57,14 +57,14 @@ describe("ChangePassword", () => {
       expect(response.get().password).toEqual("1ja2sbd3aie4u39682yejas");
 
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-0001",
+        _id: "id-0001",
       });
       expect(encrypterMock.compare).toHaveBeenCalledWith(
         dbUserExample.password,
       );
       expect(encrypterMock.encrypt).toHaveBeenCalledWith();
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        query: { id: "id-0001" },
+        query: { _id: "id-0001" },
         update_fields: { password: "1ja2sbd3aie4u39682yejas" },
       });
     });
@@ -77,7 +77,7 @@ describe("ChangePassword", () => {
         EntityNotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-0001",
+        _id: "id-0001",
       });
     });
 
@@ -91,7 +91,7 @@ describe("ChangePassword", () => {
         await changePassword.execute(inputBoundaryMock);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({
-          id: "id-0001",
+          _id: "id-0001",
         });
         expect(encrypterMock.compare).toHaveBeenCalledWith(
           dbUserExample.password,
@@ -112,14 +112,14 @@ describe("ChangePassword", () => {
         await changePassword.execute(inputBoundaryMock);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({
-          id: "id-0001",
+          _id: "id-0001",
         });
         expect(encrypterMock.compare).toHaveBeenCalledWith(
           dbUserExample.password,
         );
         expect(encrypterMock.encrypt).toHaveBeenCalledWith();
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          query: { id: "id-0001" },
+          query: { _id: "id-0001" },
           update_fields: { password: "1ja2sbd3aie4u39682yejas" },
         });
         expect(error).toEqual(new InternalError());

@@ -1,4 +1,3 @@
-import { presenterMock } from "@/__tests__/__mocks__/adapterMock";
 import { dbUserExample, repositoryMock } from "@/__tests__/__mocks__/mocks";
 import {
   DBOutputUserData,
@@ -10,13 +9,13 @@ import ResponseObject from "@/infra/adapters/controllers/http/protocols/Response
 import ChangePasswordController from "@/infra/adapters/controllers/UserControllers/ChangePasswordController";
 import HTTPRequest from "@/infra/interfaces/HTTPRequest";
 
-const credentials = {
+const inputParams = {
   current_password: "12345678",
   new_password: "123456789",
 };
 
 const httpRequestMock: jest.Mocked<HTTPRequest> = {
-  body: credentials,
+  body: inputParams,
 };
 const userUseCaseMock: jest.Mocked<
   UseCase<InputChangePassword, DBOutputUserData>
@@ -27,9 +26,9 @@ const userUseCaseMock: jest.Mocked<
 describe("ChangePasswordController", () => {
   describe("Constructor", () => {
     it("Should be an instance of LoginController.", () => {
-      expect(
-        new ChangePasswordController(presenterMock, userUseCaseMock),
-      ).toBeInstanceOf(ChangePasswordController);
+      expect(new ChangePasswordController(userUseCaseMock)).toBeInstanceOf(
+        ChangePasswordController,
+      );
     });
   });
 
@@ -39,10 +38,7 @@ describe("ChangePasswordController", () => {
         new UserOutputBoundary(dbUserExample),
       ]);
 
-      const controller = new ChangePasswordController(
-        presenterMock,
-        userUseCaseMock,
-      );
+      const controller = new ChangePasswordController(userUseCaseMock);
 
       expect(controller.handle(httpRequestMock)).resolves.toBeInstanceOf(
         ResponseObject,
