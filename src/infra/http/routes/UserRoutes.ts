@@ -5,6 +5,7 @@ import LoginFactory from "../factories/UserFactory/LoginFactory";
 import ChangePasswordFactory from "../factories/UserFactory/ChangePasswordFactory";
 import ContactUpdateFactory from "../factories/UserFactory/ContactUpdateFactory";
 import PersonalDataUpdateFactory from "../factories/UserFactory/PErsonalDataUpdateFactory";
+import UserStatusUpdateFactory from "../factories/UserFactory/UserStatusUpdateFactory";
 
 const userRoutes = Router();
 const createUserController = new CreateUserFactory().getController();
@@ -13,6 +14,8 @@ const changePasswordController = new ChangePasswordFactory().getController();
 const contactUpdateController = new ContactUpdateFactory().getController();
 const personalDataUpdateController =
   new PersonalDataUpdateFactory().getController();
+const userStatusUpdateController =
+  new UserStatusUpdateFactory().getController();
 
 //Este é um módulo que contém as rotas para user. Logo, id se refere ao id do usuário
 
@@ -39,6 +42,11 @@ userRoutes.patch("/contact/:id", async (req, res) => {
 //Alteração das informações perssoais do usuário
 userRoutes.patch("/personal_data/:id", async (req, res) => {
   await new RouterAdapter(req, res).handle(personalDataUpdateController);
+});
+
+//Alteração do status de usuário: se está banido, ativo ou na "fila" de deleção
+userRoutes.patch("/status/:id", async (req, res) => {
+  await new RouterAdapter(req, res).handle(userStatusUpdateController);
 });
 
 export default userRoutes;

@@ -30,7 +30,7 @@ describe("UserStatusUpdate", () => {
       const statusUpdate = new UserStatusUpdate(repositoryMock);
 
       const updatedUserMock = {
-        id: "id-0001",
+        _id: "id-0001",
         username: "john_doe",
         password: "1234",
         status: "BANIDO",
@@ -49,8 +49,11 @@ describe("UserStatusUpdate", () => {
       const [response] = await statusUpdate.execute(inputBoundaryMock);
       expect(response).toBeInstanceOf(UserOutputBoundary);
       expect(response.get()).toEqual(updatedUserMock);
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
-      expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "id-000001" });
+      expect(repositoryMock.update).toHaveBeenCalledWith({
+        query: { _id: "id-000001" },
+        update_fields: { status: UserStatus.BANNED },
+      });
     });
 
     it("Should throws an error User not found.", async () => {
@@ -61,7 +64,7 @@ describe("UserStatusUpdate", () => {
       expect(statusUpdate.execute(inputBoundaryMock)).rejects.toThrow(
         EntityNotFoundError,
       );
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "id-000001" });
     });
 
     it("Should throws an internal error.", async () => {
@@ -73,8 +76,13 @@ describe("UserStatusUpdate", () => {
       try {
         await statusUpdate.execute(inputBoundaryMock);
       } catch (error) {
-        expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
-        expect(repositoryMock.update).toHaveBeenCalledWith(inputParams);
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          _id: "id-000001",
+        });
+        expect(repositoryMock.update).toHaveBeenCalledWith({
+          query: { _id: "id-000001" },
+          update_fields: { status: UserStatus.BANNED },
+        });
         expect(error).toEqual(new InternalError());
       }
     });

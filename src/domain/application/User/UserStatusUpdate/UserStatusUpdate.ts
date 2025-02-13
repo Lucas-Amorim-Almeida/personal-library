@@ -17,17 +17,20 @@ export default class UserStatusUpdate
   async execute(
     inputData: InputBoundary<{ id: string; status: UserStatus }>,
   ): Promise<OutputBoundary<DBOutputUserData>[]> {
-    const { id, status } = inputData.get();
+    const { id: _id, status } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
-      id,
+      _id,
     });
     if (!dbUser) {
       throw new EntityNotFoundError("User");
     }
 
     const dbUserStatusChanged: DBOutputUserData | null =
-      await this.repository.update({ id, status });
+      await this.repository.update({
+        query: { _id },
+        update_fields: { status },
+      });
     if (!dbUserStatusChanged) {
       throw new InternalError();
     }
