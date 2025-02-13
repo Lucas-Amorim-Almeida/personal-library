@@ -22,7 +22,7 @@ export default class App {
   }
 
   configRoutes(): void {
-    this.app.use("/user", userRoutes);
+    this.app.use("/api/v1/user", userRoutes);
 
     // Configuração do Swagger
     this.app.use(

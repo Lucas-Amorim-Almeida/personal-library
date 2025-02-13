@@ -113,8 +113,8 @@
       }
     },
     "/user/password/:id": {
-      "post": {
-        "summary": "Responsável pelo login dos usuários. Verifica as credenciais fornecidas pelo usuários com as presentes no banco de dados.",
+      "patch": {
+        "summary": "Responsável alteração das senhas dos usuários.",
         "parameters": [
           {
             "name": "id",
@@ -168,8 +168,8 @@
       }
     },
     "/user/contact/:id": {
-      "post": {
-        "summary": "Responsável pelo login dos usuários. Verifica as credenciais fornecidas pelo usuários com as presentes no banco de dados.",
+      "patch": {
+        "summary": "Responsável pelo alteração das informações de contato dos usuários.",
         "parameters": [
           {
             "name": "id",
@@ -188,6 +188,128 @@
           "content": {
             "application/json": {
               "schema": { "$ref": "#/components/schemas/UpdateContactReqBody" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/personal_data/:id": {
+      "patch": {
+        "summary": "Responsável pelo alteração das informações pessoais dos usuários.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePersonalDataReqBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/status/:id": {
+      "patch": {
+        "summary": "Responsável pelo alteração do status dos usuários.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "description": "Novo status do usuário.",
+                    "type": "string",
+                    "enum": ["ATIVO", "SUSPENSO", "BANIDO"],
+                    "example": "SUSPENSO"
+                  }
+                }
+              }
             }
           }
         },
@@ -377,6 +499,22 @@
             },
             "description": "Array contendo os novos números de contato do usuário",
             "example": ["+5511911111111", "+5511922222222"]
+          }
+        }
+      },
+      "UpdatePersonalDataReqBody": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Para corrigir algum erro no nome do usuário.",
+            "type": "string",
+            "example": "João Santos Silva"
+          },
+          "birth_date": {
+            "description": "Para corrigir algum erro na data de nascimento do usuário.",
+            "type": "string",
+            "format": "date",
+            "example": "2000-02-22"
           }
         }
       },
