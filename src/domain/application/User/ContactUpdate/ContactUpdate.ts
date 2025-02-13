@@ -23,13 +23,19 @@ export default class ContactUpdate
   constructor(readonly repository: Repository) {}
 
   private updateFieldsAssembler(
+    dbContact: DBOutputContactData,
     email: Email | undefined,
     phone: Phone[] | undefined,
   ) {
     return !email
-      ? { contact: { phone: phone?.map((item) => item.get()) } }
+      ? {
+          contact: {
+            email: dbContact.email,
+            phone: phone?.map((item) => item.get()),
+          },
+        }
       : phone?.length === 0
-        ? { contact: { email: email.get() } }
+        ? { contact: { email: email.get(), phone: dbContact.phone } }
         : {
             contact: {
               email: email.get(),
@@ -58,7 +64,11 @@ export default class ContactUpdate
       throw new EntityNotFoundError("User");
     }
 
-    const fieldsToUpdate = this.updateFieldsAssembler(email, phone);
+    const fieldsToUpdate = this.updateFieldsAssembler(
+      dbResponse.contact,
+      email,
+      phone,
+    );
 
     const updateResponse: DBOutputUserData | null =
       await this.repository.update({

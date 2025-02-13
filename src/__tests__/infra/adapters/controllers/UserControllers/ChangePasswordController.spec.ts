@@ -25,7 +25,7 @@ const userUseCaseMock: jest.Mocked<
 };
 describe("ChangePasswordController", () => {
   describe("Constructor", () => {
-    it("Should be an instance of LoginController.", () => {
+    it("Should be an instance of ChangePasswordController.", () => {
       expect(new ChangePasswordController(userUseCaseMock)).toBeInstanceOf(
         ChangePasswordController,
       );

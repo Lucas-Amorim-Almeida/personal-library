@@ -1,6 +1,5 @@
 import { dbPersonalDataExample } from "@/__tests__/__mocks__/mocks";
 import PersonalDataUpdateOutputBoundary from "@/domain/application/User/PersonalDataUpdate/PersonalDataUpdateOutputBoundary";
-import PersonalData from "@/domain/core/PersonalData";
 
 describe("PersonalDataUpdateOutputBoundary", () => {
   describe("Constructor", () => {
@@ -15,7 +14,7 @@ describe("PersonalDataUpdateOutputBoundary", () => {
       const output = new PersonalDataUpdateOutputBoundary(
         dbPersonalDataExample,
       );
-      expect(output.get()).toBeInstanceOf(PersonalData);
+      expect(output.get()).toEqual(dbPersonalDataExample);
     });
   });
 });

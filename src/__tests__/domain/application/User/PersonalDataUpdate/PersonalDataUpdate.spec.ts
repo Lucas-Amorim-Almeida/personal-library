@@ -33,7 +33,7 @@ describe("PersonalDataUpdate", () => {
     it("Should be an instance of PersonalDataUpdateOutputBoundary.", async () => {
       repositoryMock.getOne.mockResolvedValue(dbPersonalDataExample);
       repositoryMock.update.mockResolvedValue({
-        id: "id-123456",
+        _id: "id-123456",
         name: "Johnathan Someone",
         birth_date: new Date(2000, 1, 11),
         created_at: new Date(2020, 2, 22),
@@ -47,12 +47,14 @@ describe("PersonalDataUpdate", () => {
 
       const [response] = await personalDataUpdate.execute(inputBoundary);
       expect(response).toBeInstanceOf(PersonalDataUpdateOutputBoundary);
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "id-000001" });
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        query: { id: "id-000001" },
+        query: { _id: "id-000001" },
         update_fields: {
-          name: "Johnathan Someone",
-          birth_date: new Date(2000, 1, 11),
+          personal_data: {
+            name: "Johnathan Someone",
+            birth_date: new Date(2000, 1, 11),
+          },
         },
       });
     });
@@ -79,7 +81,7 @@ describe("PersonalDataUpdate", () => {
       expect(personalDataUpdate.execute(inputBoundary)).rejects.toThrow(
         EntityNotFoundError,
       );
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "id-000001" });
     });
 
     it("Should throws an error of An internal server error occurred.", async () => {
@@ -91,12 +93,16 @@ describe("PersonalDataUpdate", () => {
       try {
         await personalDataUpdate.execute(inputBoundary);
       } catch (error) {
-        expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-000001" });
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          _id: "id-000001",
+        });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          query: { id: "id-000001" },
+          query: { _id: "id-000001" },
           update_fields: {
-            name: "Johnathan Someone",
-            birth_date: new Date(2000, 1, 11),
+            personal_data: {
+              name: "Johnathan Someone",
+              birth_date: new Date(2000, 1, 11),
+            },
           },
         });
         expect(error).toEqual(new InternalError());
