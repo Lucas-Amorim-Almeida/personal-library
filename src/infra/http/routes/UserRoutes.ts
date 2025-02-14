@@ -4,8 +4,9 @@ import RouterAdapter from "../adapters/RouterAdapter";
 import LoginFactory from "../factories/UserFactory/LoginFactory";
 import ChangePasswordFactory from "../factories/UserFactory/ChangePasswordFactory";
 import ContactUpdateFactory from "../factories/UserFactory/ContactUpdateFactory";
-import PersonalDataUpdateFactory from "../factories/UserFactory/PErsonalDataUpdateFactory";
+import PersonalDataUpdateFactory from "../factories/UserFactory/PersonalDataUpdateFactory";
 import UserStatusUpdateFactory from "../factories/UserFactory/UserStatusUpdateFactory";
+import RemoveUserFactory from "../factories/UserFactory/RemoveUserFactory";
 
 const userRoutes = Router();
 const createUserController = new CreateUserFactory().getController();
@@ -16,6 +17,7 @@ const personalDataUpdateController =
   new PersonalDataUpdateFactory().getController();
 const userStatusUpdateController =
   new UserStatusUpdateFactory().getController();
+const removeUserController = new RemoveUserFactory().getController();
 
 //Este é um módulo que contém as rotas para user. Logo, id se refere ao id do usuário
 
@@ -47,6 +49,11 @@ userRoutes.patch("/personal_data/:id", async (req, res) => {
 //Alteração do status de usuário: se está banido, ativo ou na "fila" de deleção
 userRoutes.patch("/status/:id", async (req, res) => {
   await new RouterAdapter(req, res).handle(userStatusUpdateController);
+});
+
+//"Remove" informações de um usuário no banco de dados
+userRoutes.patch("/delete/:id", async (req, res) => {
+  await new RouterAdapter(req, res).handle(removeUserController);
 });
 
 export default userRoutes;

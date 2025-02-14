@@ -14,10 +14,10 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
   async execute(
     inputData: InputBoundary<{ id: string }>,
   ): Promise<OutputBoundary<boolean>[]> {
-    const { id } = inputData.get();
+    const { id: _id } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
-      id,
+      _id,
     });
     if (!dbUser) {
       throw new EntityNotFoundError("User");
@@ -25,7 +25,7 @@ export default class RemoveUser implements UseCase<{ id: string }, boolean> {
 
     const dbUserStatusChanged: DBOutputUserData | null =
       await this.repository.update({
-        query: { id },
+        query: { _id },
         update_fields: { status: UserStatus.TO_DELETE },
       });
     if (!dbUserStatusChanged) {

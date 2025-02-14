@@ -37,9 +37,9 @@ describe("RemoveUser", () => {
       expect(removeUser.execute(inputBoundary)).resolves.toBeInstanceOf(Array);
       const [response] = await removeUser.execute(inputBoundary);
       expect(response).toBeInstanceOf(RemoveUserOutputBoundary);
-      expect(repositoryMock.getOne).toHaveBeenCalledWith(params);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: params.id });
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        query: { id: params.id },
+        query: { _id: params.id },
         update_fields: { status: UserStatus.TO_DELETE },
       });
     });
@@ -52,7 +52,7 @@ describe("RemoveUser", () => {
       expect(removeUser.execute(inputBoundary)).rejects.toThrow(
         EntityNotFoundError,
       );
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "id-0001" });
     });
 
     it("Should throws an interenal error", async () => {
@@ -64,9 +64,9 @@ describe("RemoveUser", () => {
       try {
         await removeUser.execute(inputBoundary);
       } catch (error) {
-        expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: params.id });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          query: { id: "id-0001" },
+          query: { _id: params.id },
           update_fields: { status: UserStatus.TO_DELETE },
         });
         expect(error).toEqual(new InternalError());
