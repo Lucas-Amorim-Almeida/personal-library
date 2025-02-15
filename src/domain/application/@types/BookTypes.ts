@@ -1,7 +1,7 @@
 import BookGenre from "@/domain/core/BookGenre";
 
 export type DBOutputBookData = {
-  id: string;
+  _id: string;
   title: string;
   author: string[];
   edition: string;

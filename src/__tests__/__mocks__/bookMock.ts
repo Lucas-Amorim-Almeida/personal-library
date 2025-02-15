@@ -1,5 +1,5 @@
 export const dbBookInsertExample = {
-  id: "id-00005",
+  _id: "id-00005",
   title: "Duna",
   author: ["Frank Herbert"],
   edition: "30ª edição",
@@ -14,7 +14,7 @@ export const dbBookInsertExample = {
 };
 
 export const dbBookExample2 = {
-  id: "id-00002",
+  _id: "id-00002",
   title: "O Hobbit",
   author: ["J. R. R. Tolkien"],
   edition: "Coleção Nova Fronteira",
@@ -29,7 +29,7 @@ export const dbBookExample2 = {
 };
 
 export const dbBookExample3 = {
-  id: "id-00003",
+  _id: "id-00003",
   title: "As Crônicas de Nárnia",
   author: ["C. S. Lewis"],
   edition: "Coleção HarperCollins",
@@ -44,7 +44,7 @@ export const dbBookExample3 = {
 };
 
 export const dbBookExample4 = {
-  id: "id-00004",
+  _id: "id-00004",
   title: "A Saga da Fundação",
   author: ["Isaac Asimov"],
   edition: "Edição comemorativa",
@@ -59,7 +59,7 @@ export const dbBookExample4 = {
 };
 
 export const dbBookExample = {
-  id: "id-00001",
+  _id: "id-00001",
   title: "O Senhor dos Anéis",
   author: ["J. R. R. Tolkien"],
   edition: "Coleção Nova Fronteira",

@@ -3,10 +3,11 @@ import "dotenv/config";
 import * as express from "express";
 import * as http from "http";
 import Database from "./infra/Database/config/Database";
-import userRoutes from "./infra/http/routes/UserRoutes";
 import * as swaggerUi from "swagger-ui-express";
 import * as swaggerDoc from "../docs/swagger.json";
 import { errorsMiddleWare } from "./infra/http/middlewares/errors.middleware";
+import userRoutes from "./infra/http/routes/UserRoutes";
+import bookRoutes from "./infra/http/routes/BookRoutes";
 
 export default class App {
   private app;
@@ -23,6 +24,8 @@ export default class App {
 
   configRoutes(): void {
     this.app.use("/api/v1/user", userRoutes);
+    this.app.use("/api/v1/book", bookRoutes);
+    //this.app.use("/api/v1/collection", userRoutes);
 
     // Configuração do Swagger
     this.app.use(

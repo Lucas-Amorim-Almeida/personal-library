@@ -62,7 +62,7 @@ describe("CreateCollection", () => {
         id: "id-00001",
       });
       expect(bookRepository.getOne).toHaveBeenCalledWith({
-        id: books[0].book_id,
+        _id: books[0].book_id,
       });
       expect(collectionRepository.save).toHaveBeenCalledWith(
         expect.any(Collection),
@@ -87,7 +87,7 @@ describe("CreateCollection", () => {
           id: "id-00001",
         });
         expect(bookRepository.getOne).toHaveBeenCalledWith({
-          id: books[0].book_id,
+          _id: books[0].book_id,
         });
         expect(collectionRepository.save).toHaveBeenCalledWith(
           expect.any(Collection),
@@ -123,7 +123,7 @@ describe("CreateCollection", () => {
           id: "id-00001",
         });
         expect(bookRepository.getOne).toHaveBeenCalledWith({
-          id: books[0].book_id,
+          _id: books[0].book_id,
         });
         expect(error).toEqual(new EntityNotFoundError("Book"));
       }

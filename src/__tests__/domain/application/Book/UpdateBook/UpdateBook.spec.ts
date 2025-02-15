@@ -6,7 +6,6 @@ import UpdateBook from "@/domain/application/Book/UpdateBook/UpdateBook";
 import InternalError from "@/domain/application/Errors/InternalError";
 import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
-import Book from "@/domain/core/Book";
 import BookGenre from "@/domain/core/BookGenre";
 
 const inputParams = {
@@ -45,21 +44,24 @@ describe("UpdateBook", () => {
 
       const [output] = await bookUpdate.execute(inputBoundaryMock);
       expect(output).toBeInstanceOf(BookOutputBoundary);
-      expect(output.get()).toBeInstanceOf(Book);
+      expect(output.get()).toEqual(dbBookExample);
 
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-00001",
+        _id: "id-00001",
       });
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        title: "O Senhor dos Anéis",
-        author: ["J. R. R. Tolkien"],
-        edition: "Coleção Nova Fronteira",
-        publication_year: 1954,
-        publisher: "Nova Fronteira",
-        publication_location: "Rio de Janeiro",
-        isbn: "9788520908190",
-        volume: 1,
-        genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+        query: { _id: "id-00001" },
+        update_fields: {
+          title: "O Senhor dos Anéis",
+          author: ["J. R. R. Tolkien"],
+          edition: "Coleção Nova Fronteira",
+          publication_year: 1954,
+          publisher: "Nova Fronteira",
+          publication_location: "Rio de Janeiro",
+          isbn: "9788520908190",
+          volume: 1,
+          genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+        },
       });
     });
 
@@ -72,7 +74,7 @@ describe("UpdateBook", () => {
         EntityNotFoundError,
       );
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-00001",
+        _id: "id-00001",
       });
     });
 
@@ -86,18 +88,21 @@ describe("UpdateBook", () => {
         await bookUpdate.execute(inputBoundaryMock);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({
-          id: "id-00001",
+          _id: "id-00001",
         });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          title: "O Senhor dos Anéis",
-          author: ["J. R. R. Tolkien"],
-          edition: "Coleção Nova Fronteira",
-          publication_year: 1954,
-          publisher: "Nova Fronteira",
-          publication_location: "Rio de Janeiro",
-          isbn: "9788520908190",
-          volume: 1,
-          genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+          query: { _id: "id-00001" },
+          update_fields: {
+            title: "O Senhor dos Anéis",
+            author: ["J. R. R. Tolkien"],
+            edition: "Coleção Nova Fronteira",
+            publication_year: 1954,
+            publisher: "Nova Fronteira",
+            publication_location: "Rio de Janeiro",
+            isbn: "9788520908190",
+            volume: 1,
+            genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+          },
         });
         expect(error).toEqual(new InternalError());
       }

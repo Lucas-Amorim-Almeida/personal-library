@@ -71,6 +71,30 @@ export default class Book {
     return this.genre;
   }
 
+  getTitle(): string {
+    return this.title;
+  }
+
+  getEdition(): string {
+    return this.edition;
+  }
+
+  getYear(): number {
+    return this.publication_year;
+  }
+
+  getLocation(): string {
+    return this.publication_location;
+  }
+
+  getISBN(): string | undefined {
+    return this.isbn;
+  }
+
+  getVolume(): number | undefined {
+    return this.volume;
+  }
+
   setId(id: string): void {
     this.id = id;
   }

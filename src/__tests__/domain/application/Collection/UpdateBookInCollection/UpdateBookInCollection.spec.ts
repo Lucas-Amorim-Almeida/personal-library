@@ -104,9 +104,9 @@ describe("UpdateBookInCollection", () => {
       const [response] = await updateCollection.execute(inputMock);
       expect(response).toBeInstanceOf(CollectionOutputBoundary);
       expect(collectionRepoyMock.getOne).toHaveBeenCalledWith({
-        id: inputParams.id,
+        _id: inputParams.id,
       });
-      expect(bookRepoMock.getOne).toHaveBeenCalledWith({ id: "id-00005" });
+      expect(bookRepoMock.getOne).toHaveBeenCalledWith({ _id: "id-00005" });
       expect(collectionRepoyMock.update).toHaveBeenCalledWith({
         id: inputParams.id,
         update: {
@@ -140,7 +140,7 @@ describe("UpdateBookInCollection", () => {
         await updateCollection.execute(inputMock);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenLastCalledWith({
-          id: inputParams.id,
+          _id: inputParams.id,
         });
         expect(error).toEqual(new EntityNotFoundError("Collection"));
       }
@@ -170,10 +170,10 @@ describe("UpdateBookInCollection", () => {
         await updateCollection.execute(inputMock2);
       } catch (error) {
         expect(collectionRepoMock.getOne).toHaveBeenLastCalledWith({
-          id: inputParams.id,
+          _id: inputParams.id,
         });
         expect(bookRepoMock.getOne).toHaveBeenCalledWith({
-          id: "id-00005",
+          _id: "id-00005",
         });
         expect(error).toEqual(new EntityNotFoundError("Book"));
       }
@@ -201,9 +201,9 @@ describe("UpdateBookInCollection", () => {
         await updateCollection.execute(inputMock);
       } catch (error) {
         expect(collectionRepoMock.getOne).toHaveBeenLastCalledWith({
-          id: inputParams.id,
+          _id: inputParams.id,
         });
-        expect(bookRepoMock.getOne).toHaveBeenCalledWith({ id: "id-00005" });
+        expect(bookRepoMock.getOne).toHaveBeenCalledWith({ _id: "id-00005" });
         expect(collectionRepoMock.update).toHaveBeenCalled();
         expect(error).toEqual(new InternalError());
       }

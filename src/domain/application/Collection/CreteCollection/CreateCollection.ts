@@ -1,4 +1,3 @@
-import BookOutputBoundary from "@/domain/application/Book/BookOutputBoundary";
 import InputBoundary from "@/domain/application/InputBoundary";
 import OutputBoundary from "@/domain/application/OutputBoundary";
 import UseCase from "@/domain/application/UseCase";
@@ -16,6 +15,7 @@ import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
 import EntityNotFoundError from "../../Errors/EntityNotFoundError";
 import InternalError from "../../Errors/InternalError";
+import BookGenre from "@/domain/core/BookGenre";
 
 export default class CreateCollection
   implements UseCase<ColletionInputData, DBOutputCollectionData>
@@ -42,12 +42,30 @@ export default class CreateCollection
     const books: { book: Book; status: ReadingStatus }[] = await Promise.all(
       collection.map(async (item) => {
         const dbBook: DBOutputBookData | null =
-          await this.bookRepository.getOne({ id: item.book_id });
+          await this.bookRepository.getOne({ _id: item.book_id });
         if (!dbBook) {
           throw new EntityNotFoundError("Book");
         }
+
+        const book = new Book({
+          title: dbBook.title,
+          author: dbBook.author,
+          edition: dbBook.edition,
+          publication_year: dbBook.publication_year,
+          publisher: dbBook.publisher,
+          publication_location: dbBook.publication_location,
+          isbn: dbBook.isbn,
+          volume: dbBook.volume,
+          genre: dbBook.genre.map((item) =>
+            Utils.define(BookGenre, item, "Book genre"),
+          ),
+          created_at: dbBook.created_at,
+          updated_at: dbBook.updated_at,
+        });
+        book.setId(dbBook._id);
+
         return {
-          book: new BookOutputBoundary(dbBook).get(),
+          book,
           status: Utils.define(ReadingStatus, item.status, "Reading status"),
         };
       }),

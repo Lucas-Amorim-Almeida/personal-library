@@ -33,40 +33,47 @@ describe("CreateBook", () => {
 
   describe("execute", () => {
     it("Should return an instance of CreateBookOutputBoundary", async () => {
-      const createBook = new CreateBook(repositoryMock);
-
       repositoryMock.getOne.mockResolvedValue(null);
       repositoryMock.save.mockResolvedValue(dbBookExample);
+
+      const createBook = new CreateBook(repositoryMock);
 
       expect(createBook.execute(inputMock)).resolves.toBeInstanceOf(Array);
 
       const [output] = await createBook.execute(inputMock);
       expect(output).toBeInstanceOf(BookOutputBoundary);
-      expect(output.get()).toBeInstanceOf(Book);
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
+      expect(output.get()).toEqual(dbBookExample);
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        title: book.getTitle(),
+      });
       expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(Book));
     });
 
     it("Should throws an error of The Book already exists in the database.", async () => {
-      const createBook = new CreateBook(repositoryMock);
       repositoryMock.getOne.mockResolvedValue(dbBookExample);
+
+      const createBook = new CreateBook(repositoryMock);
 
       expect(createBook.execute(inputMock)).rejects.toThrow(
         BookAlreadyExistsError,
       );
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({
+        title: book.getTitle(),
+      });
     });
 
     it("Should throws an error of An internal server error occurred.", async () => {
-      const createBook = new CreateBook(repositoryMock);
-
       repositoryMock.getOne.mockResolvedValue(null);
       repositoryMock.save.mockResolvedValue(null);
+
+      const createBook = new CreateBook(repositoryMock);
 
       try {
         await createBook.execute(inputMock);
       } catch (error) {
-        expect(repositoryMock.getOne).toHaveBeenCalledWith({ book });
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({
+          title: book.getTitle(),
+        });
         expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(Book));
         expect(error).toEqual(new InternalError());
       }

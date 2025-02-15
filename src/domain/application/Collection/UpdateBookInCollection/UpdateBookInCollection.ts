@@ -41,7 +41,7 @@ export default class UpdateBookInCollection
       toInsert.map(async ({ book_id, status }) => {
         const dbBook: DBOutputBookData | null =
           await this.bookRepository.getOne({
-            id: book_id,
+            _id: book_id,
           });
 
         if (!dbBook) {
@@ -49,7 +49,7 @@ export default class UpdateBookInCollection
         }
 
         return {
-          book_id: dbBook.id,
+          book_id: dbBook._id,
           title: dbBook.title,
           author: dbBook.author,
           status: status ?? ReadingStatus.PENDING,
@@ -103,7 +103,7 @@ export default class UpdateBookInCollection
     const { id, collection } = inputData.get();
 
     const dbCollection: DBOutputCollectionData | null =
-      await this.repository.getOne({ id });
+      await this.repository.getOne({ _id: id });
     if (!dbCollection) {
       throw new EntityNotFoundError("Collection");
     }

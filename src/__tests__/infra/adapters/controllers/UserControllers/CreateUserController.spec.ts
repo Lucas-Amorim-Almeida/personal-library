@@ -1,5 +1,5 @@
 import {
-  httpRequestMock,
+  httpRequestMockUser,
   presenterMock,
   userUseCaseMock,
 } from "@/__tests__/__mocks__/adapterMock";
@@ -33,10 +33,10 @@ describe("CreateUserController", () => {
         userUseCaseMock,
       );
 
-      expect(controller.handle(httpRequestMock)).resolves.toBeInstanceOf(
+      expect(controller.handle(httpRequestMockUser)).resolves.toBeInstanceOf(
         ResponseObject,
       );
-      const response = await controller.handle(httpRequestMock);
+      const response = await controller.handle(httpRequestMockUser);
       expect(response.statusCode).toBe(201);
       expect(response.body).toEqual({
         id: "id-0001",
