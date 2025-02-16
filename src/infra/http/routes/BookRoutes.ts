@@ -1,14 +1,22 @@
 import { Router } from "express";
 import RouterAdapter from "../adapters/RouterAdapter";
 import CreateBookFactory from "../factories/BookFactory/CreateBookFactory";
+import GetBooksFactory from "../factories/BookFactory/GetBooksFactory";
 
 const bookRoutes = Router();
 const createBookController = new CreateBookFactory().getController();
+const getBooksController = new GetBooksFactory().getController();
+
 //Este é um módulo que contém as rotas para Book. Logo, id se refere ao id do livro.
 
 //Salvar informações de um novo livro
 bookRoutes.post("/", async (req, res) => {
   await new RouterAdapter(req, res).handle(createBookController);
+});
+
+//Obter informações de varaios ou todos os livros da base de dados
+bookRoutes.get("/", async (req, res) => {
+  await new RouterAdapter(req, res).handle(getBooksController);
 });
 
 export default bookRoutes;

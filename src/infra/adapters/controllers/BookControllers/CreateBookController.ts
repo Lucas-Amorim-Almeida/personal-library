@@ -19,8 +19,8 @@ export default class CreateBookController implements Controller {
 
   async handle(req: HTTPRequest): Promise<HTTPResponse> {
     const input = new CreateBookInputBoundary(req.body as InputBook);
-    const [user] = await this.useCase.execute(input);
-    const output = this.presenter.output(user.get());
+    const [book] = await this.useCase.execute(input);
+    const output = this.presenter.output(book.get());
 
     return new ResponseObject(201, output);
   }
