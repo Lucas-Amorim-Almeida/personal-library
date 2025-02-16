@@ -15,6 +15,26 @@ export default class UpdateBook
 {
   constructor(readonly repository: Repository) {}
 
+  private updateFieldsAssembler(
+    dbBook: DBOutputBookData,
+    reqUpdateField: Omit<InputBookUpdate, "id">,
+  ) {
+    const updateFields = {
+      title: reqUpdateField.title ?? dbBook.title,
+      author: reqUpdateField.author ?? dbBook.author,
+      edition: reqUpdateField.edition ?? dbBook.edition,
+      publication_year:
+        reqUpdateField.publication_year ?? dbBook.publication_year,
+      publisher: reqUpdateField.publisher ?? dbBook.publisher,
+      publication_location:
+        reqUpdateField.publication_location ?? dbBook.publication_location,
+      isbn: reqUpdateField.isbn ?? dbBook.isbn,
+      volume: reqUpdateField.volume ?? dbBook.volume,
+      genre: reqUpdateField.genre ?? dbBook.genre,
+    };
+    return updateFields;
+  }
+
   async execute(
     inputData: InputBoundary<InputBookUpdate>,
   ): Promise<OutputBoundary<DBOutputBookData>[]> {
@@ -29,7 +49,7 @@ export default class UpdateBook
 
     const bookUpdated: DBOutputBookData | null = await this.repository.update({
       query: { _id: id },
-      update_fields: updateData,
+      update_fields: this.updateFieldsAssembler(dbBook, updateData),
     });
     if (!bookUpdated) {
       throw new InternalError();

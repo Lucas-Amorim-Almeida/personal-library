@@ -453,7 +453,10 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResBodyToBookSimplified"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResBodyToBookSimplified"
+                  }
                 }
               }
             }
@@ -471,6 +474,59 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Atualiza as informações de um livro no banco de dados.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "Id do livro na base de dados da aplicação.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ReqBodyToBookUpdate" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
               }
             }
           }
@@ -909,6 +965,115 @@
             "example": 1937
           },
 
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "AÇÃO E AVENTURA",
+                "CLÁSSICOS",
+                "COMÉDIA",
+                "CONTOS",
+                "DRAMA",
+                "FANTASIA",
+                "FICÇÃO CIENTÍFICA",
+                "FICÇÃO HISTÓRICA",
+                "FICÇÃO POLICIAL/CRIME",
+                "HORROR/TERROR",
+                "MISTÉRIO/SUSPENSE",
+                "REALISMO MÁGICO",
+                "ROMANCE",
+                "ROMANCE CONTEMPORÂNEO",
+                "ROMANCE HISTÓRIOCO",
+                "CHICK-LIT",
+                "ROMANCE DE ÉPOCA",
+                "THRILLER/PSICOLÓGICO",
+                "TRAGÉDIA",
+                "WESTERN/FAROESTE",
+                "YOUNG ADULT (YA)",
+                "DISTOPIA",
+                "AUTOBIOGRAFIA",
+                "BIOGRAFIA",
+                "MEMÓRIAS",
+                "HISTÓRIA",
+                "CIÊNCIA E TECNOLOGIA",
+                "ECONOMIA E NEGÓCIOS",
+                "EDUCAÇÃO",
+                "FILOSOFIA",
+                "PSICOLOGIA",
+                "RELIGIÃO/ESPIRITUALIDADE",
+                "AUTOAJUDA",
+                "SAÚDE E BEM-ESTAR",
+                "VIAGENS",
+                "ARTE E De DESIGN",
+                "GASTRONOMIA/CULINÁRIA",
+                "ENSAIOS",
+                "JORNALISMO/REPORTAGEM",
+                "POLÍTICA E SOCIEDADE",
+                "CONTOS DE FADAS",
+                "LIVROS ILUSTRADOS",
+                "FICÇÃO JUVENIL",
+                "FÁBULAS",
+                "POESIA LÍRICA",
+                "POESIA ÉPICA",
+                "TRAGÉDIA TEATRAL",
+                "COMÉDIA TEATRAL",
+                "DRAMA TEATRAL",
+                "ANTOLOGIAS",
+                "MANGAS E QUADRINHOS",
+                "LIVROS INTERATIVOS",
+                "LITERATURA EXPERIMENTAL"
+              ]
+            },
+            "description": "Volume do livro.",
+            "example": ["Fantasia", "Clássicos"]
+          }
+        }
+      },
+      "ReqBodyToBookUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Titulo do livro.",
+            "example": "O Hobbit"
+          },
+          "author": {
+            "type": "array",
+            "description": "Autor(es) do livro.",
+            "items": { "type": "string" },
+            "example": ["J. R. R. Tolkien"]
+          },
+          "edition": {
+            "type": "string",
+            "description": "Edição do livro.",
+            "example": "1"
+          },
+          "publication_year": {
+            "type": "number",
+            "description": "Ano no qual o livro foi publicado.",
+            "example": 1937
+          },
+          "publisher": {
+            "type": "string",
+            "description": "Editora que publicou o livro.",
+            "example": "Nova Fronteira"
+          },
+          "publication_location": {
+            "type": "string",
+            "description": "Local onde o livro foi publicado.",
+            "example": "Rio de Janeiro"
+          },
+          "isbn": {
+            "type": "string",
+            "description": "ISBN do livro.",
+            "example": "9788520904161"
+          },
+          "volume": {
+            "type": "number",
+            "description": "Volume do livro.",
+            "example": 1
+          },
           "genre": {
             "type": "array",
             "items": {
