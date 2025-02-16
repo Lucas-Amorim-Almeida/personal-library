@@ -390,6 +390,48 @@
           }
         }
       }
+    },
+
+    "/book": {
+      "post": {
+        "summary": "Adiciona um novo livro no banco de dados.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateBookReqBody" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResBodyToBookDefault"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          }
+        }
+      }
     }
   },
 
@@ -482,7 +524,7 @@
       "ResBodyToUserDefault": {
         "type": "object",
         "properties": {
-          "id": {
+          "_id": {
             "type": "string",
             "description": "Id do usuário na base de dados da aplicação.",
             "example": "67a0cf5ee43cbc3f689e3757"
@@ -562,6 +604,239 @@
             "type": "string",
             "format": "date",
             "example": "2000-02-22"
+          }
+        }
+      },
+
+      "CreateBookReqBody": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Titulo do livro.",
+            "example": "O Hobbit"
+          },
+          "author": {
+            "type": "array",
+            "description": "Autor(es) do livro.",
+            "items": { "type": "string" },
+            "example": ["J. R. R. Tolkien"]
+          },
+          "edition": {
+            "type": "string",
+            "description": "Edição do livro.",
+            "example": "1"
+          },
+          "publication_year": {
+            "type": "number",
+            "description": "Ano no qual o livro foi publicado.",
+            "example": 1937
+          },
+          "publisher": {
+            "type": "string",
+            "description": "Editora que publicou o livro.",
+            "example": "Nova Fronteira"
+          },
+          "publication_location": {
+            "type": "string",
+            "description": "Local onde o livro foi publicado.",
+            "example": "Rio de Janeiro"
+          },
+          "isbn": {
+            "type": "string",
+            "description": "ISBN do livro.",
+            "example": "9788520904161"
+          },
+          "volume": {
+            "type": "number",
+            "description": "Volume do livro.",
+            "example": 1
+          },
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "AÇÃO E AVENTURA",
+                "CLÁSSICOS",
+                "COMÉDIA",
+                "CONTOS",
+                "DRAMA",
+                "FANTASIA",
+                "FICÇÃO CIENTÍFICA",
+                "FICÇÃO HISTÓRICA",
+                "FICÇÃO POLICIAL/CRIME",
+                "HORROR/TERROR",
+                "MISTÉRIO/SUSPENSE",
+                "REALISMO MÁGICO",
+                "ROMANCE",
+                "ROMANCE CONTEMPORÂNEO",
+                "ROMANCE HISTÓRIOCO",
+                "CHICK-LIT",
+                "ROMANCE DE ÉPOCA",
+                "THRILLER/PSICOLÓGICO",
+                "TRAGÉDIA",
+                "WESTERN/FAROESTE",
+                "YOUNG ADULT (YA)",
+                "DISTOPIA",
+                "AUTOBIOGRAFIA",
+                "BIOGRAFIA",
+                "MEMÓRIAS",
+                "HISTÓRIA",
+                "CIÊNCIA E TECNOLOGIA",
+                "ECONOMIA E NEGÓCIOS",
+                "EDUCAÇÃO",
+                "FILOSOFIA",
+                "PSICOLOGIA",
+                "RELIGIÃO/ESPIRITUALIDADE",
+                "AUTOAJUDA",
+                "SAÚDE E BEM-ESTAR",
+                "VIAGENS",
+                "ARTE E De DESIGN",
+                "GASTRONOMIA/CULINÁRIA",
+                "ENSAIOS",
+                "JORNALISMO/REPORTAGEM",
+                "POLÍTICA E SOCIEDADE",
+                "CONTOS DE FADAS",
+                "LIVROS ILUSTRADOS",
+                "FICÇÃO JUVENIL",
+                "FÁBULAS",
+                "POESIA LÍRICA",
+                "POESIA ÉPICA",
+                "TRAGÉDIA TEATRAL",
+                "COMÉDIA TEATRAL",
+                "DRAMA TEATRAL",
+                "ANTOLOGIAS",
+                "MANGAS E QUADRINHOS",
+                "LIVROS INTERATIVOS",
+                "LITERATURA EXPERIMENTAL"
+              ]
+            },
+            "description": "Volume do livro.",
+            "example": ["Fantasia", "Clássicos"]
+          }
+        },
+        "required": [
+          "title",
+          "author",
+          "edition",
+          "publication_year",
+          "publisher",
+          "publication_location",
+          "genre"
+        ]
+      },
+      "ResBodyToBookDefault": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Id do livro na base de dados da aplicação.",
+            "example": "67a0cf5ee43cbc3f689e3757"
+          },
+          "title": {
+            "type": "string",
+            "description": "Titulo do livro.",
+            "example": "O Hobbit"
+          },
+          "author": {
+            "type": "array",
+            "description": "Autor(es) do livro.",
+            "items": { "type": "string" },
+            "example": ["J. R. R. Tolkien"]
+          },
+          "edition": {
+            "type": "string",
+            "description": "Edição do livro.",
+            "example": "1"
+          },
+          "publication_year": {
+            "type": "number",
+            "description": "Ano no qual o livro foi publicado.",
+            "example": 1937
+          },
+          "publisher": {
+            "type": "string",
+            "description": "Editora que publicou o livro.",
+            "example": "Nova Fronteira"
+          },
+          "publication_location": {
+            "type": "string",
+            "description": "Local onde o livro foi publicado.",
+            "example": "Rio de Janeiro"
+          },
+          "isbn": {
+            "type": "string",
+            "description": "ISBN do livro.",
+            "example": "9788520904161"
+          },
+          "volume": {
+            "type": "number",
+            "description": "Volume do livro.",
+            "example": 1
+          },
+          "genre": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "AÇÃO E AVENTURA",
+                "CLÁSSICOS",
+                "COMÉDIA",
+                "CONTOS",
+                "DRAMA",
+                "FANTASIA",
+                "FICÇÃO CIENTÍFICA",
+                "FICÇÃO HISTÓRICA",
+                "FICÇÃO POLICIAL/CRIME",
+                "HORROR/TERROR",
+                "MISTÉRIO/SUSPENSE",
+                "REALISMO MÁGICO",
+                "ROMANCE",
+                "ROMANCE CONTEMPORÂNEO",
+                "ROMANCE HISTÓRIOCO",
+                "CHICK-LIT",
+                "ROMANCE DE ÉPOCA",
+                "THRILLER/PSICOLÓGICO",
+                "TRAGÉDIA",
+                "WESTERN/FAROESTE",
+                "YOUNG ADULT (YA)",
+                "DISTOPIA",
+                "AUTOBIOGRAFIA",
+                "BIOGRAFIA",
+                "MEMÓRIAS",
+                "HISTÓRIA",
+                "CIÊNCIA E TECNOLOGIA",
+                "ECONOMIA E NEGÓCIOS",
+                "EDUCAÇÃO",
+                "FILOSOFIA",
+                "PSICOLOGIA",
+                "RELIGIÃO/ESPIRITUALIDADE",
+                "AUTOAJUDA",
+                "SAÚDE E BEM-ESTAR",
+                "VIAGENS",
+                "ARTE E De DESIGN",
+                "GASTRONOMIA/CULINÁRIA",
+                "ENSAIOS",
+                "JORNALISMO/REPORTAGEM",
+                "POLÍTICA E SOCIEDADE",
+                "CONTOS DE FADAS",
+                "LIVROS ILUSTRADOS",
+                "FICÇÃO JUVENIL",
+                "FÁBULAS",
+                "POESIA LÍRICA",
+                "POESIA ÉPICA",
+                "TRAGÉDIA TEATRAL",
+                "COMÉDIA TEATRAL",
+                "DRAMA TEATRAL",
+                "ANTOLOGIAS",
+                "MANGAS E QUADRINHOS",
+                "LIVROS INTERATIVOS",
+                "LITERATURA EXPERIMENTAL"
+              ]
+            },
+            "description": "Volume do livro.",
+            "example": ["Fantasia", "Clássicos"]
           }
         }
       },
