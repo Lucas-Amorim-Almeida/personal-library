@@ -12,7 +12,7 @@ export default interface Repository {
    * @param take: A quantidade máxima de itens a serem retornados.
    * @returns Uma promessa que resolve para os itens encontrados.
    */
-  getMany<Input, Output>(query: Input, take: number): Promise<Output[]>;
+  getMany<Input, Output>(query: Input, take?: number): Promise<Output[]>;
 
   /**
    * Retorna todos os itens com base nos filtros fornecidos.

@@ -46,8 +46,18 @@ export default class BookRepository implements Repository {
     return books as Output[];
   }
 
-  async getMany<Input, Output>(query: Input, take: number): Promise<Output[]> {
-    const books = await this.bookModel.find(query as object).limit(take);
+  async getMany<Input, Output>(query: Input, take?: number): Promise<Output[]> {
+    const queryObject = Object.entries(query as object).reduce(
+      (acc, [key, value]) => {
+        acc[key] = { $regex: new RegExp(value as string, "i") };
+        return acc;
+      },
+      {} as Record<string, unknown>,
+    );
+
+    const books = take
+      ? await this.bookModel.find(queryObject).limit(take)
+      : await this.bookModel.find(queryObject);
     return books as Output[];
   }
 }

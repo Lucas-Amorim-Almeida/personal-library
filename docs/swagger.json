@@ -631,6 +631,85 @@
           }
         }
       }
+    },
+    "/book/serach": {
+      "get": {
+        "summary": "Busca as informações de um livro no banco de dados.",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Título do livro cuja informações são requeridas.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Duna"
+            },
+            "style": "simple"
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "description": "Nome do autor do livro cuja informações são requeridas.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "Jorge Amado"
+            },
+            "style": "simple"
+          },
+          {
+            "name": "take",
+            "in": "query",
+            "description": "Quantidade de livros cuja informações são requeridas.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "10"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResBodyToBookSimplified"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
     }
   },
 

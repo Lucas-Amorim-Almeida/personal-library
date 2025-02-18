@@ -5,11 +5,13 @@ import GetBooksFactory from "../factories/BookFactory/GetBooksFactory";
 import UpdateBookFactory from "../factories/BookFactory/UpdateBookFactory";
 import DeleteBookFactory from "../factories/BookFactory/DeleteBookFactory";
 import GetBookByIdFactory from "../factories/BookFactory/GetBookByIdFactory";
+import SearchBookFactory from "../factories/BookFactory/SearchBookFactory";
 
 const bookRoutes = Router();
 const createBookController = new CreateBookFactory().getController();
 const getBooksController = new GetBooksFactory().getController();
 const getBookByIdController = new GetBookByIdFactory().getController();
+const searchBookController = new SearchBookFactory().getController();
 const updateBookController = new UpdateBookFactory().getController();
 const deleteBookController = new DeleteBookFactory().getController();
 
@@ -20,14 +22,19 @@ bookRoutes.post("/", async (req, res) => {
   await new RouterAdapter(req, res).handle(createBookController);
 });
 
-//Obter informações de varaios ou todos os livros da base de dados
-bookRoutes.get("/", async (req, res) => {
-  await new RouterAdapter(req, res).handle(getBooksController);
+//Fazer a busca informações de livros na base de dados
+bookRoutes.get("/search", async (req, res) => {
+  await new RouterAdapter(req, res).handle(searchBookController);
 });
 
 //Obter informações de um livro a partir de seu id na base de dados
 bookRoutes.get("/:id", async (req, res) => {
   await new RouterAdapter(req, res).handle(getBookByIdController);
+});
+
+//Obter informações de varaios ou todos os livros da base de dados
+bookRoutes.get("/", async (req, res) => {
+  await new RouterAdapter(req, res).handle(getBooksController);
 });
 
 //Atualiza as informações de um livro na base de dados

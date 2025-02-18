@@ -5,9 +5,23 @@ import SearchBook from "@/domain/application/Book/SearchBook/SearchBook";
 import InputBoundary from "@/domain/application/InputBoundary";
 
 const inputBoundaryMock: jest.Mocked<
-  InputBoundary<{ query: string; take: number }>
+  InputBoundary<{
+    title?: string;
+    author?: string;
+    take?: number;
+  }>
 > = {
-  get: jest.fn(() => ({ query: "Tolkien", take: 10 })),
+  get: jest.fn(() => ({ author: "Tolkien", take: 10 })),
+};
+
+const inputBoundaryMockWithoutTake: jest.Mocked<
+  InputBoundary<{
+    title?: string;
+    author?: string;
+    take?: number;
+  }>
+> = {
+  get: jest.fn(() => ({ author: "Tolkien" })),
 };
 
 describe("SearchBook", () => {
@@ -29,10 +43,28 @@ describe("SearchBook", () => {
         expect(item).toBeInstanceOf(BookOutputBoundary);
       });
       expect(repositoryMock.getMany).toHaveBeenCalledWith(
-        {
-          query: "Tolkien",
-        },
+        { author: "Tolkien" },
         10,
+      );
+    });
+
+    it("Should return an instance of Book without take param.", async () => {
+      repositoryMock.getMany.mockResolvedValue([dbBookExample]);
+
+      const search = new SearchBook(repositoryMock);
+      expect(
+        search.execute(inputBoundaryMockWithoutTake),
+      ).resolves.toBeInstanceOf(Array);
+
+      const result = await search.execute(inputBoundaryMockWithoutTake);
+      result.forEach((item) => {
+        expect(item).toBeInstanceOf(BookOutputBoundary);
+      });
+      expect(repositoryMock.getMany).toHaveBeenCalledWith(
+        {
+          author: "Tolkien",
+        },
+        undefined,
       );
     });
   });

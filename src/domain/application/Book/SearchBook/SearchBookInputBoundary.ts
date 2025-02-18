@@ -3,18 +3,29 @@ import FieldRequiredError from "../../Errors/FieldRequiredError";
 import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 export default class SearchBookInputBoundary
-  implements InputBoundary<{ query: string; take: number }>
+  implements
+    InputBoundary<{
+      title?: string;
+      author?: string;
+      take?: number;
+    }>
 {
-  constructor(readonly inputData: { query: string; take: number }) {
-    if (inputData.query === "") {
-      throw new FieldRequiredError("query");
+  constructor(
+    readonly inputData: {
+      title?: string;
+      author?: string;
+      take?: number;
+    },
+  ) {
+    if (!inputData.title && !inputData.author) {
+      throw new FieldRequiredError("At least one of title or author");
     }
-    if (inputData.take <= 0) {
+    if (inputData.take !== undefined && inputData.take <= 0) {
       throw new InvalidFieldError("take param");
     }
   }
 
-  get(): { query: string; take: number } {
+  get(): { title?: string; author?: string; take?: number } {
     return this.inputData;
   }
 }
