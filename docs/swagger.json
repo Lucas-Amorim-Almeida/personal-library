@@ -533,7 +533,7 @@
         }
       },
       "delete": {
-        "summary": "Atualiza as informações de um livro no banco de dados.",
+        "summary": "Remove as informações de um livro no banco de dados.",
         "parameters": [
           {
             "name": "id",
@@ -550,6 +550,60 @@
         "responses": {
           "200": {
             "description": "Ok"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/book/:id": {
+      "get": {
+        "summary": "Busca as informações de um livro no banco de dados, a partir de seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "Id do livro cuja informações são requeridas.",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResBodyToBookDefault"
+                }
+              }
+            }
           },
           "500": {
             "description": "Internal Server Error",
