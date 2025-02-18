@@ -36,8 +36,8 @@ export default class BookRepository implements Repository {
   }
 
   async delete<Input, Output>(data: Input): Promise<Output> {
-    const _id = data as string;
-    const deleteBook = await this.bookModel.deleteOne({ _id });
+    const { _id } = data as { _id: string };
+    const deleteBook = await this.bookModel.findOneAndDelete({ _id });
     return deleteBook as Output;
   }
 
