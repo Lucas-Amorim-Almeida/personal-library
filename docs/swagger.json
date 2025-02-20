@@ -586,7 +586,7 @@
             "name": "id",
             "in": "params",
             "description": "Id do livro cuja informações são requeridas.",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string",
               "example": "67a0cf5ee43cbc3f689e3757"
@@ -763,7 +763,7 @@
             "name": "id",
             "in": "params",
             "description": "Id da coleção cuja informações são requeridas.",
-            "required": false,
+            "required": true,
             "schema": {
               "type": "string",
               "example": "67a0cf5ee43cbc3f689e3757"
@@ -778,6 +778,63 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResBodyToBookDefault"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/collection/user/:user_id": {
+      "get": {
+        "summary": "Busca as informações de todas as coleções no banco de dados que pertencem a determinado usuário.",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "params",
+            "description": "Id do usuário que se quer obter as informações das coleções.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ResBodyToCollectionSimplified"
+                  }
                 }
               }
             }
@@ -1522,6 +1579,27 @@
             "type": "string",
             "description": "Id do usuário que faz a requisição na base de dados.",
             "example": "67aa5023baa7ed1742044990"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Id da coleção na base de dados.",
+            "example": "67aa5023baa7ed1742044990"
+          }
+        }
+      },
+      "ResBodyToCollectionSimplified": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Titulo da coleção.",
+            "example": "Livros de Tolkien"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["public", "private"],
+            "description": "Visibilidade da coleção.",
+            "example": "private"
           },
           "_id": {
             "type": "string",

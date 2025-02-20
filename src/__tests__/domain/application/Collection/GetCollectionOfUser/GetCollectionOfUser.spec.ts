@@ -6,8 +6,8 @@ import GetCollectionOfUser from "@/domain/application/Collection/GetCollectionOf
 import InputBoundary from "@/domain/application/InputBoundary";
 import OutputBoundary from "@/domain/application/OutputBoundary";
 
-const inputMock: jest.Mocked<InputBoundary<{ owner: string }>> = {
-  get: jest.fn(() => ({ owner: "id-00001" })),
+const inputMock: jest.Mocked<InputBoundary<{ user_id: string }>> = {
+  get: jest.fn(() => ({ user_id: "id-00001" })),
 };
 
 describe("GetCollectionOfUser", () => {
@@ -21,7 +21,7 @@ describe("GetCollectionOfUser", () => {
 
   describe("execute", () => {
     it("Should return an instance of CollectionOutputBoundary", async () => {
-      repositoryMock.getAll.mockResolvedValue([dbCollectionExample]);
+      repositoryMock.getMany.mockResolvedValue([dbCollectionExample]);
 
       const collections = new GetCollectionOfUser(repositoryMock);
 
@@ -33,7 +33,7 @@ describe("GetCollectionOfUser", () => {
         expect(item).toBeInstanceOf(CollectionOutputBoundary);
       });
 
-      expect(repositoryMock.getAll).toHaveBeenCalledWith({
+      expect(repositoryMock.getMany).toHaveBeenCalledWith({
         owner: "id-00001",
       });
     });

@@ -27,7 +27,7 @@ describe("GetCollectionOfUserInputBoundary", () => {
         user_id: "id-00001",
       });
       expect(input.get()).toEqual({
-        owner: "id-00001",
+        user_id: "id-00001",
       });
     });
   });

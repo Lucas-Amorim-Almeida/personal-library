@@ -2,6 +2,7 @@ import { Router } from "express";
 import RouterAdapter from "../adapters/RouterAdapter";
 import CreateCollectionFactory from "../factories/CollectionFactory/CreateCollectionFactory";
 import GetCollectionByIDFactory from "../factories/CollectionFactory/GetCollectionByIdFactory";
+import GetCollectionOfUserFactory from "../factories/CollectionFactory/GetCollectionOfUserFactory";
 
 const collectionRoutes = Router();
 
@@ -9,6 +10,8 @@ const createCollectionController =
   new CreateCollectionFactory().getController();
 const getCollectionByIdController =
   new GetCollectionByIDFactory().getController();
+const getCollectionOfUserController =
+  new GetCollectionOfUserFactory().getController();
 
 //Este é um módulo que contém as rotas para Collectio. Logo, id se refere ao id da coleção de livros.
 
@@ -20,6 +23,11 @@ collectionRoutes.post("/", async (req, res) => {
 //Obtém as informações de uma coleção
 collectionRoutes.get("/:id", async (req, res) => {
   await new RouterAdapter(req, res).handle(getCollectionByIdController);
+});
+
+//Obtém todas as coleções de um usuário
+collectionRoutes.get("/user/:user_id", async (req, res) => {
+  await new RouterAdapter(req, res).handle(getCollectionOfUserController);
 });
 
 export default collectionRoutes;
