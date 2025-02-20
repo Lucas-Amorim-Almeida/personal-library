@@ -31,7 +31,7 @@ describe("GetCollectionByID", () => {
 
       expect(catchedCollection).toBeInstanceOf(CollectionOutputBoundary);
       expect(catchedCollection.get()._id).toBe("000002");
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "000002" });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "000002" });
     });
 
     it("Should throws an error of Collection not found.", async () => {
@@ -46,7 +46,7 @@ describe("GetCollectionByID", () => {
       try {
         await collection.execute(inputMock);
       } catch (error) {
-        expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "000001" });
+        expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "000001" });
         expect(error).toEqual(new EntityNotFoundError("Collection"));
       }
     });

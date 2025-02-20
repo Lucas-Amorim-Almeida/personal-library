@@ -17,7 +17,7 @@ export default class GetCollectionByID
     const { collection_id } = inputData.get();
 
     const dbCollection: DBOutputCollectionData | null =
-      await this.repository.getOne({ id: collection_id });
+      await this.repository.getOne({ _id: collection_id });
     if (!dbCollection) {
       throw new EntityNotFoundError("Collection");
     }
