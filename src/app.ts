@@ -8,6 +8,7 @@ import * as swaggerDoc from "../docs/swagger.json";
 import { errorsMiddleWare } from "./infra/http/middlewares/errors.middleware";
 import userRoutes from "./infra/http/routes/UserRoutes";
 import bookRoutes from "./infra/http/routes/BookRoutes";
+import collectionRoutes from "./infra/http/routes/CollectionRoutes";
 
 export default class App {
   private app;
@@ -25,7 +26,7 @@ export default class App {
   configRoutes(): void {
     this.app.use("/api/v1/user", userRoutes);
     this.app.use("/api/v1/book", bookRoutes);
-    //this.app.use("/api/v1/collection", userRoutes);
+    this.app.use("/api/v1/collection", collectionRoutes);
 
     // Configuração do Swagger
     this.app.use(

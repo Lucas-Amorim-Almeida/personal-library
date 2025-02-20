@@ -100,7 +100,7 @@ export default class UpdateBookInCollection
   async execute(
     inputData: InputBoundary<CollectionInput>,
   ): Promise<OutputBoundary<DBOutputCollectionData>[]> {
-    const { id, collection } = inputData.get();
+    const { id, books_collection } = inputData.get();
 
     const dbCollection: DBOutputCollectionData | null =
       await this.repository.getOne({ _id: id });
@@ -108,17 +108,23 @@ export default class UpdateBookInCollection
       throw new EntityNotFoundError("Collection");
     }
 
-    const collectionInDB = dbCollection.collection;
+    const collectionInDB = dbCollection.books_collection;
 
     const existingBooks = new Map(
       collectionInDB.map((book) => [book.book_id, book]),
     );
 
-    const toInsert = await this.listBookToInsert(collection, existingBooks);
+    const toInsert = await this.listBookToInsert(
+      books_collection,
+      existingBooks,
+    );
 
-    const toRemove = this.listBookToRemove(collection, existingBooks);
+    const toRemove = this.listBookToRemove(books_collection, existingBooks);
 
-    const toUpdate = this.listBookToUpdate(collection, dbCollection.collection);
+    const toUpdate = this.listBookToUpdate(
+      books_collection,
+      dbCollection.books_collection,
+    );
 
     const updatedCollection: DBOutputCollectionData | null =
       await this.repository.update({

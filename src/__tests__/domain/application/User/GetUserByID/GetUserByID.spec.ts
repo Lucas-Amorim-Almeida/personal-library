@@ -26,7 +26,7 @@ describe("GetUserByID", () => {
 
       const [dbUser] = await user.execute(inputMock);
       expect(dbUser).toBeInstanceOf(UserOutputBoundary);
-      expect(dbUser.get().id).toBe("id-0001");
+      expect(dbUser.get()._id).toBe("id-0001");
     });
 
     it("Should throws an error of User not found.", async () => {

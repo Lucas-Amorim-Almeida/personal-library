@@ -32,7 +32,7 @@ export const dbPersonalDataExample = {
 };
 
 export const dbUserExample: DBOutputUserData = {
-  id: "id-0001",
+  _id: "id-0001",
   username: "john_doe",
   password: "1234",
   access_level: "COMMON",

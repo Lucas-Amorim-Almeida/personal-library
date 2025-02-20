@@ -7,7 +7,7 @@ describe("CreateUserPresenter", () => {
       const presenter = new UserPresenter();
 
       expect(presenter.output(dbUserExample)).toEqual({
-        id: dbUserExample.id,
+        id: dbUserExample._id,
         username: dbUserExample.username,
         access_level: dbUserExample.access_level,
       });

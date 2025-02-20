@@ -95,6 +95,10 @@ export default class Book {
     return this.volume;
   }
 
+  getId(): string | undefined {
+    return this.id;
+  }
+
   setId(id: string): void {
     this.id = id;
   }

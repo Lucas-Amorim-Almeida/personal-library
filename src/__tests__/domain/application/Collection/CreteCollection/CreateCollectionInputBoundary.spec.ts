@@ -9,7 +9,7 @@ describe("CreateCollectionInputBoundary", () => {
           title: "Livros de Tolkien",
           description: "Coleção com os livros de Tolkien.",
           visibility: "private",
-          collection: [
+          books_collection: [
             { book_id: "ID-book0001", status: "em leitura" },
             { book_id: "ID-book0002", status: "em leitura" },
             { book_id: "ID-book0003", status: "em leitura" },
@@ -26,7 +26,9 @@ describe("CreateCollectionInputBoundary", () => {
             title: "",
             description: "Coleção com os livros de Tolkien.",
             visibility: "private",
-            collection: [{ book_id: "ID-book0001", status: "em leitura" }],
+            books_collection: [
+              { book_id: "ID-book0001", status: "em leitura" },
+            ],
             user_id: "id-00001",
           }),
       ).toThrow(FieldRequiredError);
@@ -39,7 +41,7 @@ describe("CreateCollectionInputBoundary", () => {
             title: "Livros de Tolkien",
             description: "Coleção com os livros de Tolkien.",
             visibility: "private",
-            collection: [],
+            books_collection: [],
             user_id: "id-00001",
           }),
       ).toThrow(FieldRequiredError);
@@ -52,7 +54,7 @@ describe("CreateCollectionInputBoundary", () => {
         title: "Livros de Tolkien",
         description: "Coleção com os livros de Tolkien.",
         visibility: "private",
-        collection: [
+        books_collection: [
           { book_id: "ID-book0001", status: "em leitura" },
           { book_id: "ID-book0002", status: "em leitura" },
           { book_id: "ID-book0003", status: "em leitura" },
@@ -64,7 +66,7 @@ describe("CreateCollectionInputBoundary", () => {
         title: "Livros de Tolkien",
         description: "Coleção com os livros de Tolkien.",
         visibility: "private",
-        collection: [
+        books_collection: [
           { book_id: "ID-book0001", status: "em leitura" },
           { book_id: "ID-book0002", status: "em leitura" },
           { book_id: "ID-book0003", status: "em leitura" },

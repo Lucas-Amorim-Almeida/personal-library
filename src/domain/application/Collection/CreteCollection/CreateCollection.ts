@@ -29,11 +29,16 @@ export default class CreateCollection
   async execute(
     inputData: InputBoundary<ColletionInputData>,
   ): Promise<OutputBoundary<DBOutputCollectionData>[]> {
-    const { owner, title, description, visibility, collection } =
-      inputData.get();
+    const {
+      owner,
+      title,
+      description,
+      visibility,
+      books_collection: collection,
+    } = inputData.get();
 
     const dbOwner: DBOutputUserData | null = await this.userRepository.getOne({
-      id: owner,
+      _id: owner,
     });
     if (!dbOwner) {
       throw new EntityNotFoundError("User");
@@ -76,7 +81,7 @@ export default class CreateCollection
       description,
       visibility,
       collection: books,
-      owner,
+      owner: dbOwner._id,
     });
     const dbCollection: DBOutputCollectionData | null =
       await this.repository.save(newCollection);

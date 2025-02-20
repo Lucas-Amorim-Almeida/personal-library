@@ -8,6 +8,7 @@ const errorsMiddleWare = (
   next: NextFunction,
 ) => {
   console.log(error.message);
+  console.log(error.stack);
   const statusCode: number = error.statusCode ?? 500;
   const message = error.statusCode
     ? error.message

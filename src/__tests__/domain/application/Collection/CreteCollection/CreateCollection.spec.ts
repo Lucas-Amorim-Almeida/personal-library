@@ -17,7 +17,7 @@ const inputMock: jest.Mocked<InputBoundary<ColletionInputData>> = {
     title: "Livros de Tolkien",
     description: "Coleção com os livros de Tolkien.",
     visibility: "private",
-    collection: books,
+    books_collection: books,
     owner: "id-00001",
   })),
 };
@@ -59,7 +59,7 @@ describe("CreateCollection", () => {
 
       await expect(response).toBeInstanceOf(CollectionOutputBoundary);
       expect(userRepository.getOne).toHaveBeenCalledWith({
-        id: "id-00001",
+        _id: "id-00001",
       });
       expect(bookRepository.getOne).toHaveBeenCalledWith({
         _id: books[0].book_id,
@@ -84,7 +84,7 @@ describe("CreateCollection", () => {
         await createCollection.execute(inputMock);
       } catch (error) {
         expect(userRepository.getOne).toHaveBeenCalledWith({
-          id: "id-00001",
+          _id: "id-00001",
         });
         expect(bookRepository.getOne).toHaveBeenCalledWith({
           _id: books[0].book_id,
@@ -120,7 +120,7 @@ describe("CreateCollection", () => {
         await createCollection.execute(inputMock);
       } catch (error) {
         expect(otherUserRepo.getOne).toHaveBeenCalledWith({
-          id: "id-00001",
+          _id: "id-00001",
         });
         expect(bookRepository.getOne).toHaveBeenCalledWith({
           _id: books[0].book_id,
@@ -141,7 +141,7 @@ describe("CreateCollection", () => {
         await createCollection.execute(inputMock);
       } catch (error) {
         expect(userRepository.getOne).toHaveBeenCalledWith({
-          id: "id-00001",
+          _id: "id-00001",
         });
         expect(error).toEqual(new EntityNotFoundError("User"));
       }

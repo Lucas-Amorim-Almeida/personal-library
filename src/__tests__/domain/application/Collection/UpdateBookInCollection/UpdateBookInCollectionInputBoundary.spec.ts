@@ -5,7 +5,7 @@ import ReadingStatus from "@/domain/core/ReadingStatus";
 
 const inputParams = {
   id: "id-collection000001",
-  collection: [
+  books_collection: [
     {
       book_id: "id-book00001",
       operation: "insert",
@@ -35,7 +35,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "",
-            collection: [
+            books_collection: [
               {
                 book_id: "",
                 operation: "insert",
@@ -50,7 +50,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "id-collection000001",
-            collection: [
+            books_collection: [
               {
                 book_id: "",
                 operation: "insert",
@@ -65,7 +65,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "id-collection000001",
-            collection: [
+            books_collection: [
               {
                 book_id: "id-book00002",
                 operation: "invalid",
@@ -80,7 +80,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "id-collection000001",
-            collection: [
+            books_collection: [
               {
                 book_id: "id-book00003",
                 operation: "update",
@@ -98,7 +98,7 @@ describe("UpdateBookInCollectionInputBoundary", () => {
 
       expect(input.get()).toEqual({
         id: "id-collection000001",
-        collection: [
+        books_collection: [
           {
             book_id: "id-book00001",
             operation: "insert",

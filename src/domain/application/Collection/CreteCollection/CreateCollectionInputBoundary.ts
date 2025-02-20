@@ -13,7 +13,7 @@ export default class CreateCollectionInputBoundary
     if (inputData.title === "") {
       throw new FieldRequiredError("Title");
     }
-    if (inputData.collection.length === 0) {
+    if (inputData.books_collection.length === 0) {
       throw new FieldRequiredError("At least a book id");
     }
 
@@ -21,7 +21,7 @@ export default class CreateCollectionInputBoundary
       title: inputData.title,
       description: inputData.description,
       visibility: inputData.visibility,
-      collection: inputData.collection,
+      books_collection: inputData.books_collection,
       owner: inputData.user_id,
     };
   }

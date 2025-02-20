@@ -1,11 +1,11 @@
 import { DBOutputCollectionData } from "@/domain/application/@types/CollectionTypes";
 
 export const dbCollectionExample = {
-  id: "000001",
+  _id: "000001",
   title: "Livros de Tolkien",
   description: "Coleção com os livros de Tolkien.",
   visibility: "private",
-  collection: [
+  books_collection: [
     {
       book_id: "ID-book0001",
       title: "O Senhor dos aneis",
@@ -17,11 +17,11 @@ export const dbCollectionExample = {
 };
 
 export const dbCollectionExample2: DBOutputCollectionData = {
-  id: "000002",
+  _id: "000002",
   title: "Coleção de Fantasia Épica",
   description: "Coleção com obras clássicas de fantasia épica.",
   visibility: "public",
-  collection: [
+  books_collection: [
     {
       book_id: "id-00002",
       title: "O Hobbit",
@@ -42,4 +42,12 @@ export const dbCollectionExample2: DBOutputCollectionData = {
     },
   ],
   owner: "id-00002",
+};
+
+export const inputCollectionExample = {
+  title: "Livros de Tolkien",
+  description: "Coleção com os livros de Tolkien.",
+  visibility: "private",
+  books_collection: [{ book_id: "ID-book0001", status: "Em leitura" }],
+  owner: "id-00001",
 };

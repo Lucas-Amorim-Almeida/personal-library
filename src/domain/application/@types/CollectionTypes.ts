@@ -10,7 +10,7 @@ export type CollectionBookFromRequest = {
 
 export type CollectionInput = {
   id: string;
-  collection: CollectionBookFromRequest[];
+  books_collection: CollectionBookFromRequest[];
 };
 
 export type DBCollectionBook = {
@@ -21,11 +21,11 @@ export type DBCollectionBook = {
 };
 
 export type DBOutputCollectionData = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   visibility: "public" | "private";
-  collection: DBCollectionBook[];
+  books_collection: DBCollectionBook[];
   owner: string;
 };
 
@@ -33,7 +33,7 @@ export type ColletionInputData = {
   title: string;
   description: string;
   visibility: "public" | "private";
-  collection: { book_id: string; status: string }[];
+  books_collection: { book_id: string; status: string }[];
   owner: string;
 };
 

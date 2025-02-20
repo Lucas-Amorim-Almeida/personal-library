@@ -34,7 +34,7 @@ describe("RemoveUserController", () => {
     it("Should be an instance of ResponseObject.", async () => {
       userUseCaseMock.execute.mockResolvedValue([
         new RemoveUserOutputBoundary({
-          id: "id-0001",
+          _id: "id-0001",
           username: "john_doe",
           password: "1234",
           access_level: "COMMON",

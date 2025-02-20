@@ -9,7 +9,7 @@ describe("RemoveUserOutputBoundary", () => {
   describe("Constructor", () => {
     it("Should be an instance of RemoveUserOutputBoundary", () => {
       const params: DBOutputUserData = {
-        id: "id-0001",
+        _id: "id-0001",
         username: "john_doe",
         password: "1234",
         access_level: "COMMON",
@@ -28,7 +28,7 @@ describe("RemoveUserOutputBoundary", () => {
   describe("get", () => {
     it("Should return true", () => {
       const params: DBOutputUserData = {
-        id: "id-0001",
+        _id: "id-0001",
         username: "john_doe",
         password: "1234",
         access_level: "COMMON",
@@ -46,7 +46,7 @@ describe("RemoveUserOutputBoundary", () => {
 
     it("Should return false", () => {
       const params: DBOutputUserData = {
-        id: "id-0001",
+        _id: "id-0001",
         username: "john_doe",
         password: "1234",
         access_level: "COMMON",
@@ -64,7 +64,7 @@ describe("RemoveUserOutputBoundary", () => {
 
     it("Should throws an error User status is not valid.", () => {
       const params: DBOutputUserData = {
-        id: "id-0001",
+        _id: "id-0001",
         username: "john_doe",
         password: "1234",
         access_level: "COMMON",

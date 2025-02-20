@@ -3,7 +3,7 @@ import ICollection from "../interfaces/ICollection";
 import ReadingStatus from "@/domain/core/ReadingStatus";
 
 export default class CollectionModel {
-  private static collectionSchema = new Schema({
+  private static bookInCollectionSchema = new Schema({
     book_id: { type: String, required: true },
     title: { type: String, required: true },
     author: { type: [String], required: true },
@@ -18,14 +18,11 @@ export default class CollectionModel {
     title: { type: String, required: true },
     description: { type: String, required: true },
     visibility: { type: String, enum: ["public", "private"], required: true },
-    collection: [this.collectionSchema],
+    books_collection: [this.bookInCollectionSchema],
     owner: { type: String, required: true }, //user_id
   });
 
   static getModel() {
-    return (
-      model<ICollection>("Collection") ||
-      model<ICollection>("Collection", this.schema)
-    );
+    return model<ICollection>("BooksCollection", this.schema);
   }
 }

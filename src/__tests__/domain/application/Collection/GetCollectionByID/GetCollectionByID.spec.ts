@@ -30,7 +30,7 @@ describe("GetCollectionByID", () => {
       const [catchedCollection] = await collection.execute(inputMock);
 
       expect(catchedCollection).toBeInstanceOf(CollectionOutputBoundary);
-      expect(catchedCollection.get().id).toBe("000002");
+      expect(catchedCollection.get()._id).toBe("000002");
       expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "000002" });
     });
 

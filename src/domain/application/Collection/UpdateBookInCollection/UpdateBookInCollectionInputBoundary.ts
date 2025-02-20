@@ -10,7 +10,7 @@ import InvalidFieldError from "../../Errors/InvalidFieldError";
 
 type InputDataProps = {
   id: string;
-  collection: {
+  books_collection: {
     book_id: string;
     operation: string;
     status?: string;
@@ -22,13 +22,13 @@ export default class UpdateBookInCollectionInputBoundary
 {
   private data: CollectionInput;
   constructor(inputData: InputDataProps) {
-    const { id, collection } = inputData;
+    const { id, books_collection } = inputData;
     if (!id) {
       throw new FieldRequiredError("Id");
     }
     this.data = {
       id,
-      collection: collection.map((inputItem) =>
+      books_collection: books_collection.map((inputItem) =>
         this.inputItemAssembler(inputItem),
       ),
     };

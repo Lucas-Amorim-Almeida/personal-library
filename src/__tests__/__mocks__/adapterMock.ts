@@ -7,6 +7,11 @@ import HTTPRequest from "@/infra/interfaces/HTTPRequest";
 import Book from "@/domain/core/Book";
 import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
 import { inputBookUpdateExample } from "./bookMock";
+import {
+  ColletionInputData,
+  DBOutputCollectionData,
+} from "@/domain/application/@types/CollectionTypes";
+import { inputCollectionExample } from "./collectionMock";
 
 export const presenterMock: jest.Mocked<Presenter> = {
   output: jest.fn(),
@@ -24,9 +29,21 @@ export const bookUseCaseMock: jest.Mocked<UseCase<Book, DBOutputBookData>> = {
   execute: jest.fn(),
 };
 
+export const collectionUseCaseMock: jest.Mocked<
+  UseCase<ColletionInputData, DBOutputCollectionData>
+> = {
+  repository: repositoryMock,
+  execute: jest.fn(),
+};
+
 export const httpRequestMockUser: jest.Mocked<HTTPRequest> = {
   body: userInputExample,
 };
+
 export const httpRequestMockBook: jest.Mocked<HTTPRequest> = {
   body: inputBookUpdateExample,
+};
+
+export const httpRequestMockCollection: jest.Mocked<HTTPRequest> = {
+  body: inputCollectionExample,
 };

@@ -12,7 +12,7 @@ import Repository from "@/domain/core/Repository";
 
 const inputParams: CollectionInput = {
   id: "000002",
-  collection: [
+  books_collection: [
     {
       book_id: "id-00005",
       operation: "insert",
@@ -35,7 +35,7 @@ const collectionUpdatedMock = {
   title: "Coleção de Fantasia Épica",
   description: "Coleção com obras clássicas de fantasia épica.",
   visibility: "public",
-  collection: [
+  books_collection: [
     {
       book_id: "id-00002",
       title: "O Hobbit",

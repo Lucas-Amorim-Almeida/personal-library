@@ -56,7 +56,7 @@ describe("CreateUser", () => {
       expect(result.get()).toEqual(dbUserExample);
       expect(resultUserInstance.username).toBe(userData.username);
       expect(resultUserInstance.access_level).toEqual(userData.access_level);
-      expect(resultUserInstance.id).toEqual(expect.any(String));
+      expect(resultUserInstance._id).toEqual(expect.any(String));
       expect(repositoryMock.save).toHaveBeenCalledWith(expect.any(User)); //verifica se o método foi chamado
       expect(encrypterMock.encrypt).toHaveBeenCalled();
     });

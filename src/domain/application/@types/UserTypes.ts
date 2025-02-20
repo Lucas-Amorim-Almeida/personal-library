@@ -1,7 +1,7 @@
 import { PersonalDataParamsType } from "@/domain/core/@types/types";
 
 export type DBOutputUserData = {
-  id: string;
+  _id: string;
   username: string;
   password: string;
   access_level: string;

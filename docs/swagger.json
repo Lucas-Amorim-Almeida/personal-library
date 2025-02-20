@@ -710,6 +710,50 @@
           }
         }
       }
+    },
+
+    "/collection": {
+      "post": {
+        "summary": "Adiciona uma nova coleção de livros no banco de dados.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCollectionReqBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResBodyToCollectionDefault"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          }
+        }
+      }
     }
   },
 
@@ -1314,6 +1358,121 @@
             },
             "description": "Volume do livro.",
             "example": ["Fantasia", "Clássicos"]
+          }
+        }
+      },
+
+      "CreateCollectionReqBody": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Titulo da coleção.",
+            "example": "Livros de Tolkien"
+          },
+          "description": {
+            "type": "string",
+            "description": "Breve descrição da coleção.",
+            "example": "Coleção contendo livros de Tolkien."
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["public", "private"],
+            "description": "Visibilidade da coleção.",
+            "example": "private"
+          },
+          "books_collection": {
+            "type": "array",
+            "description": "Livros presentes na coleção.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "book_id": {
+                  "type": "string",
+                  "description": "Id do livro na base de dados da aplicação.",
+                  "example": "67b0a6493e3c1d1111fa3d93"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "LEITURA COMPLETA",
+                    "LEITURA PENDENTE",
+                    "EM LEITURA",
+                    "LEITURA CANCELADA"
+                  ],
+                  "description": "Estado em que se encontra a leitura do livro.",
+                  "example": "LEITURA PENDENTE"
+                }
+              }
+            }
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Id do usuário que faz a requisição na base de dados.",
+            "example": "67aa5023baa7ed1742044990"
+          }
+        },
+        "required": [
+          "title",
+          "description",
+          "visibility",
+          "books_collection",
+          "user_id"
+        ]
+      },
+      "ResBodyToCollectionDefault": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Titulo da coleção.",
+            "example": "Livros de Tolkien"
+          },
+          "description": {
+            "type": "string",
+            "description": "Breve descrição da coleção.",
+            "example": "Coleção contendo livros de Tolkien."
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["public", "private"],
+            "description": "Visibilidade da coleção.",
+            "example": "private"
+          },
+          "books_collection": {
+            "type": "array",
+            "description": "Livros presentes na coleção.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "book_id": {
+                  "type": "string",
+                  "description": "Id do livro na base de dados da aplicação.",
+                  "example": "67b0a6493e3c1d1111fa3d93"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "LEITURA COMPLETA",
+                    "LEITURA PENDENTE",
+                    "EM LEITURA",
+                    "LEITURA CANCELADA"
+                  ],
+                  "description": "Estado em que se encontra a leitura do livro.",
+                  "example": "LEITURA PENDENTE"
+                }
+              }
+            }
+          },
+          "user_id": {
+            "type": "string",
+            "description": "Id do usuário que faz a requisição na base de dados.",
+            "example": "67aa5023baa7ed1742044990"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Id da coleção na base de dados.",
+            "example": "67aa5023baa7ed1742044990"
           }
         }
       },
