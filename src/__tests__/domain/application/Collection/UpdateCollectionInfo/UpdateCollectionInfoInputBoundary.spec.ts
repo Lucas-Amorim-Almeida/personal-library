@@ -3,7 +3,7 @@ import FieldRequiredError from "@/domain/application/Errors/FieldRequiredError";
 import InvalidFieldError from "@/domain/application/Errors/InvalidFieldError";
 
 const inputParams = {
-  colletion_id: "000001",
+  collection_id: "000001",
   update_fields: {
     title: "Livros de Tolkien",
     description: "Coleção de livros de Tolkien.",
@@ -23,7 +23,7 @@ describe("UpdateCollectionInfoInputBoundary", () => {
       expect(
         () =>
           new UpdateCollectionInfoInputBoundary({
-            colletion_id: "",
+            collection_id: "",
             update_fields: {
               title: "Livros de Tolkien",
               description: "Coleção de livros de Tolkien.",
@@ -37,7 +37,7 @@ describe("UpdateCollectionInfoInputBoundary", () => {
       expect(
         () =>
           new UpdateCollectionInfoInputBoundary({
-            colletion_id: "000001",
+            collection_id: "000001",
             update_fields: {},
           }),
       ).toThrow(FieldRequiredError);
@@ -47,7 +47,7 @@ describe("UpdateCollectionInfoInputBoundary", () => {
       expect(
         () =>
           new UpdateCollectionInfoInputBoundary({
-            colletion_id: "000001",
+            collection_id: "000001",
             update_fields: {
               title: "Livros de Tolkien",
               description: "Coleção de livros de Tolkien.",
@@ -62,7 +62,7 @@ describe("UpdateCollectionInfoInputBoundary", () => {
     it("Should return an object with collection id and update fields.", () => {
       const input = new UpdateCollectionInfoInputBoundary(inputParams);
       expect(input.get()).toEqual({
-        colletion_id: "000001",
+        collection_id: "000001",
         update_fields: {
           title: "Livros de Tolkien",
           description: "Coleção de livros de Tolkien.",

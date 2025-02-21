@@ -8,7 +8,7 @@ import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError
 import InputBoundary from "@/domain/application/InputBoundary";
 
 const inputParams: InputCollectionInfoUpdate = {
-  colletion_id: "000001",
+  collection_id: "000001",
   update_fields: {
     title: "Livros de Tolkien",
     description: "Coleção de livros de Tolkien.",
@@ -41,7 +41,7 @@ describe("UpdateCollectionInfo", () => {
     it("Should return an instance of CollectionOutputBoundary.", async () => {
       repositoryMock.getOne.mockResolvedValue(dbCollectionExample);
       repositoryMock.update.mockResolvedValue({
-        id: "000001",
+        _id: "000001",
         title: inputParams.update_fields.title,
         description: inputParams.update_fields.description,
         visibility: inputParams.update_fields.visibility,
@@ -62,10 +62,10 @@ describe("UpdateCollectionInfo", () => {
       const [collectionUpdated] = await update.execute(inputMock);
       expect(collectionUpdated).toBeInstanceOf(CollectionOutputBoundary);
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: inputParams.colletion_id,
+        _id: inputParams.collection_id,
       });
       expect(repositoryMock.update).toHaveBeenCalledWith({
-        id: inputParams.colletion_id,
+        query: { _id: inputParams.collection_id },
         update_fields: inputParams.update_fields,
       });
     });
@@ -79,7 +79,7 @@ describe("UpdateCollectionInfo", () => {
         await update.execute(inputMock);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({
-          id: inputParams.colletion_id,
+          _id: inputParams.collection_id,
         });
         expect(error).toEqual(new EntityNotFoundError("Collection"));
       }
@@ -95,10 +95,10 @@ describe("UpdateCollectionInfo", () => {
         await update.execute(inputMock);
       } catch (error) {
         expect(repositoryMock.getOne).toHaveBeenCalledWith({
-          id: inputParams.colletion_id,
+          _id: inputParams.collection_id,
         });
         expect(repositoryMock.update).toHaveBeenCalledWith({
-          id: inputParams.colletion_id,
+          query: { _id: inputParams.collection_id },
           update_fields: inputParams.update_fields,
         });
         expect(error).toEqual(new InternalError());

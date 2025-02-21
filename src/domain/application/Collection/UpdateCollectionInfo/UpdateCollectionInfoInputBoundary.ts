@@ -8,7 +8,7 @@ export default class UpdateCollectionInfoInputBoundary
 {
   constructor(
     private readonly inputData: {
-      colletion_id: string;
+      collection_id: string;
       update_fields: {
         title?: string;
         description?: string;
@@ -18,7 +18,7 @@ export default class UpdateCollectionInfoInputBoundary
   ) {
     const { title, description, visibility } = inputData.update_fields;
 
-    if (!inputData.colletion_id) {
+    if (!inputData.collection_id) {
       throw new InvalidFieldError("Collection id");
     }
     if (!title && !description && !visibility) {

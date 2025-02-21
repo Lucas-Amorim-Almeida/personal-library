@@ -112,7 +112,7 @@
         }
       }
     },
-    "/user/password/:id": {
+    "/user/password/{id}": {
       "patch": {
         "summary": "Responsável alteração das senhas dos usuários.",
         "parameters": [
@@ -167,7 +167,7 @@
         }
       }
     },
-    "/user/contact/:id": {
+    "/user/contact/{id}": {
       "patch": {
         "summary": "Responsável pelo alteração das informações de contato dos usuários.",
         "parameters": [
@@ -222,7 +222,7 @@
         }
       }
     },
-    "/personal_data/:id": {
+    "/personal_data/{id}": {
       "patch": {
         "summary": "Responsável pelo alteração das informações pessoais dos usuários.",
         "parameters": [
@@ -279,7 +279,7 @@
         }
       }
     },
-    "/status/:id": {
+    "/status/{id}": {
       "patch": {
         "summary": "Responsável pelo alteração do status dos usuários.",
         "parameters": [
@@ -344,7 +344,7 @@
         }
       }
     },
-    "/delete/:id": {
+    "/delete/{id}": {
       "patch": {
         "summary": "Responsável remoção de um usuário.",
         "parameters": [
@@ -478,6 +478,60 @@
             }
           }
         }
+      }
+    },
+    "/book/{id}": {
+      "get": {
+        "summary": "Busca as informações de um livro no banco de dados, a partir de seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "Id do livro cuja informações são requeridas.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResBodyToBookDefault"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
       },
       "patch": {
         "summary": "Atualiza as informações de um livro no banco de dados.",
@@ -578,61 +632,7 @@
         }
       }
     },
-    "/book/:id": {
-      "get": {
-        "summary": "Busca as informações de um livro no banco de dados, a partir de seu ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "params",
-            "description": "Id do livro cuja informações são requeridas.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "example": "67a0cf5ee43cbc3f689e3757"
-            },
-            "style": "simple"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Ok",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResBodyToBookDefault"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/InternalServerError" }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/BadRequestError" }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found Error",
-            "content": {
-              "application/json": {
-                "schema": { "$ref": "#/components/schemas/NotFoundError" }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/book/serach": {
+    "/book/search": {
       "get": {
         "summary": "Busca as informações de um livro no banco de dados.",
         "parameters": [
@@ -755,7 +755,7 @@
         }
       }
     },
-    "/collection/:id": {
+    "/collection/{id}": {
       "get": {
         "summary": "Busca as informações de uma coleção no banco de dados, a partir de seu ID.",
         "parameters": [
@@ -809,7 +809,7 @@
         }
       }
     },
-    "/collection/user/:user_id": {
+    "/collection/user/{user_id}": {
       "get": {
         "summary": "Busca as informações de todas as coleções no banco de dados que pertencem a determinado usuário.",
         "parameters": [
@@ -838,6 +838,63 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/collection/update/info/{id}": {
+      "patch": {
+        "summary": "Altera as informações de uma coleção no banco de dados.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "Id da coleção que se quer alterar as informações.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReqBodyToUpdateCollectionInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
           },
           "500": {
             "description": "Internal Server Error",
@@ -1605,6 +1662,27 @@
             "type": "string",
             "description": "Id da coleção na base de dados.",
             "example": "67aa5023baa7ed1742044990"
+          }
+        }
+      },
+      "ReqBodyToUpdateCollectionInfo": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Titulo da coleção.",
+            "example": "Livros de Tolkien"
+          },
+          "visibility": {
+            "type": "string",
+            "enum": ["public", "private"],
+            "description": "Visibilidade da coleção.",
+            "example": "private"
+          },
+          "description": {
+            "type": "string",
+            "description": "Breve descrição da coleção.",
+            "example": "Coleção contendo livros de J. R. R. Tolkien."
           }
         }
       },

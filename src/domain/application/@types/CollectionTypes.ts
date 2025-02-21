@@ -38,7 +38,7 @@ export type ColletionInputData = {
 };
 
 export type InputCollectionInfoUpdate = {
-  colletion_id: string;
+  collection_id: string;
   update_fields: {
     title?: string;
     description?: string;

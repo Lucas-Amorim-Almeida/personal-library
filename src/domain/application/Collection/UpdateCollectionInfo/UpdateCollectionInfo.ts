@@ -15,21 +15,38 @@ export default class UpdateCollectionInfo
 {
   constructor(readonly repository: Repository) {}
 
+  private updateFieldsAssembler(
+    dbCollection: DBOutputCollectionData,
+    update_fields: {
+      title?: string;
+      description?: string;
+      visibility?: "public" | "private";
+    },
+  ) {
+    return {
+      title: update_fields.title ?? dbCollection.title,
+      description: update_fields.description ?? dbCollection.description,
+      visibility:
+        update_fields.visibility ??
+        (dbCollection.visibility as "public" | "private"),
+    };
+  }
+
   async execute(
     inputData: InputBoundary<InputCollectionInfoUpdate>,
   ): Promise<OutputBoundary<DBOutputCollectionData>[]> {
-    const { colletion_id, update_fields } = inputData.get();
+    const { collection_id, update_fields } = inputData.get();
 
     const dbCollection: DBOutputCollectionData | null =
-      await this.repository.getOne({ id: colletion_id });
+      await this.repository.getOne({ _id: collection_id });
     if (!dbCollection) {
       throw new EntityNotFoundError("Collection");
     }
 
     const updatedCollection: DBOutputCollectionData | null =
       await this.repository.update({
-        id: colletion_id,
-        update_fields,
+        query: { _id: collection_id },
+        update_fields: this.updateFieldsAssembler(dbCollection, update_fields),
       });
     if (!updatedCollection) {
       throw new InternalError();
