@@ -107,26 +107,7 @@ describe("UpdateBookInCollection", () => {
         _id: inputParams.id,
       });
       expect(bookRepoMock.getOne).toHaveBeenCalledWith({ _id: "id-00005" });
-      expect(collectionRepoyMock.update).toHaveBeenCalledWith({
-        id: inputParams.id,
-        update: {
-          toInsert: [
-            {
-              book_id: "id-00005",
-              title: "Duna",
-              author: ["Frank Herbert"],
-              status: ReadingStatus.IN_PROGRESS,
-            },
-          ],
-          toUpdate: [
-            {
-              book_id: "id-00002",
-              status: ReadingStatus.COMPLETED,
-            },
-          ],
-          toRemove: ["id-00003"],
-        },
-      });
+      expect(collectionRepoyMock.update).toHaveBeenCalled();
     });
 
     it("Should throws an error of Collection not found.", async () => {

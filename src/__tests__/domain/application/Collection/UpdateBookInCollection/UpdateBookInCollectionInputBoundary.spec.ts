@@ -5,21 +5,23 @@ import ReadingStatus from "@/domain/core/ReadingStatus";
 
 const inputParams = {
   id: "id-collection000001",
-  books_collection: [
-    {
-      book_id: "id-book00001",
-      operation: "insert",
-    },
-    {
-      book_id: "id-book00002",
-      operation: "remove",
-    },
-    {
-      book_id: "id-book00003",
-      operation: "update",
-      status: "LEITURA COMPLETA",
-    },
-  ],
+  update_fields: {
+    books_collection: [
+      {
+        book_id: "id-book00001",
+        operation: "insert",
+      },
+      {
+        book_id: "id-book00002",
+        operation: "remove",
+      },
+      {
+        book_id: "id-book00003",
+        operation: "update",
+        status: "LEITURA COMPLETA",
+      },
+    ],
+  },
 };
 
 describe("UpdateBookInCollectionInputBoundary", () => {
@@ -35,12 +37,14 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "",
-            books_collection: [
-              {
-                book_id: "",
-                operation: "insert",
-              },
-            ],
+            update_fields: {
+              books_collection: [
+                {
+                  book_id: "",
+                  operation: "insert",
+                },
+              ],
+            },
           }),
       ).toThrow(FieldRequiredError);
     });
@@ -50,12 +54,14 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "id-collection000001",
-            books_collection: [
-              {
-                book_id: "",
-                operation: "insert",
-              },
-            ],
+            update_fields: {
+              books_collection: [
+                {
+                  book_id: "",
+                  operation: "insert",
+                },
+              ],
+            },
           }),
       ).toThrow(FieldRequiredError);
     });
@@ -65,12 +71,14 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "id-collection000001",
-            books_collection: [
-              {
-                book_id: "id-book00002",
-                operation: "invalid",
-              },
-            ],
+            update_fields: {
+              books_collection: [
+                {
+                  book_id: "id-book00002",
+                  operation: "invalid",
+                },
+              ],
+            },
           }),
       ).toThrow(InvalidFieldError);
     });
@@ -80,13 +88,15 @@ describe("UpdateBookInCollectionInputBoundary", () => {
         () =>
           new UpdateBookInCollectionInputBoundary({
             id: "id-collection000001",
-            books_collection: [
-              {
-                book_id: "id-book00003",
-                operation: "update",
-                status: "invalid",
-              },
-            ],
+            update_fields: {
+              books_collection: [
+                {
+                  book_id: "id-book00003",
+                  operation: "update",
+                  status: "invalid",
+                },
+              ],
+            },
           }),
       ).toThrow(InvalidFieldError);
     });

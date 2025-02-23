@@ -22,7 +22,7 @@ export default class UpdateBookInCollection
     readonly bookRepository: Repository,
   ) {}
 
-  private async listBookToInsert(
+  private async fetchBookToInsert(
     collection: CollectionBookFromRequest[],
     existingBooks: Map<string, DBCollectionBook>,
   ): Promise<
@@ -30,7 +30,7 @@ export default class UpdateBookInCollection
       book_id: string;
       title: string;
       author: string[];
-      status: ReadingStatus;
+      status: string;
     }>
   > {
     const toInsert = collection.filter(
@@ -60,41 +60,69 @@ export default class UpdateBookInCollection
     return booksToInsert;
   }
 
-  private listBookToUpdate(
+  private mapBookToUpdate(
     collection: CollectionBookFromRequest[],
     dbCollection: DBCollectionBook[],
   ) {
     const incomingMap = new Map(collection.map((book) => [book.book_id, book]));
 
-    const toUpdate = dbCollection.filter(
-      (book) =>
-        incomingMap.has(book.book_id) &&
-        incomingMap.get(book.book_id)?.operation === "update",
+    return new Map(
+      dbCollection
+        .filter(
+          (book) =>
+            incomingMap.has(book.book_id) &&
+            incomingMap.get(book.book_id)?.operation === "update",
+        )
+        .map((book) => {
+          const statusOfUpdate =
+            incomingMap.get(book.book_id)?.status ?? ReadingStatus.PENDING;
+
+          return [book.book_id, statusOfUpdate];
+        }),
     );
-
-    const bookUpdated = toUpdate.map((book) => {
-      const statusOfUpdate =
-        incomingMap.get(book.book_id)?.status ?? ReadingStatus.PENDING;
-
-      return {
-        book_id: book.book_id,
-        status: statusOfUpdate,
-      };
-    });
-
-    return bookUpdated;
   }
 
-  private listBookToRemove(
+  private extractBookToRemove(
     collection: CollectionBookFromRequest[],
     existingBooks: Map<string, DBCollectionBook>,
   ) {
-    const toRemove = collection.filter(
-      (book) => existingBooks.has(book.book_id) && book.operation === "remove",
+    return collection
+      .filter(
+        (book) =>
+          existingBooks.has(book.book_id) && book.operation === "remove",
+      )
+      .map((book) => book.book_id);
+  }
+
+  private async updateFieldAssembler(
+    dbCollection: DBOutputCollectionData,
+    books_collection: CollectionBookFromRequest[],
+  ) {
+    let booksCollection = dbCollection.books_collection;
+
+    const existingBooks = new Map(
+      booksCollection.map((book) => [book.book_id, book]),
     );
 
-    const booksToRemove = toRemove.map((book) => book.book_id);
-    return booksToRemove;
+    const [toInsert, toRemove, toUpdate] = await Promise.all([
+      await this.fetchBookToInsert(books_collection, existingBooks),
+      this.extractBookToRemove(books_collection, existingBooks),
+      this.mapBookToUpdate(books_collection, dbCollection.books_collection),
+    ]);
+
+    booksCollection = booksCollection
+      .filter((book) => !toRemove.includes(book.book_id))
+      .map((book) => ({
+        book_id: book.book_id,
+        title: book.title,
+        author: book.author,
+        status: toUpdate.has(book.book_id)
+          ? (toUpdate.get(book.book_id) as string)
+          : book.status,
+      }))
+      .concat(toInsert);
+
+    return booksCollection;
   }
 
   async execute(
@@ -108,31 +136,16 @@ export default class UpdateBookInCollection
       throw new EntityNotFoundError("Collection");
     }
 
-    const collectionInDB = dbCollection.books_collection;
-
-    const existingBooks = new Map(
-      collectionInDB.map((book) => [book.book_id, book]),
-    );
-
-    const toInsert = await this.listBookToInsert(
+    const booksCollection = await this.updateFieldAssembler(
+      dbCollection,
       books_collection,
-      existingBooks,
-    );
-
-    const toRemove = this.listBookToRemove(books_collection, existingBooks);
-
-    const toUpdate = this.listBookToUpdate(
-      books_collection,
-      dbCollection.books_collection,
     );
 
     const updatedCollection: DBOutputCollectionData | null =
       await this.repository.update({
-        id,
-        update: {
-          toRemove,
-          toUpdate,
-          toInsert,
+        query: { _id: id },
+        update_fields: {
+          books_collection: booksCollection,
         },
       });
 

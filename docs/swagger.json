@@ -922,6 +922,63 @@
           }
         }
       }
+    },
+    "/collection/update/book/{id}": {
+      "patch": {
+        "summary": "Altera as informações dos livros uma coleção no banco de dados.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "Id da coleção que se quer alterar as informações.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReqBodyToUpdateBookInCollection"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
     }
   },
 
@@ -1683,6 +1740,50 @@
             "type": "string",
             "description": "Breve descrição da coleção.",
             "example": "Coleção contendo livros de J. R. R. Tolkien."
+          }
+        }
+      },
+      "ReqBodyToUpdateBookInCollection": {
+        "type": "object",
+        "properties": {
+          "books_collection": {
+            "type": "array",
+
+            "items": {
+              "type": "object",
+              "properties": {
+                "book_id": {
+                  "type": "string",
+                  "description": "Id do livro na collection/table de livros"
+                },
+                "operation": {
+                  "type": "string",
+                  "enum": ["update", "insert", "remove"],
+                  "description": "Operação que será feita no livro"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "LEITURA COMPLETA",
+                    "LEITURA PENDENTE",
+                    "EM LEITURA",
+                    "LEITURA CANCELADA"
+                  ],
+                  "description": "Estado da leitura do livro"
+                }
+              },
+              "required": ["book_id", "operation"]
+            },
+
+            "example": {
+              "books_collection": [
+                {
+                  "book_id": "67b0a6493e3c1d1111fa3d93",
+                  "operation": "update",
+                  "status": "Em Leitura"
+                }
+              ]
+            }
           }
         }
       },

@@ -4,6 +4,7 @@ import CreateCollectionFactory from "../factories/CollectionFactory/CreateCollec
 import GetCollectionByIDFactory from "../factories/CollectionFactory/GetCollectionByIdFactory";
 import GetCollectionOfUserFactory from "../factories/CollectionFactory/GetCollectionOfUserFactory";
 import UpdateCollectionInfoFactory from "../factories/CollectionFactory/UpdateCollectionInfoFactory";
+import UpdateBookInCollectionFactory from "../factories/CollectionFactory/UpdateBookInCollectionFactory";
 
 const collectionRoutes = Router();
 
@@ -15,6 +16,8 @@ const getCollectionOfUserController =
   new GetCollectionOfUserFactory().getController();
 const updateCollectionInfoFactory =
   new UpdateCollectionInfoFactory().getController();
+const updateBookInCollectionFactory =
+  new UpdateBookInCollectionFactory().getController();
 
 //Este é um módulo que contém as rotas para Collectio. Logo, id se refere ao id da coleção de livros.
 
@@ -36,6 +39,11 @@ collectionRoutes.get("/user/:user_id", async (req, res) => {
 //Atualiza as informações de uma coleção
 collectionRoutes.patch("/update/info/:id", async (req, res) => {
   await new RouterAdapter(req, res).handle(updateCollectionInfoFactory);
+});
+
+//Atualiza as informações dos livros em uma coleção
+collectionRoutes.patch("/update/book/:id", async (req, res) => {
+  await new RouterAdapter(req, res).handle(updateBookInCollectionFactory);
 });
 
 export default collectionRoutes;
