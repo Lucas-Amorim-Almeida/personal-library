@@ -22,7 +22,7 @@ describe("GetUserByID", () => {
       const user = new GetUserByID(repositoryMock);
 
       expect(user.execute(inputMock)).resolves.toBeInstanceOf(Array);
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "id-0001" });
 
       const [dbUser] = await user.execute(inputMock);
       expect(dbUser).toBeInstanceOf(UserOutputBoundary);
@@ -35,7 +35,7 @@ describe("GetUserByID", () => {
       const user = new GetUserByID(repositoryMock);
 
       expect(user.execute(inputMock)).rejects.toThrow(EntityNotFoundError);
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({ id: "id-0001" });
+      expect(repositoryMock.getOne).toHaveBeenCalledWith({ _id: "id-0001" });
     });
   });
 });

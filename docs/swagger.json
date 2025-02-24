@@ -63,6 +63,60 @@
         }
       }
     },
+    "/user/{id}": {
+      "get": {
+        "summary": "Obtém informações detalhadas de um usuário na base de dados.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "params",
+            "description": "ID do usuário",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "67a0cf5ee43cbc3f689e3757"
+            },
+            "style": "simple"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResBodyUserComplete"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InternalServerError" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/BadRequestError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/NotFoundError" }
+              }
+            }
+          }
+        }
+      }
+    },
     "/user/login": {
       "post": {
         "summary": "Responsável pelo login dos usuários. Verifica as credenciais fornecidas pelo usuários com as presentes no banco de dados.",
@@ -1112,6 +1166,30 @@
           }
         },
         "required": ["username", "password", "contact", "personal_data"]
+      },
+      "ResBodyUserComplete": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "description": "Nome do usuário, consiste em uma apelido (nickname).",
+            "type": "string",
+            "example": "joao_silva"
+          },
+          "access_level": {
+            "description": "Nível de acesso que o novo usuário terá, caso o campo esteja vazio será tratado como common.",
+            "type": "string",
+            "enum": ["COMMON", "ADMINISTRATOR", "GUEST"],
+            "example": "ADMINISTRATOR"
+          },
+          "contact": {
+            "description": "Informações de contato do usuário, como email e telefones.",
+            "$ref": "#/components/schemas/ContatcData"
+          },
+          "personal_data": {
+            "description": "Informações de contato do usuário, como email e telefones.",
+            "$ref": "#/components/schemas/PersonalData"
+          }
+        }
       },
       "ResBodyToUserDefault": {
         "type": "object",

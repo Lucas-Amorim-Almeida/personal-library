@@ -17,7 +17,7 @@ export default class GetUserByID
     const { id } = inputData.get();
 
     const dbUser: DBOutputUserData | null = await this.repository.getOne({
-      id,
+      _id: id,
     });
     if (!dbUser) {
       throw new EntityNotFoundError("User");

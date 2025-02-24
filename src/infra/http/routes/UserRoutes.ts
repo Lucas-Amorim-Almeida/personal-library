@@ -7,6 +7,7 @@ import ContactUpdateFactory from "../factories/UserFactory/ContactUpdateFactory"
 import PersonalDataUpdateFactory from "../factories/UserFactory/PersonalDataUpdateFactory";
 import UserStatusUpdateFactory from "../factories/UserFactory/UserStatusUpdateFactory";
 import RemoveUserFactory from "../factories/UserFactory/RemoveUserFactory";
+import GetUserByIdFactory from "../factories/UserFactory/GetUserByIdFactory";
 
 const userRoutes = Router();
 const createUserController = new CreateUserFactory().getController();
@@ -18,12 +19,18 @@ const personalDataUpdateController =
 const userStatusUpdateController =
   new UserStatusUpdateFactory().getController();
 const removeUserController = new RemoveUserFactory().getController();
+const getUserByIdController = new GetUserByIdFactory().getController();
 
 //Este é um módulo que contém as rotas para user. Logo, id se refere ao id do usuário
 
 //Salvar informações de um novo usuário
 userRoutes.post("/", async (req, res) => {
   await new RouterAdapter(req, res).handle(createUserController);
+});
+
+//Buscar um usuário pelo Id
+userRoutes.get("/:id", async (req, res) => {
+  await new RouterAdapter(req, res).handle(getUserByIdController);
 });
 
 //Login de usuário
