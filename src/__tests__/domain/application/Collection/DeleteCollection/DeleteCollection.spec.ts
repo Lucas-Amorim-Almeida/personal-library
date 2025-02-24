@@ -1,6 +1,7 @@
 import { dbCollectionExample } from "@/__tests__/__mocks__/collectionMock";
 import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import DeleteCollection from "@/domain/application/Collection/DeleteCollection/DeleteCollection";
+import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 
 const inputMock: jest.Mocked<InputBoundary<{ id: string }>> = {
@@ -18,7 +19,7 @@ describe("DeleteCollection", () => {
 
   describe("execute", () => {
     it("Should return an instance of DeleteCollectionOutputBoundary", async () => {
-      repositoryMock.delete.mockResolvedValue(null);
+      repositoryMock.delete.mockResolvedValue(dbCollectionExample);
       repositoryMock.getOne.mockResolvedValue(null);
 
       const deleteCollection = new DeleteCollection(repositoryMock);
@@ -30,15 +31,15 @@ describe("DeleteCollection", () => {
       const [response] = await deleteCollection.execute(inputMock);
       expect(response.get()).toBe(true);
       expect(repositoryMock.delete).toHaveBeenCalledWith({
-        id: "id-collection00001",
+        _id: "id-collection00001",
       });
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-collection00001",
+        _id: "id-collection00001",
       });
     });
 
-    it("Should fail in delete collection in db.", async () => {
-      repositoryMock.delete.mockResolvedValue(null);
+    it("Should fail in delete collection in db, collection not.", async () => {
+      repositoryMock.delete.mockResolvedValue(dbCollectionExample);
       repositoryMock.getOne.mockResolvedValue(dbCollectionExample);
 
       const deleteCollection = new DeleteCollection(repositoryMock);
@@ -50,11 +51,26 @@ describe("DeleteCollection", () => {
       const [response] = await deleteCollection.execute(inputMock);
       expect(response.get()).toBe(false);
       expect(repositoryMock.delete).toHaveBeenCalledWith({
-        id: "id-collection00001",
+        _id: "id-collection00001",
       });
       expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        id: "id-collection00001",
+        _id: "id-collection00001",
       });
+    });
+
+    it("Should fail in delete collection in db, collection not found.", async () => {
+      repositoryMock.delete.mockResolvedValue(null);
+
+      const deleteCollection = new DeleteCollection(repositoryMock);
+
+      try {
+        await deleteCollection.execute(inputMock);
+      } catch (error) {
+        expect(repositoryMock.delete).toHaveBeenCalledWith({
+          _id: "id-collection00001",
+        });
+        expect(error).toEqual(new EntityNotFoundError("Collection"));
+      }
     });
   });
 });
