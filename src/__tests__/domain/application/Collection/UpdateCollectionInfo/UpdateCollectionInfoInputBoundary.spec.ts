@@ -44,17 +44,18 @@ describe("UpdateCollectionInfoInputBoundary", () => {
     });
 
     it("Should throws an error of Visibility is not valid.", () => {
-      expect(
-        () =>
-          new UpdateCollectionInfoInputBoundary({
-            collection_id: "000001",
-            update_fields: {
-              title: "Livros de Tolkien",
-              description: "Coleção de livros de Tolkien.",
-              visibility: "invalid",
-            },
-          }),
-      ).toThrow(InvalidFieldError);
+      try {
+        new UpdateCollectionInfoInputBoundary({
+          collection_id: "000001",
+          update_fields: {
+            title: "Livros de Tolkien",
+            description: "Coleção de livros de Tolkien.",
+            visibility: "invalid",
+          },
+        });
+      } catch (error) {
+        expect(error).toEqual(new InvalidFieldError("Visibility"));
+      }
     });
   });
 

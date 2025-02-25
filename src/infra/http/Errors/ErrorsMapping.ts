@@ -11,6 +11,8 @@ import UserAlreadyRegisteredError from "@/domain/application/Errors/UserUseCaseE
 import PasswordIcorrectError from "@/domain/application/Errors/UserUseCaseErros/PasswordIcorrectError";
 import BookAlreadyExistsError from "@/domain/application/Errors/BookUseCaseError/BookAlreadyExistsError";
 import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
+import UnauthorizedError from "./UnauthorizedError";
+import { JsonWebTokenError } from "jsonwebtoken";
 
 // Define um tipo para representar classes de erro
 //eslint-disable-next-line
@@ -27,6 +29,7 @@ const errorMap = new Map<ErrorConstructor, [typeof HTTPError, number]>([
   [UserAlreadyRegisteredError, [BadRequestError, 400]],
   [PasswordIcorrectError, [BadRequestError, 400]],
   [BookAlreadyExistsError, [BadRequestError, 400]],
+  [JsonWebTokenError, [UnauthorizedError, 401]],
   [EntityNotFoundError, [NotFoundError, 404]],
 ]);
 

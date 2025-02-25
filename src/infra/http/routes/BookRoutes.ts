@@ -6,6 +6,8 @@ import UpdateBookFactory from "../factories/BookFactory/UpdateBookFactory";
 import DeleteBookFactory from "../factories/BookFactory/DeleteBookFactory";
 import GetBookByIdFactory from "../factories/BookFactory/GetBookByIdFactory";
 import SearchBookFactory from "../factories/BookFactory/SearchBookFactory";
+import { authentication } from "../middlewares/authentication.middleware";
+import bookAuthentication from "../middlewares/bookAuthentication.middleware";
 
 const bookRoutes = Router();
 const createBookController = new CreateBookFactory().getController();
@@ -18,7 +20,7 @@ const deleteBookController = new DeleteBookFactory().getController();
 //Este é um módulo que contém as rotas para Book. Logo, id se refere ao id do livro.
 
 //Salvar informações de um novo livro
-bookRoutes.post("/", async (req, res) => {
+bookRoutes.post("/", authentication, async (req, res) => {
   await new RouterAdapter(req, res).handle(createBookController);
 });
 
@@ -38,12 +40,12 @@ bookRoutes.get("/", async (req, res) => {
 });
 
 //Atualiza as informações de um livro na base de dados
-bookRoutes.patch("/:id", async (req, res) => {
+bookRoutes.patch("/:id", bookAuthentication, async (req, res) => {
   await new RouterAdapter(req, res).handle(updateBookController);
 });
 
 //Remove as informações de um livro na base de dados
-bookRoutes.delete("/:id", async (req, res) => {
+bookRoutes.delete("/:id", bookAuthentication, async (req, res) => {
   await new RouterAdapter(req, res).handle(deleteBookController);
 });
 

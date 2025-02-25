@@ -1,4 +1,3 @@
-import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
 import { repositoryMock } from "@/__tests__/__mocks__/mocks";
 import { InputBookUpdate } from "@/domain/application/@types/BookTypes";
 import BookOutputBoundary from "@/domain/application/Book/BookOutputBoundary";
@@ -7,10 +6,11 @@ import InternalError from "@/domain/application/Errors/InternalError";
 import EntityNotFoundError from "@/domain/application/Errors/EntityNotFoundError";
 import InputBoundary from "@/domain/application/InputBoundary";
 import BookGenre from "@/domain/core/BookGenre";
+import { dbBookExample } from "@/__tests__/__mocks__/bookMock";
 
 const inputParams = {
   id: "id-00001",
-  title: "O Senhor dos Anéis",
+  title: "Novo Título",
   author: ["J. R. R. Tolkien"],
   edition: "Coleção Nova Fronteira",
   publication_year: 1954,
@@ -25,87 +25,44 @@ const inputBoundaryMock: jest.Mocked<InputBoundary<InputBookUpdate>> = {
   get: jest.fn(() => inputParams),
 };
 
-describe("UpdateBook", () => {
-  describe("Constructor", () => {
-    it("Should be an instance of UpdateBook", () => {
-      expect(new UpdateBook(repositoryMock)).toBeInstanceOf(UpdateBook);
-    });
+describe("UpdateBook Use Case", () => {
+  let updateBook: UpdateBook;
+  beforeEach(() => {
+    updateBook = new UpdateBook(repositoryMock);
   });
 
-  describe("execute", () => {
-    it("Should return instance of BookUpdateOutputBoundary", async () => {
-      repositoryMock.getOne.mockResolvedValue(dbBookExample);
-      repositoryMock.update.mockResolvedValue(dbBookExample);
+  it("deve lançar EntityNotFoundError se o livro não for encontrado", async () => {
+    repositoryMock.getOne.mockResolvedValue(null);
 
-      const bookUpdate = new UpdateBook(repositoryMock);
-      expect(bookUpdate.execute(inputBoundaryMock)).resolves.toBeInstanceOf(
-        Array,
-      );
+    await expect(updateBook.execute(inputBoundaryMock)).rejects.toThrow(
+      EntityNotFoundError,
+    );
+  });
 
-      const [output] = await bookUpdate.execute(inputBoundaryMock);
-      expect(output).toBeInstanceOf(BookOutputBoundary);
-      expect(output.get()).toEqual(dbBookExample);
+  it("deve lançar InternalError se a atualização falhar", async () => {
+    repositoryMock.getOne.mockResolvedValue(dbBookExample);
+    repositoryMock.update.mockResolvedValue(null);
 
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        _id: "id-00001",
-      });
-      expect(repositoryMock.update).toHaveBeenCalledWith({
-        query: { _id: "id-00001" },
-        update_fields: {
-          title: "O Senhor dos Anéis",
-          author: ["J. R. R. Tolkien"],
-          edition: "Coleção Nova Fronteira",
-          publication_year: 1954,
-          publisher: "Nova Fronteira",
-          publication_location: "Rio de Janeiro",
-          isbn: "9788520908190",
-          volume: 1,
-          genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
-        },
-      });
+    await expect(updateBook.execute(inputBoundaryMock)).rejects.toThrow(
+      InternalError,
+    );
+  });
+
+  it("deve atualizar um livro com sucesso", async () => {
+    const updatedBookData = { ...dbBookExample, title: "Novo Título" };
+
+    repositoryMock.getOne.mockResolvedValue(dbBookExample);
+    repositoryMock.update.mockResolvedValue(updatedBookData);
+
+    const result = await updateBook.execute(inputBoundaryMock);
+
+    expect(result).toEqual([new BookOutputBoundary(updatedBookData)]);
+    expect(repositoryMock.getOne).toHaveBeenCalledWith({
+      _id: dbBookExample._id,
     });
-
-    it("Should throws an error of Book not found.", async () => {
-      repositoryMock.getOne.mockResolvedValue(null);
-
-      const bookUpdate = new UpdateBook(repositoryMock);
-
-      expect(bookUpdate.execute(inputBoundaryMock)).rejects.toThrow(
-        EntityNotFoundError,
-      );
-      expect(repositoryMock.getOne).toHaveBeenCalledWith({
-        _id: "id-00001",
-      });
-    });
-
-    it("Should throws an error of An internal server error occurred.", async () => {
-      repositoryMock.getOne.mockResolvedValue(dbBookExample);
-      repositoryMock.update.mockResolvedValue(null);
-
-      const bookUpdate = new UpdateBook(repositoryMock);
-
-      try {
-        await bookUpdate.execute(inputBoundaryMock);
-      } catch (error) {
-        expect(repositoryMock.getOne).toHaveBeenCalledWith({
-          _id: "id-00001",
-        });
-        expect(repositoryMock.update).toHaveBeenCalledWith({
-          query: { _id: "id-00001" },
-          update_fields: {
-            title: "O Senhor dos Anéis",
-            author: ["J. R. R. Tolkien"],
-            edition: "Coleção Nova Fronteira",
-            publication_year: 1954,
-            publisher: "Nova Fronteira",
-            publication_location: "Rio de Janeiro",
-            isbn: "9788520908190",
-            volume: 1,
-            genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
-          },
-        });
-        expect(error).toEqual(new InternalError());
-      }
+    expect(repositoryMock.update).toHaveBeenCalledWith({
+      query: { _id: dbBookExample._id },
+      update_fields: expect.objectContaining({ title: "Novo Título" }),
     });
   });
 });

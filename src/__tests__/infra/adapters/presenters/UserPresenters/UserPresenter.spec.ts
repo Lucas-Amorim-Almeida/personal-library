@@ -10,6 +10,7 @@ describe("CreateUserPresenter", () => {
         id: dbUserExample._id,
         username: dbUserExample.username,
         access_level: dbUserExample.access_level,
+        status: dbUserExample.status,
       });
     });
   });

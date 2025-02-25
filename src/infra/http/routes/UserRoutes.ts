@@ -8,6 +8,9 @@ import PersonalDataUpdateFactory from "../factories/UserFactory/PersonalDataUpda
 import UserStatusUpdateFactory from "../factories/UserFactory/UserStatusUpdateFactory";
 import RemoveUserFactory from "../factories/UserFactory/RemoveUserFactory";
 import GetUserByIdFactory from "../factories/UserFactory/GetUserByIdFactory";
+import { authentication } from "../middlewares/authentication.middleware";
+import userUpdateStatusAuthention from "../middlewares/userUpdateStatusAuthention.middleware";
+import authenticationIdValidation from "../middlewares/authenticationIdValidation.middleware";
 
 const userRoutes = Router();
 const createUserController = new CreateUserFactory().getController();
@@ -29,7 +32,7 @@ userRoutes.post("/", async (req, res) => {
 });
 
 //Buscar um usuário pelo Id
-userRoutes.get("/:id", async (req, res) => {
+userRoutes.get("/:id", authentication, async (req, res) => {
   await new RouterAdapter(req, res).handle(getUserByIdController);
 });
 
@@ -39,28 +42,48 @@ userRoutes.post("/login", async (req, res) => {
 });
 
 //Alteração de senha do usuário
-userRoutes.patch("/password/:id", async (req, res) => {
-  await new RouterAdapter(req, res).handle(changePasswordController);
-});
+userRoutes.patch(
+  "/password/:id",
+  authenticationIdValidation,
+  async (req, res) => {
+    await new RouterAdapter(req, res).handle(changePasswordController);
+  },
+);
 
 //Alteração das informações de contato do usuário
-userRoutes.patch("/contact/:id", async (req, res) => {
-  await new RouterAdapter(req, res).handle(contactUpdateController);
-});
+userRoutes.patch(
+  "/contact/:id",
+  authenticationIdValidation,
+  async (req, res) => {
+    await new RouterAdapter(req, res).handle(contactUpdateController);
+  },
+);
 
 //Alteração das informações perssoais do usuário
-userRoutes.patch("/personal_data/:id", async (req, res) => {
-  await new RouterAdapter(req, res).handle(personalDataUpdateController);
-});
+userRoutes.patch(
+  "/personal_data/:id",
+  authenticationIdValidation,
+  async (req, res) => {
+    await new RouterAdapter(req, res).handle(personalDataUpdateController);
+  },
+);
 
 //Alteração do status de usuário: se está banido, ativo ou na "fila" de deleção
-userRoutes.patch("/status/:id", async (req, res) => {
-  await new RouterAdapter(req, res).handle(userStatusUpdateController);
-});
+userRoutes.patch(
+  "/status/:id",
+  userUpdateStatusAuthention,
+  async (req, res) => {
+    await new RouterAdapter(req, res).handle(userStatusUpdateController);
+  },
+);
 
 //"Remove" informações de um usuário no banco de dados
-userRoutes.patch("/delete/:id", async (req, res) => {
-  await new RouterAdapter(req, res).handle(removeUserController);
-});
+userRoutes.patch(
+  "/delete/:id",
+  authenticationIdValidation,
+  async (req, res) => {
+    await new RouterAdapter(req, res).handle(removeUserController);
+  },
+);
 
 export default userRoutes;

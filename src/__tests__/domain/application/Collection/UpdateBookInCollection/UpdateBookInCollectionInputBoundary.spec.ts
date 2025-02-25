@@ -33,20 +33,21 @@ describe("UpdateBookInCollectionInputBoundary", () => {
     });
 
     it("Should throws an error of Id is required.", () => {
-      expect(
-        () =>
-          new UpdateBookInCollectionInputBoundary({
-            id: "",
-            update_fields: {
-              books_collection: [
-                {
-                  book_id: "",
-                  operation: "insert",
-                },
-              ],
-            },
-          }),
-      ).toThrow(FieldRequiredError);
+      try {
+        new UpdateBookInCollectionInputBoundary({
+          id: "",
+          update_fields: {
+            books_collection: [
+              {
+                book_id: "id-00001",
+                operation: "insert",
+              },
+            ],
+          },
+        });
+      } catch (error) {
+        expect(error).toEqual(new FieldRequiredError("Id"));
+      }
     });
 
     it("Should throws an error of book_id is required.", () => {

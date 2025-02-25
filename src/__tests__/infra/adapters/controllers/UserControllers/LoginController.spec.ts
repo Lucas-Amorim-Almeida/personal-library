@@ -44,6 +44,7 @@ describe("LoginController", () => {
       );
       const response = await controller.handle(httpRequestMock);
       expect(response.statusCode).toBe(200);
+      expect(response.isTokenGenRequired).toBe(true);
       expect(response.body).toEqual({
         id: "id-0001",
         username: "john_doe",

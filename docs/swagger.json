@@ -36,6 +36,14 @@
         "responses": {
           "201": {
             "description": "Created",
+            "headers": {
+              "Set-Cookie": {
+                "description": "Cookie de sessão contendo o token JWT",
+                "schema": {
+                  "$ref": "#/components/schemas/UserToken"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -66,6 +74,11 @@
     "/user/{id}": {
       "get": {
         "summary": "Obtém informações detalhadas de um usuário na base de dados.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -131,6 +144,14 @@
         "responses": {
           "200": {
             "description": "Ok",
+            "headers": {
+              "Set-Cookie": {
+                "description": "Cookie de sessão contendo o token JWT",
+                "schema": {
+                  "$ref": "#/components/schemas/UserToken"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
@@ -169,6 +190,11 @@
     "/user/password/{id}": {
       "patch": {
         "summary": "Responsável alteração das senhas dos usuários.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -224,6 +250,11 @@
     "/user/contact/{id}": {
       "patch": {
         "summary": "Responsável pelo alteração das informações de contato dos usuários.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -279,6 +310,11 @@
     "/personal_data/{id}": {
       "patch": {
         "summary": "Responsável pelo alteração das informações pessoais dos usuários.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -336,6 +372,11 @@
     "/status/{id}": {
       "patch": {
         "summary": "Responsável pelo alteração do status dos usuários.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -401,6 +442,11 @@
     "/delete/{id}": {
       "patch": {
         "summary": "Responsável remoção de um usuário.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -449,6 +495,11 @@
     "/book": {
       "post": {
         "summary": "Adiciona um novo livro no banco de dados.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -589,6 +640,11 @@
       },
       "patch": {
         "summary": "Atualiza as informações de um livro no banco de dados.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -642,6 +698,11 @@
       },
       "delete": {
         "summary": "Remove as informações de um livro no banco de dados.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -769,6 +830,11 @@
     "/collection": {
       "post": {
         "summary": "Adiciona uma nova coleção de livros no banco de dados.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -864,6 +930,11 @@
       },
       "delete": {
         "summary": "Deletar as informações de uma coleção no banco de dados, a partir de seu ID.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -968,6 +1039,11 @@
     "/collection/update/info/{id}": {
       "patch": {
         "summary": "Altera as informações de uma coleção no banco de dados.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1025,6 +1101,11 @@
     "/collection/update/book/{id}": {
       "patch": {
         "summary": "Altera as informações dos livros uma coleção no banco de dados.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "id",
@@ -1090,7 +1171,6 @@
           "bearerFormat": "JWT"
         }
       },
-
       "UserToken": {
         "type": "object",
         "properties": {

@@ -22,6 +22,7 @@ export default class CreateUserController implements Controller {
     const [user] = await this.useCase.execute(input);
     const output = this.presenter.output(user.get());
 
-    return new ResponseObject(201, output);
+    const isGenTokenRequired = true;
+    return new ResponseObject(201, output, isGenTokenRequired);
   }
 }

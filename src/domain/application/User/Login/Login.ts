@@ -29,7 +29,7 @@ export default class Login
     });
 
     if (!userData) throw new EntityNotFoundError("User");
-    if (userData.status != UserStatus.ACTIVE)
+    if (userData.status == UserStatus.TO_DELETE)
       throw new NotAvailableError("User");
 
     const isUserValid = await this.userValidate(

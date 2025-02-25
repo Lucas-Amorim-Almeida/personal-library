@@ -4,6 +4,7 @@ export default class ResponseObject implements HTTPResponse {
   constructor(
     readonly statusCode: number,
     readonly body?: unknown,
+    readonly isTokenGenRequired?: boolean,
   ) {}
 
   getStatus() {
@@ -12,5 +13,9 @@ export default class ResponseObject implements HTTPResponse {
 
   getBody() {
     return this.body;
+  }
+
+  getIsTokenGenRequired() {
+    return this.isTokenGenRequired;
   }
 }

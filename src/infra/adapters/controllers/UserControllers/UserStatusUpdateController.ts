@@ -19,7 +19,7 @@ export default class UserStatusUpdateController implements Controller {
     const inputParams = {
       id: req.params?.id,
       ...req.body,
-    } as { id: string; status: UserStatus };
+    } as { id: string; status: string };
 
     const input = new UserStatusInputBoundary(inputParams);
     await this.useCase.execute(input);

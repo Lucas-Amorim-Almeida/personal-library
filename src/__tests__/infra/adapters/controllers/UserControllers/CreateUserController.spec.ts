@@ -38,6 +38,7 @@ describe("CreateUserController", () => {
       );
       const response = await controller.handle(httpRequestMockUser);
       expect(response.statusCode).toBe(201);
+      expect(response.isTokenGenRequired).toBe(true);
       expect(response.body).toEqual({
         id: "id-0001",
         username: "john_doe",
