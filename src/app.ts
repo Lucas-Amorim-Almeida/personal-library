@@ -2,6 +2,7 @@ import "express-async-errors";
 import "dotenv/config";
 import * as express from "express";
 import * as http from "http";
+import * as cors from "cors";
 import Database from "./infra/Database/config/Database";
 import * as swaggerUi from "swagger-ui-express";
 import * as swaggerDoc from "../docs/swagger.json";
@@ -21,6 +22,12 @@ export default class App {
 
   configMiddleware(): void {
     this.app.use(express.json());
+    const corsOptions = {
+      origin: process.env.CORS_ALLOW_ORIGIN,
+      methods: ["GET", "POST", "PATCH", "DELETE"],
+      credentials: true,
+    };
+    this.app.use(cors(corsOptions));
   }
 
   configRoutes(): void {
