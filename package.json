@@ -17,7 +17,7 @@
     "coleções de livros"
   ],
   "author": "Lucas Amorim Almeida",
-  "license": "ISC",
+  "license": "MIT",
   "description": "Este se projeto se trata de uma API para gerenciamento de livros e coleções.",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
