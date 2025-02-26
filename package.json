@@ -11,10 +11,14 @@
     "husky:prepare": "husky || true",
     "prepare": "husky"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "api",
+    "livro",
+    "coleções de livros"
+  ],
+  "author": "Lucas Amorim Almeida",
   "license": "ISC",
-  "description": "",
+  "description": "Este se projeto se trata de uma API para gerenciamento de livros e coleções.",
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
