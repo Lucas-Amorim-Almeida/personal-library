@@ -62,7 +62,9 @@ export default class UserRepository implements Repository {
   }
 
   async getMany<Input, Output>(query: Input, take?: number): Promise<Output[]> {
-    const users = await this.userModel.find(query as object).limit(take);
+    const users = take
+      ? await this.userModel.find(query as object).limit(take)
+      : await this.userModel.find(query as object);
     return users as Output[];
   }
 }
