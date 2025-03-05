@@ -23,13 +23,11 @@ export default class RouterAdapter {
       const httpResponse: HTTPResponse = await controller.handle(httpRequest);
 
       if (httpResponse.isTokenGenRequired) {
+        const resBody = httpResponse.body;
+        const token = this.tokenManager.tokenGenerator(resBody as JWTPayload);
         return this.res
           .status(httpResponse.statusCode)
-          .cookie(
-            "jwt",
-            this.tokenManager.tokenGenerator(httpResponse.body as JWTPayload),
-          )
-          .json(httpResponse.body);
+          .json({ ...(resBody as object), token });
       }
       return this.res.status(httpResponse.statusCode).json(httpResponse.body);
     } catch (error) {

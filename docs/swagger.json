@@ -35,22 +35,7 @@
         },
         "responses": {
           "201": {
-            "description": "Created",
-            "headers": {
-              "Set-Cookie": {
-                "description": "Cookie de sessão contendo o token JWT",
-                "schema": {
-                  "$ref": "#/components/schemas/UserToken"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResBodyToUserDefault"
-                }
-              }
-            }
+            "description": "Created"
           },
           "500": {
             "description": "Internal Server Error",
@@ -144,14 +129,7 @@
         "responses": {
           "200": {
             "description": "Ok",
-            "headers": {
-              "Set-Cookie": {
-                "description": "Cookie de sessão contendo o token JWT",
-                "schema": {
-                  "$ref": "#/components/schemas/UserToken"
-                }
-              }
-            },
+
             "content": {
               "application/json": {
                 "schema": {
@@ -1171,15 +1149,6 @@
           "bearerFormat": "JWT"
         }
       },
-      "UserToken": {
-        "type": "object",
-        "properties": {
-          "token": {
-            "description": "Token utilizado para autenticação em várias rotas que necessitam que um usuário válido esteja logado.",
-            "type": "string"
-          }
-        }
-      },
 
       "ContatcData": {
         "type": "object",
@@ -1234,7 +1203,7 @@
             "description": "Nível de acesso que o novo usuário terá, caso o campo esteja vazio será tratado como common.",
             "type": "string",
             "enum": ["COMMON", "ADMINISTRATOR", "GUEST"],
-            "example": "ADMINISTRATOR"
+            "example": "COMMON"
           },
           "contact": {
             "description": "Informações de contato do usuário, como email e telefones.",
@@ -1288,6 +1257,11 @@
             "type": "string",
             "description": "Nível de acesso do usuáro.",
             "example": "COMMON"
+          },
+          "token": {
+            "description": "Token utilizado para autenticação em várias rotas que necessitam que um usuário válido esteja logado.",
+            "type": "string",
+            "example": "eyJhMGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3Yzg4YmY5N2ZjYTY3MjY4OWM2NTIwYiIsInVzZXJuYW1lIjoiam9obl9kb2UyMDE2IiwiYWNjZXNzX2xldmVsIjoiQ09NTU9OIiwic3RhdHVzIjoiQVRJVk8iLCJpYXQiOjE3NDExOTYyOTksImV4cCI6MTc0MTIyNTA5OX0.JPARd5mT-wF7tRvWTBfYB3W9oZ6nuTZyrv-mXJQfQFg"
           }
         }
       },

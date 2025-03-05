@@ -7,22 +7,16 @@ import {
   InputUserData,
 } from "@/domain/application/@types/UserTypes";
 import ResponseObject from "../http/protocols/ResponseObject";
-import Presenter from "../../interfaces/Presenter";
 import Controller from "../../interfaces/Controller";
 import HTTPResponse from "../../../interfaces/HTTPResponse";
 
 export default class CreateUserController implements Controller {
-  constructor(
-    readonly presenter: Presenter,
-    readonly useCase: UseCase<UserParamsType, DBOutputUserData>,
-  ) {}
+  constructor(readonly useCase: UseCase<UserParamsType, DBOutputUserData>) {}
 
   async handle(req: HTTPRequest): Promise<HTTPResponse> {
     const input = new CreateUserInputBoundary(req.body as InputUserData);
-    const [user] = await this.useCase.execute(input);
-    const output = this.presenter.output(user.get());
+    await this.useCase.execute(input);
 
-    const isGenTokenRequired = true;
-    return new ResponseObject(201, output, isGenTokenRequired);
+    return new ResponseObject(201);
   }
 }

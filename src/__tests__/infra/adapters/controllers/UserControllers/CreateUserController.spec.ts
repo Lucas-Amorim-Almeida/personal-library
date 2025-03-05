@@ -1,6 +1,5 @@
 import {
   httpRequestMockUser,
-  presenterMock,
   userUseCaseMock,
 } from "@/__tests__/__mocks__/adapterMock";
 import { dbUserExample } from "@/__tests__/__mocks__/mocks";
@@ -11,9 +10,9 @@ import CreateUserController from "@/infra/adapters/controllers/UserControllers/C
 describe("CreateUserController", () => {
   describe("Constructor", () => {
     it("Should be an instance of CreateUserController.", () => {
-      expect(
-        new CreateUserController(presenterMock, userUseCaseMock),
-      ).toBeInstanceOf(CreateUserController);
+      expect(new CreateUserController(userUseCaseMock)).toBeInstanceOf(
+        CreateUserController,
+      );
     });
   });
 
@@ -22,30 +21,16 @@ describe("CreateUserController", () => {
       userUseCaseMock.execute.mockResolvedValue([
         new UserOutputBoundary(dbUserExample),
       ]);
-      presenterMock.output.mockReturnValue({
-        id: "id-0001",
-        username: "john_doe",
-        status: "ATIVO",
-      });
 
-      const controller = new CreateUserController(
-        presenterMock,
-        userUseCaseMock,
-      );
+      const controller = new CreateUserController(userUseCaseMock);
 
       expect(controller.handle(httpRequestMockUser)).resolves.toBeInstanceOf(
         ResponseObject,
       );
       const response = await controller.handle(httpRequestMockUser);
       expect(response.statusCode).toBe(201);
-      expect(response.isTokenGenRequired).toBe(true);
-      expect(response.body).toEqual({
-        id: "id-0001",
-        username: "john_doe",
-        status: "ATIVO",
-      });
+      expect(response.body).toBeUndefined();
       expect(userUseCaseMock.execute).toHaveBeenCalled();
-      expect(presenterMock.output).toHaveBeenCalled();
     });
   });
 });
