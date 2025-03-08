@@ -14,6 +14,7 @@ export default class BookModel {
       isbn: { type: String },
       volume: { type: Number },
       genre: { type: [String], enum: Object.values(BookGenre), required: true },
+      inserted_by: { type: String, required: true },
     },
     { timestamps: true },
   );

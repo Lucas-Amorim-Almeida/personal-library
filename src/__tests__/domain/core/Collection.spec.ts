@@ -15,6 +15,7 @@ const book: Book = new Book({
   isbn: "978-3-16-148410-0",
   volume: 1,
   genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
+  inserted_by: "user_id-00001",
 });
 
 describe("Collection", () => {

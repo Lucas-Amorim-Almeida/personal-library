@@ -44,6 +44,7 @@ export type BookParamsType = {
   genre: BookGenre[];
   created_at?: Date;
   updated_at?: Date;
+  inserted_by: string;
 };
 
 export type CollectionParamsType = {

@@ -12,4 +12,5 @@ export default interface IBook {
   genre: BookGenre[];
   created_at?: Date;
   updated_at?: Date;
+  inserted_by: string;
 }

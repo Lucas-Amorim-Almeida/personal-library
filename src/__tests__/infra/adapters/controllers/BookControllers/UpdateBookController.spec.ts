@@ -49,6 +49,7 @@ describe("UpdateBookController", () => {
         genre: ["Fantasia", "Clássicos"],
         created_at: new Date(2020, 2, 20),
         updated_at: new Date(2022, 2, 22),
+        inserted_by: "user_id-0001",
       };
 
       bookUseCaseMock.execute.mockResolvedValue([

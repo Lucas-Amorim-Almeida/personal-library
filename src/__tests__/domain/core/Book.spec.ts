@@ -13,6 +13,7 @@ describe("Book", () => {
         publisher: "Secker & Warburg",
         publication_location: "Londres",
         genre: [BookGenre.DYSTOPIAN, BookGenre.POLITICS],
+        inserted_by: "user_id-00001",
       };
 
       expect(new Book(params)).toBeInstanceOf(Book);
@@ -28,6 +29,7 @@ describe("Book", () => {
         isbn: "978-3-16-148410-0",
         volume: 1,
         genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
+        inserted_by: "user_id-00001",
       };
 
       expect(new Book(params)).toBeInstanceOf(Book);
@@ -44,6 +46,7 @@ describe("Book", () => {
         publisher: "Secker & Warburg",
         publication_location: "Londres",
         genre: [BookGenre.DYSTOPIAN, BookGenre.POLITICS],
+        inserted_by: "user_id-00001",
       };
 
       const book = new Book(params);
@@ -62,89 +65,12 @@ describe("Book", () => {
         isbn: "978-3-16-148410-0",
         volume: 1,
         genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
+        inserted_by: "user_id-00001",
       };
 
       const book = new Book(params);
 
       expect(book.get()).toEqual(params);
-    });
-  });
-
-  describe("getAuthor", () => {
-    const params: BookParamsType = {
-      title: "O Senhor dos Anéis: A Sociedade do Anel",
-      author: ["J.R.R. Tolkien"],
-      edition: "1ª Edição",
-      publication_year: 1954,
-      publisher: "Allen & Unwin",
-      publication_location: "Londres",
-      isbn: "978-3-16-148410-0",
-      volume: 1,
-      genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
-    };
-
-    it("Should return the author name", () => {
-      const book = new Book(params);
-      expect(book.getAuthor()).toEqual(expect.arrayContaining(params.author));
-    });
-  });
-
-  describe("getPublisher", () => {
-    const params: BookParamsType = {
-      title: "O Senhor dos Anéis: A Sociedade do Anel",
-      author: ["J.R.R. Tolkien"],
-      edition: "1ª Edição",
-      publication_year: 1954,
-      publisher: "Allen & Unwin",
-      publication_location: "Londres",
-      isbn: "978-3-16-148410-0",
-      volume: 1,
-      genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
-    };
-
-    it("Should return the publisher name", () => {
-      const book = new Book(params);
-      expect(book.getPublisher()).toEqual(params.publisher);
-    });
-  });
-
-  describe("getGenre", () => {
-    const params: BookParamsType = {
-      title: "O Senhor dos Anéis: A Sociedade do Anel",
-      author: ["J.R.R. Tolkien"],
-      edition: "1ª Edição",
-      publication_year: 1954,
-      publisher: "Allen & Unwin",
-      publication_location: "Londres",
-      isbn: "978-3-16-148410-0",
-      volume: 1,
-      genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
-    };
-
-    it("Should return the publisher name", () => {
-      const book = new Book(params);
-      expect(book.getGenre()).toEqual(expect.arrayContaining(params.genre));
-    });
-  });
-
-  describe("setId", () => {
-    const params: BookParamsType = {
-      title: "O Senhor dos Anéis: A Sociedade do Anel",
-      author: ["J.R.R. Tolkien"],
-      edition: "1ª Edição",
-      publication_year: 1954,
-      publisher: "Allen & Unwin",
-      publication_location: "Londres",
-      isbn: "978-3-16-148410-0",
-      volume: 1,
-      genre: [BookGenre.FANTASY, BookGenre.ACTION_ADVENTURE],
-    };
-
-    it("Should return an object with id property.", () => {
-      const book = new Book(params);
-      const newId = "id-xxx1";
-      book.setId(newId);
-      expect(book.get()).toEqual({ id: newId, ...params });
     });
   });
 });

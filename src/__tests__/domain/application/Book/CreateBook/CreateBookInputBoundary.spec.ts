@@ -15,6 +15,7 @@ describe("CreateBookInputBoundary", () => {
         isbn: "9788520908190",
         volume: 1,
         genre: ["Fantasia", "Clássicos"],
+        inserted_by: "user_id-0001",
       };
 
       expect(new CreateBookInputBoundary(inputData)).toBeInstanceOf(
@@ -33,6 +34,7 @@ describe("CreateBookInputBoundary", () => {
         isbn: "9788520908190",
         volume: 1,
         genre: ["invaildo"],
+        inserted_by: "user_id-0001",
       };
 
       expect(() => new CreateBookInputBoundary(inputData)).toThrow(
@@ -53,6 +55,7 @@ describe("CreateBookInputBoundary", () => {
         isbn: "9788520908190",
         volume: 1,
         genre: ["Fantasia", "Clássicos"],
+        inserted_by: "user_id-0001",
       };
       const input = new CreateBookInputBoundary(inputData);
 
@@ -67,6 +70,7 @@ describe("CreateBookInputBoundary", () => {
         isbn: inputData.isbn,
         volume: inputData.volume,
         genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+        inserted_by: inputData.inserted_by,
       });
     });
   });

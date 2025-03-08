@@ -66,6 +66,7 @@ export default class CreateCollection
           ),
           created_at: dbBook.created_at,
           updated_at: dbBook.updated_at,
+          inserted_by: dbBook.inserted_by,
         });
         book.setId(dbBook._id);
 

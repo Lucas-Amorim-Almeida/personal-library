@@ -2,13 +2,14 @@ import { NextFunction, Request, Response } from "express";
 import UnauthorizedError from "../Errors/UnauthorizedError";
 import UserRepository from "@/infra/Database/Repositories/UserRepository";
 import { DBOutputUserData } from "@/domain/application/@types/UserTypes";
-import UserStatus from "@/domain/core/UserStatus";
-import AccessLevel from "@/domain/core/AccessLevel";
 import { getPayLoad } from "./authentication.middleware";
+import { DBOutputBookData } from "@/domain/application/@types/BookTypes";
+import BookRepository from "@/infra/Database/Repositories/BookRepository";
+import NotFoundError from "../Errors/NotFoundError";
 
 const bookAuthentication = async (
   req: Request,
-  res: Response,
+  _res: Response,
   next: NextFunction,
 ) => {
   const tokenPayload = getPayLoad(req);
@@ -17,11 +18,21 @@ const bookAuthentication = async (
   const dbUser: DBOutputUserData | null = await userRepo.getOne({
     _id: tokenPayload.id,
   });
-  if (!dbUser || dbUser.status == UserStatus.TO_DELETE) {
+  if (!dbUser) {
     throw new UnauthorizedError("Token is not corresponds to valid user.");
   }
 
-  if (tokenPayload.access_level != AccessLevel.ADMINISTRATOR) {
+  const bookId = req.params.id;
+  const bookRepo = new BookRepository();
+  const dbBook: DBOutputBookData | null = await bookRepo.getOne({
+    _id: bookId,
+  });
+
+  if (!dbBook) {
+    throw new NotFoundError("Book");
+  }
+
+  if (tokenPayload.id !== dbBook.inserted_by) {
     throw new UnauthorizedError(
       "The user has not permition to do this operation.",
     );

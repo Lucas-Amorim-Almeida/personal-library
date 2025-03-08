@@ -19,6 +19,7 @@ export default class CreateBookInputBoundary implements InputBoundary<Book> {
       genre: inputData.genre.map((item) =>
         Utils.define(BookGenre, item, "Book genre"),
       ),
+      inserted_by: inputData.inserted_by,
     });
   }
 

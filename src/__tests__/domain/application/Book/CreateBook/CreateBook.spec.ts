@@ -18,6 +18,7 @@ const book = new Book({
   isbn: "9788520908190",
   volume: 1,
   genre: [BookGenre.FANTASY, BookGenre.CLASSICS],
+  inserted_by: "user_id-0001",
 });
 
 const inputMock: jest.Mocked<InputBoundary<Book>> = {

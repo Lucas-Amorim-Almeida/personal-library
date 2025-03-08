@@ -8,6 +8,7 @@ import GetBookByIdFactory from "../factories/BookFactory/GetBookByIdFactory";
 import SearchBookFactory from "../factories/BookFactory/SearchBookFactory";
 import { authentication } from "../middlewares/authentication.middleware";
 import bookAuthentication from "../middlewares/bookAuthentication.middleware";
+import bookCreation from "../middlewares/bookCreation.Middleware";
 
 const bookRoutes = Router();
 const createBookController = new CreateBookFactory().getController();
@@ -20,7 +21,7 @@ const deleteBookController = new DeleteBookFactory().getController();
 //Este é um módulo que contém as rotas para Book. Logo, id se refere ao id do livro.
 
 //Salvar informações de um novo livro
-bookRoutes.post("/", authentication, async (req, res) => {
+bookRoutes.post("/", authentication, bookCreation, async (req, res) => {
   await new RouterAdapter(req, res).handle(createBookController);
 });
 

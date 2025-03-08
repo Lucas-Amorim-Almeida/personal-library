@@ -13,6 +13,7 @@ export type DBOutputBookData = {
   genre: string[];
   created_at?: Date;
   updated_at?: Date;
+  inserted_by: string;
 };
 
 export type InputBook = {
@@ -25,6 +26,7 @@ export type InputBook = {
   isbn?: string;
   volume?: number;
   genre: string[];
+  inserted_by: string;
 };
 
 export type InputBookUpdate = {

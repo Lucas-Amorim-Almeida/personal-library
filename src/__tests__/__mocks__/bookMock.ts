@@ -9,6 +9,7 @@ export const dbBookInsertExample = {
   isbn: "9780441013593",
   volume: 1,
   genre: ["Ficção científica", "Clássicos"],
+  inserted_by: "user_id-0001",
   created_at: new Date(2025, 0, 25),
   updated_at: new Date(2025, 0, 25),
 };
@@ -24,6 +25,7 @@ export const dbBookExample2 = {
   isbn: "9788520904161",
   volume: 1,
   genre: ["Fantasia", "Clássicos"],
+  inserted_by: "user_id-0001",
   created_at: new Date(2020, 5, 15),
   updated_at: new Date(2022, 3, 20),
 };
@@ -39,6 +41,7 @@ export const dbBookExample3 = {
   isbn: "9780066238500",
   volume: 1,
   genre: ["Fantasia", "Infantil"],
+  inserted_by: "user_id-0001",
   created_at: new Date(2021, 1, 10),
   updated_at: new Date(2023, 0, 5),
 };
@@ -54,6 +57,7 @@ export const dbBookExample4 = {
   isbn: "9780385121106",
   volume: 1,
   genre: ["Ficção científica", "Clássicos"],
+  inserted_by: "user_id-0001",
   created_at: new Date(2019, 8, 22),
   updated_at: new Date(2023, 6, 30),
 };
@@ -69,6 +73,7 @@ export const dbBookExample = {
   isbn: "9788520908190",
   volume: 1,
   genre: ["Fantasia", "Clássicos"],
+  inserted_by: "user_id-0001",
   created_at: new Date(2020, 2, 20),
   updated_at: new Date(2022, 2, 22),
 };
@@ -84,4 +89,5 @@ export const inputBookUpdateExample = {
   isbn: "9788520908190",
   volume: 1,
   genre: ["Fantasia", "Clássicos"],
+  inserted_by: "user_id-0001",
 };

@@ -14,6 +14,7 @@ export default class Book {
   private genre: BookGenre[];
   private created_at?: Date;
   private updated_at?: Date;
+  private inserted_by: string;
 
   constructor(bookData: BookParamsType) {
     this.title = bookData.title;
@@ -27,6 +28,7 @@ export default class Book {
     this.genre = bookData.genre;
     this.created_at = bookData.created_at;
     this.updated_at = bookData.updated_at;
+    this.inserted_by = bookData.inserted_by;
   }
 
   get(): {
@@ -42,6 +44,7 @@ export default class Book {
     genre: BookGenre[];
     created_at?: Date;
     updated_at?: Date;
+    inserted_by: string;
   } {
     return {
       id: this.id,
@@ -56,6 +59,7 @@ export default class Book {
       genre: this.genre,
       created_at: this.created_at,
       updated_at: this.updated_at,
+      inserted_by: this.inserted_by,
     };
   }
 
@@ -101,5 +105,9 @@ export default class Book {
 
   setId(id: string): void {
     this.id = id;
+  }
+
+  getInsertedBy(): string {
+    return this.inserted_by;
   }
 }
