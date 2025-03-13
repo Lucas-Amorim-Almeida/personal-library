@@ -960,6 +960,7 @@
     "/collection/user/{user_id}": {
       "get": {
         "summary": "Busca as informações de todas as coleções no banco de dados que pertencem a determinado usuário.",
+        "description": "O acesso por padrão será somente as coleções marcadas como públicas o acesso as coleções privadas acontecerá somente se o client fornecer um token de autenticação",
         "parameters": [
           {
             "name": "user_id",

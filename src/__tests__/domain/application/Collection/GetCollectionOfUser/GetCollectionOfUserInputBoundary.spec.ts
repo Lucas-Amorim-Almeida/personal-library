@@ -7,6 +7,13 @@ describe("GetCollectionOfUserInputBoundary", () => {
       expect(
         new GetCollectionOfUserInputBoundary({
           user_id: "id-00001",
+          access_private: true,
+        }),
+      ).toBeInstanceOf(GetCollectionOfUserInputBoundary);
+      expect(
+        new GetCollectionOfUserInputBoundary({
+          user_id: "id-00001",
+          access_private: false,
         }),
       ).toBeInstanceOf(GetCollectionOfUserInputBoundary);
     });
@@ -16,18 +23,38 @@ describe("GetCollectionOfUserInputBoundary", () => {
         () =>
           new GetCollectionOfUserInputBoundary({
             user_id: "",
+            access_private: true,
+          }),
+      ).toThrow(InvalidFieldError);
+      expect(
+        () =>
+          new GetCollectionOfUserInputBoundary({
+            user_id: "",
+            access_private: false,
           }),
       ).toThrow(InvalidFieldError);
     });
   });
 
   describe("get", () => {
-    it("Should return an object containing user_id.", () => {
+    it("Should return an object containing user_id and access_private true.", () => {
       const input = new GetCollectionOfUserInputBoundary({
         user_id: "id-00001",
+        access_private: true,
       });
       expect(input.get()).toEqual({
         user_id: "id-00001",
+        access_private: true,
+      });
+    });
+    it("Should return an object containing user_id and access_private true.", () => {
+      const input = new GetCollectionOfUserInputBoundary({
+        user_id: "id-00001",
+        access_private: false,
+      });
+      expect(input.get()).toEqual({
+        user_id: "id-00001",
+        access_private: false,
       });
     });
   });

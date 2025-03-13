@@ -10,13 +10,17 @@ import GetCollectionOfUserInputBoundary from "@/domain/application/Collection/Ge
 export default class GetCollectionOfUserController implements Controller {
   constructor(
     readonly presenter: Presenter,
-    readonly useCase: UseCase<{ user_id: string }, DBOutputCollectionData>,
+    readonly useCase: UseCase<
+      { user_id: string; access_private: boolean },
+      DBOutputCollectionData
+    >,
   ) {}
 
   async handle(req: HTTPRequest): Promise<HTTPResponse> {
     const input = new GetCollectionOfUserInputBoundary({
       user_id: req.params?.user_id,
-    } as { user_id: string });
+      access_private: req.body?.access_private ?? false,
+    } as { user_id: string; access_private: boolean });
 
     const collections = await this.useCase.execute(input);
     const output = collections.map((collection) =>

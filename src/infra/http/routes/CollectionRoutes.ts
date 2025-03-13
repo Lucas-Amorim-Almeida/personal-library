@@ -8,6 +8,7 @@ import UpdateBookInCollectionFactory from "../factories/CollectionFactory/Update
 import DeleteCollectionFactory from "../factories/CollectionFactory/DeleteCollectionFactory";
 import { authentication } from "../middlewares/authentication.middleware";
 import collectionAuthentication from "../middlewares/collectionAuthentication.middleware";
+import defineVisibilityCollectionCatched from "../middlewares/defineVibilityCollectionCatched.middleware";
 
 const collectionRoutes = Router();
 
@@ -36,9 +37,13 @@ collectionRoutes.get("/:id", async (req, res) => {
 });
 
 //Obtém todas as coleções de um usuário
-collectionRoutes.get("/user/:user_id", async (req, res) => {
-  await new RouterAdapter(req, res).handle(getCollectionOfUserController);
-});
+collectionRoutes.get(
+  "/user/:user_id",
+  defineVisibilityCollectionCatched,
+  async (req, res) => {
+    await new RouterAdapter(req, res).handle(getCollectionOfUserController);
+  },
+);
 
 //Atualiza as informações de uma coleção
 collectionRoutes.patch("/update/info/:id", authentication, async (req, res) => {

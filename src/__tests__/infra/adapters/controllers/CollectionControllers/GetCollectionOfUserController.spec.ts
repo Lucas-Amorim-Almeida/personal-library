@@ -9,13 +9,14 @@ import ResponseObject from "@/infra/adapters/controllers/http/protocols/Response
 import HTTPRequest from "@/infra/interfaces/HTTPRequest";
 
 const collectionUseCaseMock: jest.Mocked<
-  UseCase<{ user_id: string }, DBOutputCollectionData>
+  UseCase<{ user_id: string; access_private: boolean }, DBOutputCollectionData>
 > = {
   repository: repositoryMock,
   execute: jest.fn(),
 };
 const httpRequestMockCollection: jest.Mocked<HTTPRequest> = {
   params: { user_id: "id-00001" },
+  body: { access_private: true },
 };
 
 describe("GetCollectionOfUserController", () => {

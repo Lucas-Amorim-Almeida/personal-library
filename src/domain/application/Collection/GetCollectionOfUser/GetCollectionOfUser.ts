@@ -6,21 +6,28 @@ import Repository from "@/domain/core/Repository";
 import CollectionOutputBoundary from "../CollectionOutputBoundary";
 
 export default class GetCollectionOfUser
-  implements UseCase<{ user_id: string }, DBOutputCollectionData>
+  implements
+    UseCase<
+      { user_id: string; access_private: boolean },
+      DBOutputCollectionData
+    >
 {
   constructor(readonly repository: Repository) {}
 
   async execute(
-    inputData: InputBoundary<{ user_id: string }>,
+    inputData: InputBoundary<{ user_id: string; access_private: boolean }>,
   ): Promise<OutputBoundary<DBOutputCollectionData>[]> {
-    const { user_id } = inputData.get();
+    const { user_id, access_private } = inputData.get();
 
     const dbCollections: DBOutputCollectionData[] =
       await this.repository.getMany({ owner: user_id });
 
-    const dbCollectionsOutput = dbCollections.map(
-      (collection) => new CollectionOutputBoundary(collection),
-    );
+    const dbCollectionsOutput = dbCollections
+      .filter(
+        (collection) => access_private || collection.visibility === "public",
+      )
+      .map((collection) => new CollectionOutputBoundary(collection));
+
     return dbCollectionsOutput;
   }
 }
