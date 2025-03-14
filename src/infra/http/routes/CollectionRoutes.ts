@@ -9,6 +9,7 @@ import DeleteCollectionFactory from "../factories/CollectionFactory/DeleteCollec
 import { authentication } from "../middlewares/authentication.middleware";
 import collectionAuthentication from "../middlewares/collectionAuthentication.middleware";
 import defineVisibilityCollectionCatched from "../middlewares/defineVibilityCollectionCatched.middleware";
+import createCollectionAuthentication from "../middlewares/createCollectionAuthentication.middleware";
 
 const collectionRoutes = Router();
 
@@ -27,7 +28,7 @@ const deleteCollectionFactory = new DeleteCollectionFactory().getController();
 //Este é um módulo que contém as rotas para Collectio. Logo, id se refere ao id da coleção de livros.
 
 //Salvar informações de uma nova coleção
-collectionRoutes.post("/", authentication, async (req, res) => {
+collectionRoutes.post("/", createCollectionAuthentication, async (req, res) => {
   await new RouterAdapter(req, res).handle(createCollectionController);
 });
 

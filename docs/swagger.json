@@ -1813,20 +1813,9 @@
                 }
               }
             }
-          },
-          "user_id": {
-            "type": "string",
-            "description": "Id do usuário que faz a requisição na base de dados.",
-            "example": "67aa5023baa7ed1742044990"
           }
         },
-        "required": [
-          "title",
-          "description",
-          "visibility",
-          "books_collection",
-          "user_id"
-        ]
+        "required": ["title", "description", "visibility", "books_collection"]
       },
       "ResBodyToCollectionDefault": {
         "type": "object",
