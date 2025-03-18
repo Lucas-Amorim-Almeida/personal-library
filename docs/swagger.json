@@ -1220,6 +1220,11 @@
       "ResBodyUserComplete": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id do usuário na base de dados da aplicação.",
+            "example": "67a0cf5ee43cbc3f689e3757"
+          },
           "username": {
             "description": "Nome do usuário, consiste em uma apelido (nickname).",
             "type": "string",
@@ -1244,7 +1249,7 @@
       "ResBodyToUserDefault": {
         "type": "object",
         "properties": {
-          "_id": {
+          "id": {
             "type": "string",
             "description": "Id do usuário na base de dados da aplicação.",
             "example": "67a0cf5ee43cbc3f689e3757"
