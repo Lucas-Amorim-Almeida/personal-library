@@ -856,6 +856,7 @@
     "/collection/{id}": {
       "get": {
         "summary": "Busca as informações de uma coleção no banco de dados, a partir de seu ID.",
+        "description": "Caso a requisição seja feita sem autenticação, serão retornadas somente colleções publicas.",
         "parameters": [
           {
             "name": "id",
@@ -875,7 +876,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResBodyToBookDefault"
+                  "$ref": "#/components/schemas/ResBodyToCollectionDefault"
                 }
               }
             }

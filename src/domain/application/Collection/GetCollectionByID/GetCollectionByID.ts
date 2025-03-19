@@ -7,14 +7,21 @@ import CollectionOutputBoundary from "../CollectionOutputBoundary";
 import EntityNotFoundError from "../../Errors/EntityNotFoundError";
 
 export default class GetCollectionByID
-  implements UseCase<{ collection_id: string }, DBOutputCollectionData>
+  implements
+    UseCase<
+      { collection_id: string; access_private: boolean },
+      DBOutputCollectionData
+    >
 {
   constructor(readonly repository: Repository) {}
 
   async execute(
-    inputData: InputBoundary<{ collection_id: string }>,
+    inputData: InputBoundary<{
+      collection_id: string;
+      access_private: boolean;
+    }>,
   ): Promise<OutputBoundary<DBOutputCollectionData>[]> {
-    const { collection_id } = inputData.get();
+    const { collection_id, access_private } = inputData.get();
 
     const dbCollection: DBOutputCollectionData | null =
       await this.repository.getOne({ _id: collection_id });
@@ -22,6 +29,8 @@ export default class GetCollectionByID
       throw new EntityNotFoundError("Collection");
     }
 
-    return [new CollectionOutputBoundary(dbCollection)];
+    return access_private || dbCollection.visibility === "public"
+      ? [new CollectionOutputBoundary(dbCollection)]
+      : [];
   }
 }

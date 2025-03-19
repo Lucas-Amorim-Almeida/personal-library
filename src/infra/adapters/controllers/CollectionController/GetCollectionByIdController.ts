@@ -11,7 +11,7 @@ export default class GetCollectionByIdController implements Controller {
   constructor(
     readonly presenter: Presenter,
     readonly useCase: UseCase<
-      { collection_id: string },
+      { collection_id: string; access_private: boolean },
       DBOutputCollectionData
     >,
   ) {}
@@ -19,7 +19,8 @@ export default class GetCollectionByIdController implements Controller {
   async handle(req: HTTPRequest): Promise<HTTPResponse> {
     const input = new GetCollectionByIDInputBoundary({
       collection_id: req.params?.id,
-    } as { collection_id: string });
+      access_private: req.body?.access_private ?? false,
+    } as { collection_id: string; access_private: boolean });
 
     const [collection] = await this.useCase.execute(input);
     const output = this.presenter.output(collection.get());

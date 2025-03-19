@@ -9,13 +9,17 @@ import ResponseObject from "@/infra/adapters/controllers/http/protocols/Response
 import HTTPRequest from "@/infra/interfaces/HTTPRequest";
 
 const collectionUseCaseMock: jest.Mocked<
-  UseCase<{ collection_id: string }, DBOutputCollectionData>
+  UseCase<
+    { collection_id: string; access_private: boolean },
+    DBOutputCollectionData
+  >
 > = {
   repository: repositoryMock,
   execute: jest.fn(),
 };
 const httpRequestMockCollection: jest.Mocked<HTTPRequest> = {
   params: { id: "000001" },
+  body: { access_private: true },
 };
 
 describe("GetCollectionByIdController", () => {
@@ -47,6 +51,33 @@ describe("GetCollectionByIdController", () => {
       const response = await controller.handle(httpRequestMockCollection);
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(dbCollectionExample);
+      expect(collectionUseCaseMock.execute).toHaveBeenCalled();
+      expect(presenterMock.output).toHaveBeenCalled();
+    });
+
+    it("Should be an instance of ResponseObject, if private collection access is denied.", async () => {
+      const httpRequestMockCollection: jest.Mocked<HTTPRequest> = {
+        params: { id: "000002" },
+        body: { access_private: false },
+      };
+      collectionUseCaseMock.execute.mockResolvedValue([
+        new CollectionOutputBoundary(
+          dbCollectionExample as DBOutputCollectionData,
+        ),
+      ]);
+      presenterMock.output.mockReturnValue([]);
+
+      const controller = new GetCollectionByIdController(
+        presenterMock,
+        collectionUseCaseMock,
+      );
+
+      expect(
+        controller.handle(httpRequestMockCollection),
+      ).resolves.toBeInstanceOf(ResponseObject);
+      const response = await controller.handle(httpRequestMockCollection);
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual([]);
       expect(collectionUseCaseMock.execute).toHaveBeenCalled();
       expect(presenterMock.output).toHaveBeenCalled();
     });

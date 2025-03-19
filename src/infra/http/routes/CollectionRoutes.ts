@@ -33,9 +33,13 @@ collectionRoutes.post("/", createCollectionAuthentication, async (req, res) => {
 });
 
 //Obtém as informações de uma coleção
-collectionRoutes.get("/:id", async (req, res) => {
-  await new RouterAdapter(req, res).handle(getCollectionByIdController);
-});
+collectionRoutes.get(
+  "/:id",
+  defineVisibilityCollectionCatched,
+  async (req, res) => {
+    await new RouterAdapter(req, res).handle(getCollectionByIdController);
+  },
+);
 
 //Obtém todas as coleções de um usuário
 collectionRoutes.get(
